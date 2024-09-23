@@ -1,3 +1,3 @@
 def text():
-    VAR = message
+    VAR = "message"
     return VAR
