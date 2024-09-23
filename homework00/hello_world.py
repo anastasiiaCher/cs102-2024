@@ -4,5 +4,5 @@
 и сделайте коммит изменений
 """
 
-VAR = message
-print VAR
+VAR = 'message'
+print(VAR)
