@@ -1,2 +1,3 @@
-def text():
-    return "message"
+def text(t="m"):
+    m = "message"
+    return m
