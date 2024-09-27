@@ -1,7 +1,7 @@
-"""This is a test file."""
+"""Basic function."""
 
 
-def text(f):
-    """This function returns a string."""
-    message = str(f)
+def text():
     return message
+    """Returns an existing string"""
+    return "message"
