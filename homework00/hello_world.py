@@ -1,2 +1,6 @@
+"""this module is printing a string"""
+
+
 def text():
-    return message
+    """this func print a string"""
+    return "message"
