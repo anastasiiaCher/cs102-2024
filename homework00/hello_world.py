@@ -1,2 +1,6 @@
+"""Standard function provided by the university"""
+
+
 def text():
-    return message
+    """Return a predetermined string"""
+    return "message"
