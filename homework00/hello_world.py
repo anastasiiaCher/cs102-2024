@@ -1,2 +1,6 @@
+"""Module providing a function printing message."""
+
+
 def text():
-    return message
+    """Function printing message."""
+    return "message"
