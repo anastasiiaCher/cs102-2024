@@ -1,2 +1,10 @@
+"""
+Функция text()
+"""
+
+
 def text():
-    return message
+    """
+    возвррашает message
+    """
+    return "message"
