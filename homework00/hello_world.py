@@ -1,2 +1,6 @@
+""" Provides text message """
+
+
 def text():
-    return message
+    """Returns message"""
+    return "message"
