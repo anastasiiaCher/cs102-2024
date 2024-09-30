@@ -1,2 +1,6 @@
+"Description what the code does"
 def text():
-    return message
+    "What the function is for"
+    print("Hello, World!")
+
+text()
