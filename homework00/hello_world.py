@@ -1,2 +1,6 @@
+" --- "
 def text():
-    return message
+    " --- "
+    print("Hello, World!")
+
+text()
