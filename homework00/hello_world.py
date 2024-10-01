@@ -1,10 +1,9 @@
-"""function prints 'Hello world!'"""
+"""function prints 'message'"""
 
 
 def text():
-    """function prints 'Hello world'"""
-    message = "Hello world!"
-    return message
+    """function prints 'message'"""
+    return "message"
 
 
 print(text())
