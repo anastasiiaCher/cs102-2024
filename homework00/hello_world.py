@@ -1,2 +1,9 @@
+"""function prints 'message'"""
+
+
 def text():
-    return message
+    """function prints 'message'"""
+    return "message"
+
+
+print(text())
