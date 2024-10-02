@@ -3,7 +3,7 @@
 
 def text():
     "What the function is for"
-    message = "Hello, World!"
+    message = "message"
     return message
 
 
