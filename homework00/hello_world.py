@@ -1,2 +1,9 @@
+""" Модуль """
+
+
 def text():
-    return message
+    """
+    Возвращает:
+        str: Строка 'message'.
+    """
+    return "message"
