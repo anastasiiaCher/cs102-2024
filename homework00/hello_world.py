@@ -1,2 +1,4 @@
+'''код к лабораторной 0'''
 def text():
-    return message
+    '''возвращает слова message'''
+    return "message"
