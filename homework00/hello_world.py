@@ -1,2 +1,11 @@
+"""
+This code serves to return "hello world".
+"""
+
 def text():
-    return message
+    """
+    This function returns the text "hello world".
+    """
+    return "hello world"
+
+text()
