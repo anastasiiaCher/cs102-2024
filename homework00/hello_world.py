@@ -3,6 +3,7 @@
 """
 
 
-def text(message="Hello World!"):
+def text():
     """Возвращает переданное сообщение."""
-    return message
+    return "message"
+
