@@ -1,2 +1,11 @@
+"""
+This module contains a simple function that returns the text "hello world".
+"""
+
 def text():
-    return "Hello world"
+    """
+    This function returns the text "hello world".
+    """
+    return "hello world"
+
+text()
