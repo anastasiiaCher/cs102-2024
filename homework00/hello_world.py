@@ -1,2 +1,4 @@
+"""This module contains the text function"""
 def text():
-    return message
+    """This function returns the message"""
+    return "message"
