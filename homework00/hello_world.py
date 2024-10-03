@@ -1,5 +1,5 @@
 """
-This module contains a simple function that returns the text "hello world".
+This code serves to return "hello world".
 """
 
 def text():
