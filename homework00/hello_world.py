@@ -1,13 +1,13 @@
 """
-This code serves to return "hello world".
+This code serves to return "message".
 """
 
 
 def text():
     """
-    This function returns the text "hello world".
+    This function returns the word "message".
     """
-    return "hello world"
+    return "message"
 
 
 text()
