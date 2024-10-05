@@ -1,2 +1,9 @@
+"""lalala"""
+
+
 def text():
-    return message
+    """lalala"""
+    return "message"
+
+
+text()
