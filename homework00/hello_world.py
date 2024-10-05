@@ -1,5 +1,9 @@
 """lalala"""
+
+
 def text():
     """lalala"""
-    return 'message'
+    return "message"
+
+
 text()
