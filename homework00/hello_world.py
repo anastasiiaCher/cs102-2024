@@ -1,2 +1,7 @@
+"""Фнункция по возврату сообщения"""
+
+
 def text():
-    return message
+    """Возвращает message"""
+
+    return "message"
