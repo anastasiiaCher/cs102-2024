@@ -3,7 +3,7 @@
 
 def text():
     """Function returning its argument."""
-    return "Hello, world!"
+    return "message"
 
 
 print(text())
