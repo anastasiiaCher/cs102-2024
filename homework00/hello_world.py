@@ -1,2 +1,10 @@
+"""
+This file is for typing messages
+"""
+
+
 def text():
-    return message
+    """
+     there's a message
+     """
+    return "message"
