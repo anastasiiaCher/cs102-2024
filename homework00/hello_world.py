@@ -1,2 +1,9 @@
+"""Provides return function."""
+
+
 def text():
-    return message
+    """Function returning its argument."""
+    return "message"
+
+
+print(text())
