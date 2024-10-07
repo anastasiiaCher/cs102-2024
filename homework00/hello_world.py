@@ -1,2 +1,6 @@
+"""this module is pointless"""
+
+
 def text():
-    return message
+    """this function does nothing"""
+    return "message"
