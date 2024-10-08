@@ -1,2 +1,11 @@
+"""функция"""
+
+
 def text():
-    return message
+    """Возврашает сообщение"""
+    return "message"
+
+
+R = text()
+
+print(R)
