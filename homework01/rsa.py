@@ -12,10 +12,12 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
-    for i in range(2, int(n**0.5)+1):
-        if n % i == 0:
-            return False
-    return n not in (0, 1)
+    if n > 1:
+        for i in range(2, int(n**0.5)+1):
+            if n % i == 0:
+                return False
+        return True
+    return False
 
 
 def gcd(a: int, b: int) -> int:
@@ -26,12 +28,14 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    while a != b:
-        if a > b:
-            a -= b
-        else:
-            b -= a
-    return (a, b)
+    if a != 0 and b != 0:
+        while a != b:
+            if a > b:
+                a -= b
+            else:
+                b -= a
+        return a
+    return max(a, b)
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
@@ -41,8 +45,23 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
-    pass
+    if phi > e:
+        e, phi = phi, e
+    list_of_a = [e]
+    list_of_b = [phi]
+    while e % phi != 0:
+        e, phi = phi, e % phi
+        list_of_a.append(e)
+        list_of_b.append(phi)
+    list_of_x = [0]*len(list_of_a)
+    list_of_y = [1]*len(list_of_a)
+
+    for i in range(len(list_of_x)-2, -1, -1):
+        list_of_x[i] = list_of_y[i+1]
+        list_of_y[i] = list_of_x[i+1] - list_of_y[i+1] * ((list_of_a[i] // list_of_b[i]))
+    if len(list_of_x) == 1:
+        return 0
+    return list_of_y[0] % list_of_a[0]
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
@@ -52,10 +71,10 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
         raise ValueError("p and q cannot be equal")
 
     # n = pq
-    # PUT YOUR CODE HERE
+    n = p * q
 
     # phi = (p-1)(q-1)
-    # PUT YOUR CODE HERE
+    phi = (p - 1) * (q - 1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
@@ -93,20 +112,17 @@ def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     return "".join(plain)
 
 
-# if __name__ == "__main__":
-#     print("RSA Encrypter/ Decrypter")
-#     p = int(input("Enter a prime number (17, 19, 23, etc): "))
-#     q = int(input("Enter another prime number (Not one you entered above): "))
-#     print("Generating your public/private keypairs now . . .")
-#     public, private = generate_keypair(p, q)
-#     print("Your public key is ", public, " and your private key is ", private)
-#     message = input("Enter a message to encrypt with your private key: ")
-#     encrypted_msg = encrypt(private, message)
-#     print("Your encrypted message is: ")
-#     print("".join(map(lambda x: str(x), encrypted_msg)))
-#     print("Decrypting message with public key ", public, " . . .")
-#     print("Your message is:")
-#     print(decrypt(public, encrypted_msg))
-
-
-print(gcd(3, 7))
+if __name__ == "__main__":
+    print("RSA Encrypter/ Decrypter")
+    p = int(input("Enter a prime number (17, 19, 23, etc): "))
+    q = int(input("Enter another prime number (Not one you entered above): "))
+    print("Generating your public/private keypairs now . . .")
+    public, private = generate_keypair(p, q)
+    print("Your public key is ", public, " and your private key is ", private)
+    message = input("Enter a message to encrypt with your private key: ")
+    encrypted_msg = encrypt(private, message)
+    print("Your encrypted message is: ")
+    print("".join(map(lambda x: str(x), encrypted_msg)))
+    print("Decrypting message with public key ", public, " . . .")
+    print("Your message is:")
+    print(decrypt(public, encrypted_msg))
