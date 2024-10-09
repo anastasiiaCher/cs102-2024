@@ -1,3 +1,8 @@
+"""
+Module executing the Vigenere cipher
+"""
+
+
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
     Encrypts plaintext using a Vigenere cipher.
@@ -9,7 +14,17 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    for i, char in enumerate(plaintext):
+        if char.isalpha():
+            if char.isupper():
+                shift = ord(keyword[i % len(keyword)]) - 13 % 26
+                temp = chr(65 + (((ord(char) - 13) % 26 + shift) % 26))
+            else:
+                shift = ord(keyword[i % len(keyword)]) - 19 % 26
+                temp = chr(97 + (((ord(char) - 19) % 26 + shift) % 26))
+            ciphertext += temp
+        else:
+            ciphertext += char
     return ciphertext
 
 
@@ -24,5 +39,15 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    for i, char in enumerate(ciphertext):
+        if char.isalpha():
+            if char.isupper():
+                shift = ord(keyword[i % len(keyword)]) - 13 % 26
+                temp = chr(65 + (((ord(char) - 13) % 26 - shift) % 26))
+            else:
+                shift = ord(keyword[i % len(keyword)]) - 19 % 26
+                temp = chr(97 + (((ord(char) - 19) % 26 - shift) % 26))
+            plaintext += temp
+        else:
+            plaintext += char
     return plaintext
