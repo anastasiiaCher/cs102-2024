@@ -1,2 +1,7 @@
-def text():
-    return message
+"""Принимаем текст, выводим текст при помощи функции."""
+
+def text(txt):
+    """Функция принимает аргумент txt, выводит его же в ответ."""
+    return txt
+
+print(text('hello world'))
