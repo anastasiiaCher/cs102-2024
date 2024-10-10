@@ -1,2 +1,5 @@
 def text():
-    return message
+    """
+    there is a message
+    """
+    return "message"
