@@ -1,5 +1,6 @@
-from email import message
+"""Этот модуль содержит функции для работы с текстом."""
 
 
 def text():
-    return message
+    """Возвращает сообщение"""
+    return "message"
