@@ -49,15 +49,15 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     for char in ciphertext:
         if char.isupper():
             stayInAlphabet = ord(char) - shift 
-            if stayInAlphabet > ord('Z'):
-                stayInAlphabet -= 26
+            if stayInAlphabet < ord('A'):
+                stayInAlphabet += 26
                 finalLetter = chr(stayInAlphabet)
                 plaintext += finalLetter
             else:
                 plaintext += chr(stayInAlphabet)
         if char.islower():
             stayInAlphabet = ord(char) - shift 
-            if stayInAlphabet > ord('z'):
+            if stayInAlphabet < ord('a'):
                 stayInAlphabet += 26
                 finalLetter = chr(stayInAlphabet)
                 plaintext += finalLetter
