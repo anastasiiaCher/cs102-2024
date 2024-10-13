@@ -11,7 +11,25 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ''
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    for alpha in plaintext:
+        if ord("A") <= ord(alpha) <= ord("Z"):
+            if (ord(alpha) + shift) - ord("A") > 25:
+                alpha = chr((ord("A") + (((ord(alpha) + shift) - ord("A")) - 26)))
+                ciphertext += alpha
+            else:
+                alpha = chr(ord(alpha) + shift)
+                ciphertext += alpha
+        elif ord("a") <= ord(alpha) <= ord("z"):
+            if (ord(alpha) + shift) - ord("a") > 25:
+                alpha = chr((ord("a") + (((ord(alpha) + shift) - ord("a")) - 26)))
+                ciphertext += alpha
+            else:
+                alpha = chr(ord(alpha) + shift)
+                ciphertext += alpha
+
+        else:
+            ciphertext += alpha
+
     return ciphertext
 
 
@@ -28,5 +46,23 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    for alpha in ciphertext:
+        if ord("A") <= ord(alpha) <= ord("Z"):
+            if ord("Z") - (ord(alpha) - shift) > 25:
+                alpha = chr(ord("Z") - (ord("Z") - (ord(alpha) - shift) - 26))
+                plaintext += alpha
+            else:
+                alpha = chr(ord(alpha) - shift)
+                plaintext += alpha
+        elif ord("a") <= ord(alpha) <= ord("z"):
+            if ord("z") - (ord(alpha) - shift) > 25:
+                alpha = chr(ord("Z") - (ord("Z") - (ord(alpha) - shift) - 26))
+                plaintext += alpha
+            else:
+                alpha = chr(ord(alpha) - shift)
+                plaintext += alpha
+
+        else:
+            plaintext += alpha
+
     return plaintext
