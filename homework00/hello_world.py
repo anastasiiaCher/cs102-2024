@@ -1,2 +1,9 @@
+"""объявим функцию text"""
+
+
 def text():
-    return message
+    """функция будет возвращать заданный в кавычках текст"""
+    return "message"
+
+
+print(text())
