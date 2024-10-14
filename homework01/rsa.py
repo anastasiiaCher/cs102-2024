@@ -2,7 +2,6 @@
 Module executing the RSA
 """
 
-
 import random
 import typing as tp
 
@@ -18,7 +17,7 @@ def is_prime(n: int) -> bool:
     False
     """
     if n > 1:
-        for i in range(2, int(n**0.5)+1):
+        for i in range(2, int(n**0.5) + 1):
             if n % i == 0:
                 return False
         return True
@@ -59,19 +58,23 @@ def multiplicative_inverse(e: int, phi: int) -> int:
         e, phi = phi, e % phi
         list_of_a.append(e)
         list_of_b.append(phi)
-    list_of_x = [0]*len(list_of_a)
-    list_of_y = [1]*len(list_of_a)
+    list_of_x = [0] * len(list_of_a)
+    list_of_y = [1] * len(list_of_a)
 
-    for i in range(len(list_of_x)-2, -1, -1):
-        list_of_x[i] = list_of_y[i+1]
-        list_of_y[i] = list_of_x[i+1] - list_of_y[i+1] * ((list_of_a[i] // list_of_b[i]))
+    for i in range(len(list_of_x) - 2, -1, -1):
+        list_of_x[i] = list_of_y[i + 1]
+        list_of_y[i] = list_of_x[i + 1] - list_of_y[i + 1] * (
+            (list_of_a[i] // list_of_b[i])
+        )
 
     if len(list_of_x) == 1:
         return 0
     return list_of_y[0] % list_of_a[0]
 
 
-def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+def generate_keypair(
+    p: int, q: int
+) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
     """
     Function generate keypair
     """
@@ -123,7 +126,7 @@ def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 
