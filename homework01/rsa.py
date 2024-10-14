@@ -63,18 +63,14 @@ def multiplicative_inverse(e: int, phi: int) -> int:
 
     for i in range(len(list_of_x) - 2, -1, -1):
         list_of_x[i] = list_of_y[i + 1]
-        list_of_y[i] = list_of_x[i + 1] - list_of_y[i + 1] * (
-            (list_of_a[i] // list_of_b[i])
-        )
+        list_of_y[i] = list_of_x[i + 1] - list_of_y[i + 1] * ((list_of_a[i] // list_of_b[i]))
 
     if len(list_of_x) == 1:
         return 0
     return list_of_y[0] % list_of_a[0]
 
 
-def generate_keypair(
-    p: int, q: int
-) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
     """
     Function generate keypair
     """
