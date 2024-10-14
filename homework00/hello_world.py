@@ -1,16 +1,10 @@
 """
-This module contains a function that returns the input message.
+This module contains a function that returns "message" string.
 """
 
 
-def text(message):
+def text():
     """
-    Returns the input message.
-
-    Parameters:
-    message (str): The message to return.
-
-    Returns:
-    str: The same message that was input.
+    Returns "message" string.
     """
-    return message
+    return "message"
