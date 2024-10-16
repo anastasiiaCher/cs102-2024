@@ -1,2 +1,6 @@
+""""Dochello"""
 def text():
-    return message
+    """docmeth"""
+    return "Hello, world!"
+MESSAGE = text()
+print(MESSAGE)
