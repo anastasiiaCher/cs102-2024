@@ -1,2 +1,14 @@
+'''
+Just prints a message.
+'''
+MESSAGE = "Hello, world!"
+
+
 def text():
-    return message
+    '''
+    It returns the message.
+    '''
+    return MESSAGE
+
+
+text()
