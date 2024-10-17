@@ -12,7 +12,21 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     ciphertext = ""
 
+    for char in plaintext:
+        if char.isalpha():
+
+            if char.isupper():
+                shifted_up = ((ord(char)-ord('A')+shift))%26 + ord('A')
+                char_code = chr(shifted_up)
+                    
+            if char.islower():
+                shifted_up = ((ord(char)-ord('a')+shift))%26 + ord('a')
+                char_code = chr(shifted_up)
+            ciphertext+=char_code
+        else:
+            ciphertext+=char
     return ciphertext
+
 
 
 def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
@@ -28,5 +42,22 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    for char in ciphertext:
+        if char.isalpha():
+
+            if char.isupper():
+                shifted_up = ((ord(char)-ord('A')-shift))%26 + ord('A')
+                char_code = chr(shifted_up)
+
+            if char.islower():
+                shifted_up = ((ord(char)-ord('a')-shift))%26 + ord('a')
+                char_code = chr(shifted_up)
+
+            plaintext+=char_code
+        else:
+            plaintext+=char
     return plaintext
+
+
+print(encrypt_caesar("Python3.6"))
+print(decrypt_caesar("Sbwkrq3.6"))
