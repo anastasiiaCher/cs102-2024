@@ -1,3 +1,8 @@
+"""
+Encrypting decrypting a Vigenere cipher
+"""
+
+
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
     Encrypts plaintext using a Vigenere cipher.
@@ -68,4 +73,5 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
                 plaintext += chr(ord(i) - shift)
     return plaintext
 
-#print(decrypt_vigenere("LXFOPVEFRNHR", "LEMON"))
+
+# print(decrypt_vigenere("LXFOPVEFRNHR", "LEMON"))

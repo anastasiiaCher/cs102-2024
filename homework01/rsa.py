@@ -1,6 +1,6 @@
 import random
 import typing as tp
-
+#python3 -m unittest -v tests.test_rsa
 
 def is_prime(n: int) -> bool:
     """
@@ -12,7 +12,15 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
-    # PUT YOUR CODE HERE
+    flag = 1
+    if n < 2:
+        return False
+
+    for i in range(2, int(abs(n)**0.5 + 1)):
+        if abs(n) % i == 0:
+            flag = 0
+            break
+    return bool(flag)
     pass
 
 
@@ -24,7 +32,16 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    # PUT YOUR CODE HERE
+    if (a == 0 or b == 0):
+        return (a + b)
+    elif (a == 1 or b == 1):
+        return (1)
+    elif (a == b):
+        return (a)
+    elif (a > b):
+        return (gcd(a - b, b))
+    else:
+        return (gcd(a, b - a))
     pass
 
 
@@ -45,11 +62,9 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
     elif p == q:
         raise ValueError("p and q cannot be equal")
 
-    # n = pq
-    # PUT YOUR CODE HERE
+    n = p * q
 
-    # phi = (p-1)(q-1)
-    # PUT YOUR CODE HERE
+    phi = (p - 1) * (q - 1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
@@ -101,3 +116,4 @@ if __name__ == "__main__":
     print("Decrypting message with public key ", public, " . . .")
     print("Your message is:")
     print(decrypt(public, encrypted_msg))
+
