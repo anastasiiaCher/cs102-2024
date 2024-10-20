@@ -1,5 +1,9 @@
+"""Модуль для работы с шифром Цезаря."""
+
+
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
+
     Encrypts plaintext using a Caesar cipher.
     >>> encrypt_caesar("PYTHON")
     'SBWKRQ'
@@ -9,12 +13,15 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     'Sbwkrq3.6'
     >>> encrypt_caesar("")
     ''
+    :param plaintext: Ввод обычного текста.
+    :param shift: Количество позиций для сдвига (по умолчанию 3).
+    :return: Зашифрованный текст.
     """
     ciphertext = ""
     for char in plaintext:
         if char.isalpha():
             # Определяем начало алфавита
-            start = ord('A') if char.isupper() else ord('a')
+            start = ord("A") if char.isupper() else ord("a")
             # Применяем сдвиг и рассчитываем новый код символа
             new_char = chr((ord(char) - start + shift) % 26 + start)
             ciphertext += new_char
@@ -35,12 +42,15 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     'Python3.6'
     >>> decrypt_caesar("")
     ''
+    :param ciphertext: Зашифрованный текст.
+    :param shift: Количество позиций для сдвига (по умолчанию 3).
+    :return: Дешифрованный текст.
     """
     plaintext = ""
     for char in ciphertext:
         if char.isalpha():
             # Определяем базовое значение в зависимости от регистра
-            base = ord('A') if char.isupper() else ord('a')
+            base = ord("A") if char.isupper() else ord("a")
             # Вычисляем позицию символа относительно алфавита и сдвигаем
             offset = ord(char) - base
             new_char = chr((offset - shift) % 26 + base)
