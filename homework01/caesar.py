@@ -11,24 +11,13 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ''
     """
     ciphertext = ""
-    for alpha in plaintext:
-        if ord("A") <= ord(alpha) <= ord("Z"):
-            if (ord(alpha) + shift) - ord("A") > 25:
-                alpha = chr(ord(alpha) + shift - 26)
-                ciphertext += alpha
-            else:
-                alpha = chr(ord(alpha) + shift)
-                ciphertext += alpha
-        elif ord("a") <= ord(alpha) <= ord("z"):
-            if (ord(alpha) + shift) - ord("a") > 25:
-                alpha = chr(ord(alpha) + shift - 26)
-                ciphertext += alpha
-            else:
-                alpha = chr(ord(alpha) + shift)
-                ciphertext += alpha
-
+    for letter in plaintext:
+        if "A" <= letter <= "Z":
+            ciphertext += chr((ord(letter) - ord("A") + shift) % 26 + ord("A"))
+        elif "a" <= letter <= "z":
+            ciphertext += chr((ord(letter) - ord("a") + shift) % 26 + ord("a"))
         else:
-            ciphertext += alpha
+            ciphertext += letter
     return ciphertext
 
 
@@ -45,22 +34,11 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    for alpha in ciphertext:
-        if ord("A") <= ord(alpha) <= ord("Z"):
-            if ord("Z") - (ord(alpha) - shift) > 25:
-                alpha = chr(ord(alpha) - shift + 26)
-                plaintext += alpha
-            else:
-                alpha = chr(ord(alpha) - shift)
-                plaintext += alpha
-        elif ord("a") <= ord(alpha) <= ord("z"):
-            if ord("z") - (ord(alpha) - shift) > 25:
-                alpha = chr(ord(alpha) - shift + 26)
-                plaintext += alpha
-            else:
-                alpha = chr(ord(alpha) - shift)
-                plaintext += alpha
-
+    for letter in ciphertext:
+        if "A" <= letter <= "Z":
+            plaintext += chr((ord(letter) - ord("A") - shift) % 26 + ord("A"))
+        elif "a" <= letter <= "z":
+            plaintext += chr((ord(letter) - ord("a") - shift) % 26 + ord("a"))
         else:
-            plaintext += alpha
+            plaintext += letter
     return plaintext
