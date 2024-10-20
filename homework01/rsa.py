@@ -45,14 +45,39 @@ def gcd(a: int, b: int) -> int:
     pass
 
 
-def multiplicative_inverse(e: int, phi: int) -> int:
+def multiplicative_inverse(e: int, phi: int) -> ():
     """
     Euclid's extended algorithm for finding the multiplicative
     inverse of two numbers.
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
+    a_array = []
+    b_array = []
+    x_array = []
+    y_array = []
+    a = phi
+    b = e
+    a_array.append(a)
+    b_array.append(b)
+    x_array.append(0)
+    y_array.append(0)
+    while a % b != 0:
+        c = b
+        b = (a % b)
+        a = c
+        a_array.append(a)
+        b_array.append(b)
+        x_array.append(0)
+        y_array.append(0)
+    x_array[-1] = 0
+    y_array[-1] = 1
+    for i in range(len(y_array) - 2, -1, -1):
+        x_array[i] = y_array[i + 1]
+        y_array[i] = x_array[i + 1] - y_array[i + 1] * (a_array[i] // b_array[i])
+        #print(x_array[i], y_array[i])
+
+    return y_array[0] % phi
     pass
 
 
