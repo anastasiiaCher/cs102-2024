@@ -13,9 +13,7 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     'Sbwkrq3.6'
     >>> encrypt_caesar("")
     ''
-    :param plaintext: Ввод обычного текста.
-    :param shift: Количество позиций для сдвига (по умолчанию 3).
-    :return: Зашифрованный текст.
+    
     """
     ciphertext = ""
     for char in plaintext:
@@ -33,6 +31,7 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
 
 def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     """
+
     Decrypts a ciphertext using a Caesar cipher.
     >>> decrypt_caesar("SBWKRQ")
     'PYTHON'
@@ -42,9 +41,7 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     'Python3.6'
     >>> decrypt_caesar("")
     ''
-    :param ciphertext: Зашифрованный текст.
-    :param shift: Количество позиций для сдвига (по умолчанию 3).
-    :return: Дешифрованный текст.
+    
     """
     plaintext = ""
     for char in ciphertext:
