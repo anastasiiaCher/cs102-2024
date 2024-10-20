@@ -1,14 +1,6 @@
-'''
-Just prints a message.
-'''
-MESSAGE = "Hello, world!"
+""" Just prints a message. """
 
 
 def text():
-    '''
-    It returns the message.
-    '''
-    return MESSAGE
-
-
-text()
+    """Function returns the message."""
+    return "message"
