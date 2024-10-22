@@ -9,9 +9,12 @@ def encrypt_atbash(plaintext: str) -> str:
     ciphertext = ""
     for symbol in plaintext:
         if symbol.isalpha() and symbol.isupper():
-            ciphertext += chr(ord('А') + ord('Я') - ord(symbol) - 1)
+            ciphertext += chr(ord("А") + ord("Я") - ord(symbol) - 1)
         elif symbol.isalpha() and symbol.islower():
-            ciphertext += chr(ord('а') + ord('я') - ord(symbol) - 1)
+            ciphertext += chr(ord("а") + ord("я") - ord(symbol) - 1)
         else:
             ciphertext += symbol
     return ciphertext
+
+
+print(encrypt_atbash('Работа не волк — в лес не убежит.'))
