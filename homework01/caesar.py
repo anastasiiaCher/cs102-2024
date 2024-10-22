@@ -25,7 +25,7 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
                     ciphertext += chr(decripted_i - 26)
                 else:
                     ciphertext += chr(ord("A") + (decripted_i - 91))
-            elif decripted_i in range(97, 122):
+            elif decripted_i in range(97, 123):
                 ciphertext += chr(decripted_i)
             else:
                 ciphertext += chr(ord("a") + (decripted_i - 123))
@@ -58,7 +58,7 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
                     plaintext += chr(decripted_i + 26)
                 else:
                     plaintext += chr(90 - (decripted_i - 65))
-            elif decripted_i in range(97, 122):
+            elif decripted_i in range(97, 123):
                 plaintext += chr(decripted_i)
             elif decripted_i in range(0, 97):
                 plaintext += chr(decripted_i + 26)
@@ -67,3 +67,6 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
         else:
             plaintext += i
     return plaintext
+
+
+# print(decrypt_caesar('MnNfulvPqji`yUVN-ierspjhRsxJKXHH-uLKwuV,vLTpYGwlskuujGglnxJvQXWw', 13))
