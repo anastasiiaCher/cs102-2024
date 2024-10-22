@@ -17,14 +17,14 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
         keyword += keyword
 
     if len(keyword) != len(plaintext):
-        keyword = keyword[:len(plaintext)]
+        keyword = keyword[: len(plaintext)]
 
     for el in keyword:
         keys.append(ord(el))
 
     for i in range(len(plaintext)):
 
-        if plaintext[i] in ' ,-':
+        if plaintext[i] in " ,-":
             ciphertext += plaintext[i]
             continue
 
@@ -61,6 +61,7 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     >>> decrypt_vigenere("LXFOPVEFRNHR", "LEMON")
     'ATTACKATDAWN'
     """
+
     plaintext = ""
     keys = []
 
@@ -70,14 +71,14 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
         keyword += keyword
 
     if len(keyword) != len(ciphertext):
-        keyword = keyword[:len(ciphertext)]
+        keyword = keyword[: len(ciphertext)]
 
     for el in keyword:
         keys.append(ord(el))
 
     for i in range(len(ciphertext)):
 
-        if ciphertext[i] in ' ,-':
+        if ciphertext[i] in " ,-":
             plaintext += ciphertext[i]
             continue
 
