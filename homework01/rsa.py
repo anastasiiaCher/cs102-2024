@@ -54,25 +54,22 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    table = []
-    a = phi
-    b = e
-    while a % b != 0:
-        c = a % b
-        table.append([a, b, c, a // b])
-        a = b
-        b = c
+    first_phi = phi
+    x0, x1 = 0, 1
 
-    table.reverse()
+    if phi == 1:
+        return 0
 
-    vals = []
-    x = 1
-    for i in table:
-        y = (1 - i[0] * x) // i[1]
-        vals.append(y)
-        x = y
+    while e > 1:
+        q = e // phi
+        e, phi = phi, e % phi
+        x0, x1 = x1 - q * x0, x0
 
-    return vals[len(vals) - 1] % phi
+    if x1 < 0:
+        x1 += first_phi
+
+    return x1
+
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
@@ -85,7 +82,7 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
     n = p*q
 
     # phi = (p-1)(q-1)
-    phi = (p-q)*(q-1)
+    phi = (p-1)*(q-1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
