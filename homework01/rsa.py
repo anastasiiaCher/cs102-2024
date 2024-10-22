@@ -39,12 +39,10 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    if a < b:
-        a, b = b, a
     if b == 0:
         return a
     else:
-        return gcd(b, a - b)
+        return gcd(b, a % b)
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
@@ -54,8 +52,24 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
-    pass
+
+    if e < phi:
+        e, phi = phi, e
+
+    if phi == 1:
+        return 0
+
+    first = e
+    x, y, div_list = 0, 1, []
+
+    while e % phi != 0:
+        div_list.append(e // phi)
+        e, phi = phi, e % phi
+
+    for num in div_list:
+        x, y = y, x - y * num
+
+    return y % first
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
