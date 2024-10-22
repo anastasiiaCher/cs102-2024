@@ -12,8 +12,23 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
-    # PUT YOUR CODE HERE
-    pass
+
+    if n <= 1:
+        return False
+
+    half_of_num = n // 2
+    count = 0
+
+    for i in range(2, half_of_num + 1):
+
+        if n % i == 0:
+            count += 1
+            break
+
+    if count == 0:
+        return True
+    else:
+        return False
 
 
 def gcd(a: int, b: int) -> int:
