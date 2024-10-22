@@ -30,7 +30,7 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     for d in range(len(plaintext)):
         ciphertext += list_of_ceaser[d]
     return ciphertext
-
+#
 
 print("введите что-то")
 print(encrypt_caesar(input()))
