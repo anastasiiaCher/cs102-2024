@@ -39,8 +39,12 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    # PUT YOUR CODE HERE
-    pass
+    if a < b:
+        a, b = b, a
+    if b == 0:
+        return a
+    else:
+        return gcd(b, a - b)
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
@@ -55,15 +59,16 @@ def multiplicative_inverse(e: int, phi: int) -> int:
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+
     if not (is_prime(p) and is_prime(q)):
         raise ValueError("Both numbers must be prime.")
     elif p == q:
         raise ValueError("p and q cannot be equal")
 
-    # n = pq
+    n = p * q
     # PUT YOUR CODE HERE
 
-    # phi = (p-1)(q-1)
+    phi = (p - 1) * (q - 1)
     # PUT YOUR CODE HERE
 
     # Choose an integer e such that e and phi(n) are coprime
