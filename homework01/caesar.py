@@ -70,10 +70,6 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
 
 
 print(
-    encrypt_caesar(
-        ",SSjxTZXtrvb`KqmakEWtMgxZibNFWx-wuPh,VENFcMH`XbjfrQIg-TXFMpSWN K", 10
-    ),
-    decrypt_caesar(
-        ",SSjxTZXtrvb`KqmakEWtMgxZibNFWx-wuPh,VENFcMH`XbjfrQIg-TXFMpSWN K", 10
-    ),
+    encrypt_caesar(",SSjxTZXtrvb`KqmakEWtMgxZibNFWx-wuPh,VENFcMH`XbjfrQIg-TXFMpSWN K", 10),
+    decrypt_caesar(",SSjxTZXtrvb`KqmakEWtMgxZibNFWx-wuPh,VENFcMH`XbjfrQIg-TXFMpSWN K", 10),
 )
