@@ -67,9 +67,3 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
         else:
             plaintext += i
     return plaintext
-
-
-print(
-    encrypt_caesar(",SSjxTZXtrvb`KqmakEWtMgxZibNFWx-wuPh,VENFcMH`XbjfrQIg-TXFMpSWN K", 10),
-    decrypt_caesar(",SSjxTZXtrvb`KqmakEWtMgxZibNFWx-wuPh,VENFcMH`XbjfrQIg-TXFMpSWN K", 10),
-)
