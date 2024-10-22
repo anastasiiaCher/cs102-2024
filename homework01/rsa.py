@@ -1,5 +1,10 @@
+"""
+RSA algorithm
+"""
+
 import random
 import typing as tp
+
 #python3 -m unittest -v tests.test_rsa
 
 def is_prime(n: int) -> bool:
@@ -21,7 +26,6 @@ def is_prime(n: int) -> bool:
             flag = 0
             break
     return bool(flag)
-    pass
 
 
 def gcd(a: int, b: int) -> int:
@@ -32,17 +36,15 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    if (a == 0 or b == 0):
-        return (a + b)
-    elif (a == 1 or b == 1):
-        return (1)
-    elif (a == b):
-        return (a)
-    elif (a > b):
-        return (gcd(a - b, b))
-    else:
-        return (gcd(a, b - a))
-    pass
+    if a == 0 or b == 0:
+        return a + b
+    if a == 1 or b == 1:
+        return 1
+    if a == b:
+        return a
+    if a > b:
+        return gcd(a - b, b)
+    return gcd(a, b - a)
 
 
 def multiplicative_inverse(e: int, phi: int) -> ():
@@ -64,7 +66,7 @@ def multiplicative_inverse(e: int, phi: int) -> ():
     y_array.append(0)
     while a % b != 0:
         c = b
-        b = (a % b)
+        b = a % b
         a = c
         a_array.append(a)
         b_array.append(b)
@@ -78,18 +80,20 @@ def multiplicative_inverse(e: int, phi: int) -> ():
         #print(x_array[i], y_array[i])
 
     return y_array[0] % phi
-    pass
 
 
-def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
-    if not (is_prime(p) and is_prime(q)):
+def generate_keypair(pp: int, qq: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+    """
+    generating rsa
+    """
+    if not (is_prime(pp) and is_prime(qq)):
         raise ValueError("Both numbers must be prime.")
-    elif p == q:
+    if pp == qq:
         raise ValueError("p and q cannot be equal")
 
-    n = p * q
+    n = pp * qq
 
-    phi = (p - 1) * (q - 1)
+    phi = (pp - 1) * (qq - 1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
@@ -109,6 +113,12 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
 
 
 def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
+    """
+    Encrypting 
+    :param pk:
+    :param plaintext:
+    :return:
+    """
     # Unpack the key into it's components
     key, n = pk
     # Convert each letter in the plaintext to numbers based on
@@ -119,6 +129,12 @@ def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
 
 
 def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
+    """
+    Decrypting
+    :param pk: 
+    :param ciphertext: 
+    :return: 
+    """
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
@@ -141,4 +157,3 @@ if __name__ == "__main__":
     print("Decrypting message with public key ", public, " . . .")
     print("Your message is:")
     print(decrypt(public, encrypted_msg))
-
