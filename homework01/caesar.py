@@ -52,6 +52,7 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     >>> decrypt_caesar("")
     ''
     """
+    
     plaintext = ""
 
     while shift >= 26:
