@@ -27,10 +27,10 @@ def is_prime(n: int) -> bool:
     while i * i <= n:
         if n % i == 0 or n % (i + 2) == 0:
             return False
-        i += 6  # Проверяем числа вида 6k ± 1
+        i += 6
 
     return True
-    pass
+
 
 
 def gcd(a: int, b: int) -> int:
@@ -44,7 +44,7 @@ def gcd(a: int, b: int) -> int:
     while b:
         a, b = b, a % b
     return a
-    pass
+
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
@@ -54,8 +54,25 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
-    pass
+    table = []
+    a = phi
+    b = e
+    while a % b != 0:
+        c = a % b
+        table.append([a, b, c, a // b])
+        a = b
+        b = c
+
+    table.reverse()
+
+    vals = []
+    x = 1
+    for i in table:
+        y = (1 - i[0] * x) // i[1]
+        vals.append(y)
+        x = y
+
+    return vals[len(vals) - 1] % phi
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:

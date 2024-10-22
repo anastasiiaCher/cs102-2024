@@ -38,7 +38,7 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     >>> decrypt_caesar("")
     ''
     """
-    
+
     plaintext = ""
     for sym in ciphertext:
         if sym.isalpha():
