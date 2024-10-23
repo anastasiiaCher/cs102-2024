@@ -1,5 +1,4 @@
 def letter_number(letter: str) -> int:
-    """Returns the letter number in the alphabet (from 0 to 25)"""
     if "A" <= letter <= "Z":
         return ord(letter) - ord("A")
     elif "a" <= letter <= "z":
@@ -7,12 +6,13 @@ def letter_number(letter: str) -> int:
     else:
         return -1
 
+
 def number_to_letter(number: int, is_upper: bool) -> str:
-    """Converts the letter number to the corresponding letter"""
     if is_upper:
         return chr(number + ord("A"))
     else:
         return chr(number + ord("a"))
+
 
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
@@ -25,7 +25,7 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    keyword_rep = (keyword * ((len(plaintext) // len(keyword)) + 1))[:len(plaintext)]
+    keyword_rep = (keyword * ((len(plaintext) // len(keyword)) + 1))[: len(plaintext)]
 
     for i, letter in enumerate(plaintext):
         key_letter = keyword_rep[i]
@@ -53,7 +53,7 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    keyword_rep = (keyword * ((len(ciphertext) // len(keyword)) + 1))[:len(ciphertext)]
+    keyword_rep = (keyword * ((len(ciphertext) // len(keyword)) + 1))[: len(ciphertext)]
 
     for i, letter in enumerate(ciphertext):
         key_letter = keyword_rep[i]
