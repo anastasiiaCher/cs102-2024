@@ -96,7 +96,7 @@ def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
     key, n = pk
     # Convert each letter in the plaintext to numbers based on
     # the character using a^b mod m
-    cipher = [(ord(char)**key) % n for char in plaintext]
+    cipher = [(ord(char) ** key) % n for char in plaintext]
     # Return the array of bytes
     return cipher
 

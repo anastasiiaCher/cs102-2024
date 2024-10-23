@@ -15,6 +15,3 @@ def encrypt_atbash(plaintext: str) -> str:
         else:
             ciphertext += symbol
     return ciphertext
-
-
-print(encrypt_atbash('Работа не волк — в лес не убежит.'))
