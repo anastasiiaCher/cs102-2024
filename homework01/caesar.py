@@ -1,5 +1,4 @@
 def letter_number(letter: str) -> int:
-    """Возвращает номер буквы в алфавите (от 0 до 25)."""
     if "A" <= letter <= "Z":
         return ord(letter) - ord("A")
     elif "a" <= letter <= "z":
@@ -8,7 +7,6 @@ def letter_number(letter: str) -> int:
         return -1  # Для символов, которые не являются буквами
 
 def number_to_letter(number: int, is_upper: bool) -> str:
-    """Преобразует номер буквы в соответствующую букву, учитывая регистр."""
     if is_upper:
         return chr(number + ord("A"))
     else:
