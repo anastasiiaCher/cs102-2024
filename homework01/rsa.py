@@ -34,7 +34,7 @@ def gcd(a: int, b: int) -> int:
     1
     """
     while b != 0:
-        a, b =b, a % b
+        a, b = b, a % b
     return a
 
 
@@ -45,15 +45,15 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-     x0, x1, y0, y1 = 1, 0, 0, 1
-     a, b = phi, e
+    x0, x1, y0, y1 = 1, 0, 0, 1
+    a, b = phi, e
 
-        while b != 0:
-            q = a // b
-            a, b = b, a % b
-            x0, x1 = x1, x0 - q * x1
-            y0, y1 = y1, y0 - q * y1
-        return y0 % phi
+    while b != 0:
+        q = a // b
+        a, b = b, a % b
+        x0, x1 = x1, x0 - q * x1
+        y0, y1 = y1, y0 - q * y1
+    return y0 % phi
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
