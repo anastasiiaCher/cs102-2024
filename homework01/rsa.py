@@ -13,15 +13,15 @@ def is_prime(n: int) -> bool:
     False
     """
 
-    if n < 2:
+    if n <= 1:
         return False
-
-    for i in range(2, n):
-        if n == i:
-            return True
-        if n % i != 0:
-            continue
+    if n == 2:
+        return True
+    if n % 2 == 0:
         return False
+    for i in range(3, int(n**0.5) + 1, 2):
+        if n % i == 0:
+            return False
     return True
 
 
@@ -33,16 +33,9 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    if a == 0:
-        return b
-    if b == 0:
-        return a
-
-    while a % b != 0:
-        c = a % b
-        a = b
-        b = c
-    return b
+    while b != 0:
+        a, b =b, a % b
+    return a
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
@@ -52,22 +45,15 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    table = []
-    a = phi
-    b = e
-    while a % b != 0:
-        c = a % b
-        table.append([a, b, c, a // b])
-        a = b
-        b = c
-    table.reverse()
-    vals = []
-    x = 1
-    for i in table:
-        y = (1 - i[0] * x) // i[1]
-        vals.append(y)
-        x = y
-    return vals[len(vals) - 1] % phi
+     x0, x1, y0, y1 = 1, 0, 0, 1
+     a, b = phi, e
+
+        while b != 0:
+            q = a // b
+            a, b = b, a % b
+            x0, x1 = x1, x0 - q * x1
+            y0, y1 = y1, y0 - q * y1
+        return y0 % phi
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
