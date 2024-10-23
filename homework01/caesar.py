@@ -4,7 +4,7 @@ def letter_number(letter: str) -> int:
     elif "a" <= letter <= "z":
         return ord(letter) - ord("a")
     else:
-        return -1  # Для символов, которые не являются буквами
+        return -1
 
 def number_to_letter(number: int, is_upper: bool) -> str:
     if is_upper:
@@ -52,7 +52,7 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     plaintext = ""
     for letter in ciphertext:
         num = letter_number(letter)
-        if num != -1:  # Если это буква
+        if num != -1:
             is_upper = letter.isupper()
             shifted_num = (num - shift) % 26
             plaintext += number_to_letter(shifted_num, is_upper)
