@@ -1,3 +1,19 @@
+def letter_number(letter: str) -> int:
+    """Returns the letter number in the alphabet (from 0 to 25)"""
+    if "A" <= letter <= "Z":
+        return ord(letter) - ord("A")
+    elif "a" <= letter <= "z":
+        return ord(letter) - ord("a")
+    else:
+        return -1
+
+def number_to_letter(number: int, is_upper: bool) -> str:
+    """Converts the letter number to the corresponding letter"""
+    if is_upper:
+        return chr(number + ord("A"))
+    else:
+        return chr(number + ord("a"))
+
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
     Encrypts plaintext using a Vigenere cipher.
@@ -11,16 +27,16 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     ciphertext = ""
     keyword_rep = (keyword * ((len(plaintext) // len(keyword)) + 1))[:len(plaintext)]
 
-    for i in range(len(plaintext)):
-        letter = plaintext[i]
+    for i, letter in enumerate(plaintext):
         key_letter = keyword_rep[i]
+        num = letter_number(letter)
+        key_num = letter_number(key_letter)
 
-        if 'A' <= letter <= 'Z':
-            shift = ord(key_letter.upper()) - ord('A')
-            ciphertext += chr((ord(letter) - ord('A') + shift) % 26 + ord('A'))
-        elif 'a' <= letter <= 'z':
-            shift = ord(key_letter.lower()) - ord('a')
-            ciphertext += chr((ord(letter) - ord('a') + shift) % 26 + ord('a'))
+        if num != -1:
+            shift = key_num
+            is_upper = letter.isupper()
+            shifted_num = (num + shift) % 26
+            ciphertext += number_to_letter(shifted_num, is_upper)
         else:
             ciphertext += letter
     return ciphertext
@@ -39,16 +55,16 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     plaintext = ""
     keyword_rep = (keyword * ((len(ciphertext) // len(keyword)) + 1))[:len(ciphertext)]
 
-    for i in range(len(ciphertext)):
-        letter = ciphertext[i]
+    for i, letter in enumerate(ciphertext):
         key_letter = keyword_rep[i]
+        num = letter_number(letter)
+        key_num = letter_number(key_letter)
 
-        if 'A' <= letter <= 'Z':
-            shift = ord(key_letter.upper()) - ord('A')
-            plaintext += chr((ord(letter) - ord('A') - shift) % 26 + ord('A'))
-        elif 'a' <= letter <= 'z':
-            shift = ord(key_letter.lower()) - ord('a')
-            plaintext += chr((ord(letter) - ord('a') - shift) % 26 + ord('a'))
+        if num != -1:
+            shift = key_num
+            is_upper = letter.isupper()
+            shifted_num = (num - shift) % 26
+            plaintext += number_to_letter(shifted_num, is_upper)
         else:
             plaintext += letter
     return plaintext
