@@ -1,3 +1,5 @@
+"""Реализация шифра Виженера"""
+
 def encrypt_vigenere(ciphertext: str, keyword: str) -> str:
     """
     Encrypts plaintext using a Vigenere cipher.

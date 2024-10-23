@@ -1,3 +1,5 @@
+"""Реализация atbash"""
+
 def encrypt_atbash(plaintext):
     alfabeto = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
     alfabetoatbash = "".join(reversed(alfabeto))

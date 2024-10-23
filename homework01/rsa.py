@@ -1,3 +1,5 @@
+"""Реализация rsa"""
+
 import random
 import typing as tp
 
