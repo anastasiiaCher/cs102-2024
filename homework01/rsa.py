@@ -5,7 +5,8 @@ RSA algorithm
 import random
 import typing as tp
 
-#python3 -m unittest -v tests.test_rsa
+# python3 -m unittest -v tests.test_rsa
+
 
 def is_prime(n: int) -> bool:
     """
@@ -21,7 +22,7 @@ def is_prime(n: int) -> bool:
     if n < 2:
         return False
 
-    for i in range(2, int(abs(n)**0.5 + 1)):
+    for i in range(2, int(abs(n) ** 0.5 + 1)):
         if abs(n) % i == 0:
             flag = 0
             break
@@ -47,7 +48,7 @@ def gcd(a: int, b: int) -> int:
     return gcd(a, b - a)
 
 
-def multiplicative_inverse(e: int, phi: int) -> ():
+def multiplicative_inverse(e: int, phi: int) -> int:
     """
     Euclid's extended algorithm for finding the multiplicative
     inverse of two numbers.
@@ -77,7 +78,7 @@ def multiplicative_inverse(e: int, phi: int) -> ():
     for i in range(len(y_array) - 2, -1, -1):
         x_array[i] = y_array[i + 1]
         y_array[i] = x_array[i + 1] - y_array[i + 1] * (a_array[i] // b_array[i])
-        #print(x_array[i], y_array[i])
+        # print(x_array[i], y_array[i])
 
     return y_array[0] % phi
 
@@ -114,7 +115,7 @@ def generate_keypair(pp: int, qq: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[
 
 def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
     """
-    Encrypting 
+    Encrypting
     :param pk:
     :param plaintext:
     :return:
@@ -131,14 +132,14 @@ def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
 def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     """
     Decrypting
-    :param pk: 
-    :param ciphertext: 
-    :return: 
+    :param pk:
+    :param ciphertext:
+    :return:
     """
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 
