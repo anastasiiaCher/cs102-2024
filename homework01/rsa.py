@@ -1,3 +1,5 @@
+"""Реализация rsa"""
+
 import random
 import typing as tp
 
@@ -13,7 +15,18 @@ def is_prime(n: int) -> bool:
     False
     """
     # PUT YOUR CODE HERE
-    pass
+    if n <= 1:
+        return False
+    if n <= 3:
+        return True
+    if n % 2 == 0 or n % 3 == 0:
+        return False
+    i = 5
+    while i < n**1 / 2:
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+        i += 6
+    return True
 
 
 def gcd(a: int, b: int) -> int:
@@ -25,7 +38,28 @@ def gcd(a: int, b: int) -> int:
     1
     """
     # PUT YOUR CODE HERE
-    pass
+
+    if a != 0 and b == 0:
+        return a
+
+    if b != 0 and a == 0:
+        return b
+
+    if a == 0 and b == 0:
+        return 0
+
+    if a % b == 0:
+        return b
+
+    smaller = min(a, b)
+
+    biggest = 1
+
+    for i in range(2, smaller + 1):
+        if a % i == 0 and b % i == 0:
+            biggest = i
+
+    return biggest
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
@@ -35,8 +69,31 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
-    pass
+    a = []
+    b = []
+    x = []
+    y = []
+
+    if e % phi == 0:
+        return 0
+
+    while e % phi != 0:
+
+        a.append(phi)
+        b.append(e)
+        x.append(0)
+        y.append(0)
+
+        c = phi % e
+        phi = e
+        e = c
+
+    x[-1] = 0
+    y[-1] = 1
+    for index in range(len(x) - 2, -1, -1):
+        x[index] = y[index + 1]
+        y[index] = x[index + 1] - y[index + 1] * (a[index] // b[index])
+    return y[0] % a[0]
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
@@ -44,12 +101,8 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
         raise ValueError("Both numbers must be prime.")
     elif p == q:
         raise ValueError("p and q cannot be equal")
-
-    # n = pq
-    # PUT YOUR CODE HERE
-
-    # phi = (p-1)(q-1)
-    # PUT YOUR CODE HERE
+    n = p * q
+    phi = (p - 1) * (q - 1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
@@ -65,7 +118,7 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
 
     # Return public and private keypair
     # Public key is (e, n) and private key is (d, n)
-    return ((e, n), (d, n))
+    return (e, n), (d, n)
 
 
 def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
@@ -82,7 +135,7 @@ def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 
