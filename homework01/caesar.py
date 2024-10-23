@@ -1,17 +1,18 @@
+"""
+This module provides functions to encrypt and decrypt text using a Caesar cipher.
+"""
 def letter_number(letter: str) -> int:
     if "A" <= letter <= "Z":
         return ord(letter) - ord("A")
-    elif "a" <= letter <= "z":
+    if "a" <= letter <= "z":
         return ord(letter) - ord("a")
-    else:
-        return -1
+    return -1
 
 
 def number_to_letter(number: int, is_upper: bool) -> str:
     if is_upper:
         return chr(number + ord("A"))
-    else:
-        return chr(number + ord("a"))
+    return chr(number + ord("a"))
 
 
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
