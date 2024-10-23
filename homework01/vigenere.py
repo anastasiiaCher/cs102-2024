@@ -1,3 +1,8 @@
+"""
+This module provides functions for encrypting and decrypting messages using the Vigenere cipher.
+"""
+
+
 def letter_number(letter: str) -> int:
     if "A" <= letter <= "Z":
         return ord(letter) - ord("A")
@@ -10,8 +15,7 @@ def letter_number(letter: str) -> int:
 def number_to_letter(number: int, is_upper: bool) -> str:
     if is_upper:
         return chr(number + ord("A"))
-    else:
-        return chr(number + ord("a"))
+    return chr(number + ord("a"))
 
 
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
