@@ -12,18 +12,18 @@ def encrypt_vigenere(ciphertext: str, keyword: str) -> str:
     keyword = keyword.lower()
 
     result = ""
-    shift_base=ord('a')
+    shift_base = ord("a")
     for index in range(len(ciphertext)):
         char = ciphertext[index]
 
         if char.isalpha():
-            key_index = index %len(keyword)
+            key_index = index % len(keyword)
 
             key = ord(keyword[key_index]) - shift_base
             shift = ord(char) + key
 
-            is_lower = char.islower() and shift > ord('z')
-            is_upper = char.isupper() and shift > ord('Z')
+            is_lower = char.islower() and shift > ord("z")
+            is_upper = char.isupper() and shift > ord("Z")
 
             if is_lower or is_upper:
                 shift -= 26  # ща
@@ -49,18 +49,18 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     keyword = keyword.lower()
 
     result = ""
-    shift_base=ord('a')
+    shift_base = ord("a")
     for index in range(len(ciphertext)):
         char = ciphertext[index]
 
         if char.isalpha():
-            key_index = index %len(keyword)
+            key_index = index % len(keyword)
 
             key = ord(keyword[key_index]) - shift_base
             shift = ord(char) - key
 
             is_lower = char.islower() and shift < shift_base
-            is_upper = char.isupper() and shift < ord('A')
+            is_upper = char.isupper() and shift < ord("A")
 
             if is_lower or is_upper:
                 shift += 26
@@ -70,6 +70,7 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
             result += char
 
     return result
+
 
 # result = decrypt_vigenere('tfvzzvwkeaqv lq aqvpzf', 'lsci')
 # print(result)
