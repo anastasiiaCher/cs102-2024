@@ -6,11 +6,13 @@ def letter_number(letter: str) -> int:
     else:
         return -1
 
+
 def number_to_letter(number: int, is_upper: bool) -> str:
     if is_upper:
         return chr(number + ord("A"))
     else:
         return chr(number + ord("a"))
+
 
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
@@ -48,7 +50,6 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     >>> decrypt_caesar("")
     ''
     """
-
     plaintext = ""
     for letter in ciphertext:
         num = letter_number(letter)
