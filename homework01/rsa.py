@@ -1,3 +1,11 @@
+"""
+This module provides functions to generate RSA key pairs,
+encrypt messages using public/private keys,
+and decrypt messages. It also includes helper functions for
+prime testing,GCD calculation,
+and multiplicative inverse calculation.
+"""
+
 import random
 import typing as tp
 
@@ -12,7 +20,6 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
-
     if n <= 1:
         return False
     if n == 2:
@@ -59,7 +66,7 @@ def multiplicative_inverse(e: int, phi: int) -> int:
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
     if not (is_prime(p) and is_prime(q)):
         raise ValueError("Both numbers must be prime.")
-    elif p == q:
+    if p == q:
         raise ValueError("p and q cannot be equal")
 
     # n = pq
