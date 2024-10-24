@@ -37,8 +37,7 @@ def gcd(a: int, b: int) -> int:
         if a % i == 0 and b % i == 0:
             common_divisors.append(i)
     return max(common_divisors)
-    
-print(gcd(15, 25))
+
 
     
 
@@ -50,8 +49,22 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
-    pass
+
+    A, B = phi, e
+    x, y = [0], [1]
+    lst_A, lst_B = [], []
+
+    while B != 0:  
+        lst_A.append(A)  
+        lst_B.append(B)
+        AmodB = A % B
+        A, B = B, AmodB
+
+    for i in range(len(lst_A) - 1, 0, -1):  
+        x.append(y[-1])  
+        y.append((1 - lst_A[i - 1] * x[-1]) // lst_B[i - 1])
+    
+    return y[-1] % phi
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
