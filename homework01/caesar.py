@@ -1,3 +1,6 @@
+"""Module for Caesar encryption"""
+
+
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     Encrypts plaintext using a Caesar cipher.
@@ -11,7 +14,17 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ''
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    for ch in plaintext:
+        symbol = ""
+
+        if "A" <= ch <= "Z":
+            symbol = chr((ord(ch) - ord("A") + shift) % (ord("Z") - ord("A") + 1) + ord("A"))
+        elif "a" <= ch <= "z":
+            symbol = chr((ord(ch) - ord("a") + shift) % (ord("z") - ord("a") + 1) + ord("a"))
+        else:
+            symbol = ch
+        ciphertext += symbol
+
     return ciphertext
 
 
@@ -28,5 +41,15 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    for ch in ciphertext:
+        symbol = ""
+
+        if "A" <= ch <= "Z":
+            symbol = chr((ord(ch) - ord("A") - shift) % (ord("Z") - ord("A") + 1) + ord("A"))
+        elif "a" <= ch <= "z":
+            symbol = chr((ord(ch) - ord("a") - shift) % (ord("z") - ord("a") + 1) + ord("a"))
+        else:
+            symbol = ch
+        plaintext += symbol
+
     return plaintext
