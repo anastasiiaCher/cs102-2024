@@ -34,14 +34,6 @@ def gcd(a: int, b: int) -> int:
     return a
     pass
 
-def extended_gcd(a, b):
-    if a == 0:
-        return b, 0, 1
-    gcd, x1, y1 = extended_gcd(b % a, a)
-    x = y1 - (b // a) * x1
-    y = x1
-    return gcd, x, y
-
 def multiplicative_inverse(e: int, phi: int) -> int:
     """
     Euclid's extended algorithm for finding the multiplicative
@@ -49,13 +41,21 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    gcd, x, y = extended_gcd(e, phi)
-    if gcd != 1:
-        return "Обратного элемента не существует"
-    else:
-        return x % phi
-    pass
+    a, a = phi, e
+    x, y = [0], [1]
+    lst_a, lst_b = [], []
 
+    while b != 0:
+        lst_a.append(a)
+        lst_b.append(b)
+        amodb = a % a
+        a, b = b, amodb
+
+    for i in range(len(lst_a) - 1, 0, -1):
+        x.append(y[-1])
+        y.append((1 - lst_a[i - 1] * x[-1]) // lst_b[i - 1])
+
+    return y[-1] % phi
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
     if not (is_prime(p) and is_prime(q)):
@@ -63,10 +63,10 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
     elif p == q:
         raise ValueError("p and q cannot be equal")
 
-    n = p*q
+    n = p * q
     # PUT YOUR CODE HERE
 
-    phi = (p-1)*(q-1)
+    phi = (p - 1) * (q - 1)
     # PUT YOUR CODE HERE
 
     # Choose an integer e such that e and phi(n) are coprime
