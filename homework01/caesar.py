@@ -11,30 +11,23 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ''
     """
     ciphertext = ""
-    while shift >= 26:
-         shift -= 26
-
-    for el in plaintext:
-
-         if el.isalpha():
-             ord_letter = ord(el)
-
-             if 65 <= ord_letter <= 90:
-                 ord_letter += shift
-
-                 if ord_letter > 90:
-                     ord_letter -= 26
-
+    shift %= 26
+    for i in plaintext:
+         if i.isalpha() is False:
+             ciphertext += i
+             continue
+         if i.isupper() is True:
+             if (ord(i) + shift) > 90:
+                 # print(chr((ord(i) + shift) % 90 + 64))
+                 ciphertext += chr((ord(i) + shift) % 90 + 64)
              else:
-                 ord_letter += shift
-
-                 if ord_letter > 122:
-                     ord_letter -= 26
-
-             ciphertext += chr(ord_letter)
-
+                 # print(chr((ord(i) + shift) % 90), i, ord(i) + shift)
+                 ciphertext += chr(ord(i) + shift)
          else:
-             ciphertext += el
+             if (ord(i) + shift) > 122:
+                 ciphertext += chr((ord(i) + shift) % 122 + 96)
+             else:
+                 ciphertext += chr(ord(i) + shift)
     return ciphertext
 
 
@@ -51,30 +44,24 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    while shift >= 26:
-         shift -= 26
-
-    for el in ciphertext:
-
-         if el.isalpha():
-             ord_letter = ord(el)
-
-             if 65 <= ord_letter <= 90:
-                 ord_letter -= shift
-
-                 if ord_letter < 65:
-                     ord_letter += 26
-
+    shift %= 26
+    for i in ciphertext:
+         if i.isalpha() is False:
+             plaintext += i
+             continue
+         if i.isupper() is True:
+             if (ord(i) - shift) < 65:
+                 # print(chr(90 - (shift - ord(i) + 64)))
+                 plaintext += chr(90 - (shift - ord(i) + 64))
              else:
-                 ord_letter -= shift
-
-                 if ord_letter < 97:
-                     ord_letter += 26
-
-             plaintext += chr(ord_letter)
-
+                 # print(chr(ord(i) - shift), i, ord(i) + shift)
+                 plaintext += chr(ord(i) - shift)
          else:
-             plaintext += el
+             if (ord(i) - shift) < 97:
+                 plaintext += chr(122 - (shift - ord(i) + 96))
+             else:
+                 # print(chr((ord(i) + shift) % 90), i, ord(i) + shift)
+                 plaintext += chr(ord(i) - shift)
 
     return plaintext
     
