@@ -1,8 +1,8 @@
 def encrypt_scytale(plaintext, n):
     from math import ceil
-    
+
     m = ceil(len(plaintext) / n)
-    
+
     while len(plaintext) < n * m:
         plaintext += "*"
 
@@ -17,7 +17,7 @@ def encrypt_scytale(plaintext, n):
             ciphertext.pop(ind)
             ciphertext.insert(ind, "_")
 
-    
-    return ''.join(ciphertext)
+    return "".join(ciphertext)
+
 
 print(encrypt_scytale("НАС АТАКУЮТ", 4))
