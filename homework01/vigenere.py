@@ -10,16 +10,44 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
     ciphertext = ""
     key = keyword*(len(plaintext)//len(keyword))+ keyword[:(len(plaintext)%len(keyword))]
+    keys = []
+
+    keyword = keyword.lower()
+
+    while len(keyword) < len(plaintext):
+         keyword += keyword
+
+    if len(keyword) != len(plaintext):
+         keyword = keyword[: len(plaintext)]
+
+    for el in keyword:
+         keys.append(ord(el))
+
     for i in range(len(plaintext)):
-        letter = plaintext[i]
-        if letter.islower():
-            shift = ord(key[i]) - ord('a')
-            ciphertext += chr(((ord(letter)+shift - ord('a'))%26 +ord('a')))
-        elif letter.isupper():
-            shift = ord(key[i]) - ord('A')
-            ciphertext += chr(((ord(letter)+shift - ord("A"))%26 + rd('A')))
-        else:
-            ciphertext += letter    
+
+         if plaintext[i] in " ,-":
+             ciphertext += plaintext[i]
+             continue
+
+         if plaintext[i].isupper():
+
+             shift = keys[i] - 97
+             new_ord = ord(plaintext[i]) + shift
+
+             if new_ord > 90:
+                 new_ord -= 26
+
+             ciphertext += chr(new_ord)
+
+         else:
+
+             shift = keys[i] - 97
+             new_ord = ord(plaintext[i]) + shift
+
+             if new_ord > 122:
+                 new_ord -= 26
+
+             ciphertext += chr(new_ord)   
     return ciphertext
 
 
@@ -34,16 +62,42 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    key = keyword*(len(ciphertext)%len(keyword))+ keyword[:(len(ciphertext)%len(keyword))]
-    for i in range(len(ciphertext)):
-        letter = ciphertext[i]
-        if letter.islower():
-            shift = ord(key[i]) - ord('a')
-            plaintext +=chr(((ord(letter)-shift-ord('a'))%26 + ord('a')))
-        elif letter.isupper():
-            shift = ord(key[i]) - ord('A')
-            plaintext += chr(((ord(letter)-shift-ord("A"))%26 + ord("A")))
-        else:
-            plaintext +=letter
+    keys = []
 
+    keyword = keyword.lower()
+
+    while len(keyword) < len(ciphertext):
+         keyword += keyword
+
+    if len(keyword) != len(ciphertext):
+         keyword = keyword[: len(ciphertext)]
+
+    for el in keyword:
+         keys.append(ord(el))
+
+    for i in range(len(ciphertext)):
+
+         if ciphertext[i] in " ,-":
+             plaintext += ciphertext[i]
+             continue
+
+         if ciphertext[i].isupper():
+
+             shift = keys[i] - 97
+             new_ord = ord(ciphertext[i]) - shift
+
+             if new_ord < 65:
+                 new_ord += 26
+
+             plaintext += chr(new_ord)
+
+         else:
+
+             shift = keys[i] - 97
+             new_ord = ord(ciphertext[i]) - shift
+
+             if new_ord < 97:
+                 new_ord += 26
+
+             plaintext += chr(new_ord)
     return plaintext
