@@ -11,32 +11,23 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ''
     """
     ciphertext = ""
-
-    while shift >= 26:
-        shift -= 26
+    up_alph_eng = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    low_alph_eng = "abcdefghijklmnopqrstuvwxyz"
 
     for el in plaintext:
+        if el in up_alph_eng:
+            ord_letter = up_alph_eng.index(el) + shift
+            if ord_letter > 26:
+                ord_letter -= 26
+            ciphertext += up_alph_eng[ord_letter]
 
-        if el.isalpha():
-            ord_letter = ord(el)
-
-            if 65 <= ord_letter <= 90:
-                ord_letter += shift
-
-                if ord_letter > 90:
-                    ord_letter -= 26
-
-            else:
-                ord_letter += shift
-
-                if ord_letter > 122:
-                    ord_letter -= 26
-
-            ciphertext += chr(ord_letter)
-
+        elif el in low_alph_eng:
+            ord_letter = low_alph_eng.index(el) + shift
+            while ord_letter > 26:
+                ord_letter -= 26
+            ciphertext += low_alph_eng[ord_letter]
         else:
             ciphertext += el
-
     return ciphertext
 
 
@@ -52,32 +43,23 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     >>> decrypt_caesar("")
     ''
     """
-
     plaintext = ""
-
-    while shift >= 26:
-        shift -= 26
+    up_alph_eng = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    low_alph_eng = "abcdefghijklmnopqrstuvwxyz"
 
     for el in ciphertext:
+        if el in up_alph_eng:
+            ord_letter = up_alph_eng.index(el) - shift
+            if ord_letter < 0:
+                ord_letter += 26
+            plaintext += up_alph_eng[ord_letter]
 
-        if el.isalpha():
-            ord_letter = ord(el)
-
-            if 65 <= ord_letter <= 90:
-                ord_letter -= shift
-
-                if ord_letter < 65:
-                    ord_letter += 26
-
-            else:
-                ord_letter -= shift
-
-                if ord_letter < 97:
-                    ord_letter += 26
-
-            plaintext += chr(ord_letter)
+        elif el in low_alph_eng:
+            ord_letter = low_alph_eng.index(el) - shift
+            while ord_letter < 0:
+                ord_letter += 26
+            plaintext += low_alph_eng[ord_letter]
 
         else:
             plaintext += el
-
     return plaintext

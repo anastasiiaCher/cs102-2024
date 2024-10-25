@@ -12,24 +12,15 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
-
     if n <= 1:
         return False
-
     half_of_num = n // 2
-    count = 0
-
     for i in range(2, half_of_num + 1):
-
         if n % i == 0:
-            count += 1
             break
-
-    if count == 0:
-        return True
     else:
-        return False
-
+        return True
+    return False
 
 def gcd(a: int, b: int) -> int:
     """
@@ -39,10 +30,12 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    if b == 0:
-        return a
-    else:
-        return gcd(b, a % b)
+    while a * b != 0:
+        if a > b:
+            a = a % b
+        else:
+            b = b % a
+    return a + b
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:

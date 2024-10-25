@@ -9,7 +9,7 @@ def encrypt_affine(plaintext, a, b, language):
     up_alph_rus = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
     low_alph_rus = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
 
-    if language == 'English':
+    if language == "English":
         m = 26
         for let in plaintext:
             if let in " ,.-":

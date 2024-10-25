@@ -9,15 +9,12 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    keys = []
-
     keyword = keyword.lower()
 
     while len(keyword) < len(plaintext):
         keyword += keyword
-
     if len(keyword) != len(plaintext):
-        keyword = keyword[: len(plaintext)]
+        keyword = keyword[:len(plaintext)]
 
     for el in keyword:
         keys.append(ord(el))
