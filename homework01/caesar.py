@@ -16,9 +16,9 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
             ciphertext += element
         else:
             if element == element.upper():
-                strt = ord('A')
+                strt = ord("A")
             else:
-                strt = ord('a')
+                strt = ord("a")
             new_ascii_index = (ord(element) + shift - strt) % 26 + strt
             ciphertext += chr(new_ascii_index)
     return ciphertext
@@ -42,9 +42,9 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
             plaintext += element
         else:
             if element == element.upper():
-                strt = ord('A')
+                strt = ord("A")
             else:
-                strt = ord('a')
+                strt = ord("a")
             new_ascii_index = (ord(element) - shift - strt) % 26 + strt
             plaintext += chr(new_ascii_index)
     return plaintext
