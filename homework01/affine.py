@@ -1,16 +1,16 @@
 def encrypt_affine(plaintext, a, b):
     """
-        Encrypts plaintext using an Affine cipher.
+    Encrypts plaintext using an Affine cipher.
 
-        >>> encrypt_affine("PYTHON", 3, 5)
-        'YZKAVS'
-        >>> encrypt_affine("python", 7, 12)
-        'nypjgz'
-        >>> encrypt_affine("Python3.6", 5, 12)
-        'Jcdvez3.6'
-        >>> encrypt_affine("", 2, 3)
-        ''
-        """
+    >>> encrypt_affine("PYTHON", 3, 5)
+    'YZKAVS'
+    >>> encrypt_affine("python", 7, 12)
+    'nypjgz'
+    >>> encrypt_affine("Python3.6", 5, 12)
+    'Jcdvez3.6'
+    >>> encrypt_affine("", 2, 3)
+    ''
+    """
     ciphertext = ""
     for char in plaintext:
         if "A" <= char <= "Z":
