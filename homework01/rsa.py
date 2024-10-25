@@ -12,15 +12,23 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
-    prime = False
-    if n ==2:
-        prime = True
-    elif n>2:
-        for i in range(2,n):
-            if n %i ==0:
-                prime = True
-    return prime
-    pass
+
+    if n <= 1:
+         return False
+
+    half_of_num = n // 2
+    count = 0
+
+    for i in range(2, half_of_num + 1):
+
+         if n % i == 0:
+             count += 1
+             break
+
+    if count == 0:
+         return True
+    else:
+         return False
 
 
 def gcd(a: int, b: int) -> int:
@@ -31,12 +39,10 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    while a>0 and b>0:
-        if a>-b:
-            a = a%b
-        else:
-            b = b%a
-    pass
+    if b == 0:
+         return a
+    else:
+         return gcd(b, a % b)
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
@@ -46,25 +52,23 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    a = e
-    b = phi
-    if e< phi:
-        a = phi
-        b =e
-    column_a=[a]
-    column_b=[b]
-    while a%b!=0:
-        a,b = b, a%b
-        column_a.append(a)
-        column_b.append(b)
+    if e < phi:
+            e, phi = phi, e
 
-    column_x=[0]*len(column_a)
-    column_y=[1]*len(column_b)
-    for i in range(len(column_x)-2,-1,-1):
-        column_x[i] = column_y[i+1]
-        column_y[i]= column_x[i+1] - column_y[i+1]*(column_a[i]//column_b[i])
-    return column_y[0]% phi
-    pass
+    if phi == 1:
+            return 0
+
+    first = e
+    x, y, div_list = 0, 1, []
+
+    while e % phi != 0:
+            div_list.append(e // phi)
+            e, phi = phi, e % phi
+
+    for num in div_list:
+            x, y = y, x - y * num
+
+    return y % first
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
