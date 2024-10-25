@@ -12,8 +12,18 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
-    # PUT YOUR CODE HERE
-    pass
+    prime = False
+    if n == 2:
+        prime = True
+    elif n > 2:
+        for i in range(2, n):
+            if n % i ==0:
+                prime = False
+                break
+            else:
+                prime = True
+
+                return prime
 
 
 def gcd(a: int, b: int) -> int:
@@ -24,8 +34,12 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    # PUT YOUR CODE HERE
-    pass
+    while a > 0 and b > 0:
+        if a >= b:
+            a = a % b
+        else:
+            b = b % a
+            return max(a, b)
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
@@ -35,8 +49,28 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
-    pass
+
+    a = e
+    b = phi
+    if e < phi:
+        a = phi
+        b = e
+        column_a = [a]
+        column_b = [b]
+
+        while a % b != 0:
+            a, b = b, a % b
+            column_a.append(a)
+            column_b.append(b)
+
+            column_x = [0] * len(column_a)
+            column_y = [1] * len(column_b)
+
+            for i in range(len(column_x) -2, -1, -1):
+                column_x[i] = column_y[i + 1]
+                column_y[i] = column_x[i + 1] - column_y[i + 1] * (column_a[i] // column_b[i])
+
+                return column_y[0] % phi
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
@@ -46,10 +80,10 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
         raise ValueError("p and q cannot be equal")
 
     # n = pq
-    # PUT YOUR CODE HERE
+    n = p * q
 
     # phi = (p-1)(q-1)
-    # PUT YOUR CODE HERE
+    phi = (p - 1) * (q - 1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
@@ -82,7 +116,7 @@ def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 
