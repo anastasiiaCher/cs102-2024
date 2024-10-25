@@ -1,2 +1,9 @@
+"""Provides text."""
+
+
 def text():
-    return message
+    """Function returning message."""
+    return "message"
+
+
+
