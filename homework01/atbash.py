@@ -2,6 +2,7 @@
 Encrypts and decrypts a text using Atbash cipher.
 """
 
+
 def encrypt_atbash(plaintext: str) -> str:
     """
     Encrypts the given text.
