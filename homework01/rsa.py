@@ -1,7 +1,6 @@
 import random
 import typing as tp
 
-
 def is_prime(n: int) -> bool:
     """
     Tests to see if a number is prime.
@@ -14,10 +13,11 @@ def is_prime(n: int) -> bool:
     """
     if n <= 1:
         return False
-    for i in range(2, n // 2 + 2):        
-        if n % i == 0 and n != i:         #when n = 2
-            return False   
+    for i in range(2, n // 2 + 2):
+        if n % i == 0 and n != i:  # when n = 2
+            return False
     return True
+
 
 def gcd(a: int, b: int) -> int:
     """
@@ -39,9 +39,6 @@ def gcd(a: int, b: int) -> int:
     return max(common_divisors)
 
 
-    
-
-
 def multiplicative_inverse(e: int, phi: int) -> int:
     """
     Euclid's extended algorithm for finding the multiplicative
@@ -54,23 +51,23 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     x, y = [0], [1]
     lst_A, lst_B = [], []
 
-    while B != 0:  
-        lst_A.append(A)  
+    while B != 0:
+        lst_A.append(A)
         lst_B.append(B)
-        AmodB = A % B
-        A, B = B, AmodB
+        amodb = A % B
+        A, B = B, amodb
 
-    for i in range(len(lst_A) - 1, 0, -1):  
-        x.append(y[-1])  
+    for i in range(len(lst_A) - 1, 0, -1):
+        x.append(y[-1])
         y.append((1 - lst_A[i - 1] * x[-1]) // lst_B[i - 1])
-    
+
     return y[-1] % phi
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
     if not (is_prime(p) and is_prime(q)):
         raise ValueError("Both numbers must be prime.")
-    elif p == q:
+    if p == q:
         raise ValueError("p and q cannot be equal")
 
     # n = pq
@@ -110,7 +107,7 @@ def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 
