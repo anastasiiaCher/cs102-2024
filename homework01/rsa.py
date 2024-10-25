@@ -17,7 +17,7 @@ def is_prime(n: int) -> bool:
         prime = True
     elif n > 2:
         for i in range(2, n):
-            if n % i ==0:
+            if n % i == 0:
                 prime = False
                 break
             else:
@@ -66,7 +66,7 @@ def multiplicative_inverse(e: int, phi: int) -> int:
             column_x = [0] * len(column_a)
             column_y = [1] * len(column_b)
 
-            for i in range(len(column_x) -2, -1, -1):
+            for i in range(len(column_x) - 2, -1, -1):
                 column_x[i] = column_y[i + 1]
                 column_y[i] = column_x[i + 1] - column_y[i + 1] * (column_a[i] // column_b[i])
 
