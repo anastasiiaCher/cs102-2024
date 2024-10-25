@@ -41,7 +41,7 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    a, a = phi, e
+    a, b = phi, e
     x, y = [0], [1]
     lst_a, lst_b = [], []
 
