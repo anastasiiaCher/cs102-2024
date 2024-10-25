@@ -1,0 +1,12 @@
+def encrypt_atbash(plaintext):
+    ciphertext = ""
+    
+    for char in plaintext:
+        if 'A' <= char <= 'Z':
+            ciphertext += chr(ord('Z') - (ord(char) - ord('A')))
+        elif 'a' <= char <= 'z':
+            ciphertext += chr(ord('z') - (ord(char) - ord('a')))
+        else:
+            ciphertext += char
+            
+    return ciphertext
