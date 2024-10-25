@@ -11,15 +11,30 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ''
     """
     ciphertext = ""
-    for i in range(len(plaintext)):
-        letter = plaintext[i]
-        if letter.islower():
-            chr(((ord(letter)+ shift - ord('a'))%26 + ord('a')))
-        elif letter.isupper():
-            ciphertext += chr(((ord(letter) + shift - ord("A"))%26 + ord("A")))
-        else:
-            ciphertext += letter
-        
+    while shift >= 26:
+         shift -= 26
+
+    for el in plaintext:
+
+         if el.isalpha():
+             ord_letter = ord(el)
+
+             if 65 <= ord_letter <= 90:
+                 ord_letter += shift
+
+                 if ord_letter > 90:
+                     ord_letter -= 26
+
+             else:
+                 ord_letter += shift
+
+                 if ord_letter > 122:
+                     ord_letter -= 26
+
+             ciphertext += chr(ord_letter)
+
+         else:
+             ciphertext += el
     return ciphertext
 
 
@@ -36,12 +51,30 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    for i in range(len(ciphertext)):
-        letter = ciphertext[i]
-        if letter.islower():
-            plaintext += chr(((ord(letter) - shift - ord('a'))%26 + ord('a')))
-        elif letter.isupper():
-            plaintext += chr(((ord(letter) - shift - ord('A'))%26 + ord('A')))
-        else:
-            plaintext += letter
-            return plaintext
+    while shift >= 26:
+         shift -= 26
+
+    for el in ciphertext:
+
+         if el.isalpha():
+             ord_letter = ord(el)
+
+             if 65 <= ord_letter <= 90:
+                 ord_letter -= shift
+
+                 if ord_letter < 65:
+                     ord_letter += 26
+
+             else:
+                 ord_letter -= shift
+
+                 if ord_letter < 97:
+                     ord_letter += 26
+
+             plaintext += chr(ord_letter)
+
+         else:
+             plaintext += el
+
+    return plaintext
+    
