@@ -1,25 +1,50 @@
-def encrypt_affine(plaintext, a, b):
-    """affine encrypt function for English"""
+def encrypt_affine(plaintext, a, b, language):
+    """Affine encrypt function for English, Russian"""
 
     ciphertext = ""
-    m, ord_letter = 26, 0
+    ord_letter = 0
 
-    up_alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    low_alph = "abcdefghijklmnopqrstuvwxyz"
+    up_alph_eng = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    low_alph_eng = "abcdefghijklmnopqrstuvwxyz"
+    up_alph_rus = "ЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮЁ"
+    low_alph_rus = "йцукенгшщзхъфывапролджэячсмитьбюё"
 
-    for let in plaintext:
+    if language == 'English':
 
-        if let in " ,.-":
-            ciphertext += let
-            continue
+        m = 26
+        for let in plaintext:
 
-        if let in up_alph:
-            ord_letter = up_alph.index(let)
-            let = (a * ord_letter + b) % m
-            ciphertext += up_alph[let]
-        else:
-            ord_letter = low_alph.index(let)
-            let = (a * ord_letter + b) % m
-            ciphertext += low_alph[let]
+            if let in " ,.-":
+                ciphertext += let
+                continue
+
+            if let in up_alph_eng:
+                ord_letter = up_alph_eng.index(let)
+                let = (a * ord_letter + b) % m
+                ciphertext += up_alph_eng[let]
+            else:
+                ord_letter = low_alph_eng.index(let)
+                let = (a * ord_letter + b) % m
+                ciphertext += low_alph_eng[let]
+
+    elif language == "Russian":
+        m = 33
+        for let in plaintext:
+
+            if let in " ,.-":
+                ciphertext += let
+                continue
+
+            if let in up_alph_rus:
+                ord_letter = up_alph_rus.index(let)
+                let = (a * ord_letter + b) % m
+                ciphertext += up_alph_rus[let]
+            else:
+                ord_letter = low_alph_rus.index(let)
+                let = (a * ord_letter + b) % m
+                ciphertext += low_alph_rus[let]
+
+    else:
+        return "Language is not defined"
 
     return ciphertext
