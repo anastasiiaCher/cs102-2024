@@ -34,6 +34,13 @@ def gcd(a: int, b: int) -> int:
     return a
     pass
 
+def extended_gcd(a, b):
+    if a == 0:
+        return b, 0, 1
+    gcd, x1, y1 = extended_gcd(b % a, a)
+    x = y1 - (b // a) * x1
+    y = x1
+    return gcd, x, y
 
 def multiplicative_inverse(e: int, phi: int) -> int:
     """
@@ -42,14 +49,6 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    def extended_gcd(a, b):
-    if a == 0:
-        return b, 0, 1
-    gcd, x1, y1 = extended_gcd(b % a, a)
-    x = y1 - (b // a) * x1
-    y = x1
-    return gcd, x, y
-
     gcd, x, y = extended_gcd(e, phi)
     if gcd != 1:
         return "Обратного элемента не существует"
@@ -64,10 +63,10 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
     elif p == q:
         raise ValueError("p and q cannot be equal")
 
-    n = pq
+    n = p*q
     # PUT YOUR CODE HERE
 
-    phi = (p-1)(q-1)
+    phi = (p-1)*(q-1)
     # PUT YOUR CODE HERE
 
     # Choose an integer e such that e and phi(n) are coprime
