@@ -9,16 +9,16 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    count = 0  # вводим счетчик итераций, чтобы каждый раз переходить к следующей букве кодового слова
+    count = 0
 
     # Зашифровываем каждый элемент в исходном тексте:
     for char in plaintext:
         # вводим переменную для порядкового номера буквы в кодовом слове:
-        current_letter_num = count % len(keyword)  # при этом проверяем, что нумерация не выходит за границы слова
+        current_letter_num = count % len(keyword)
 
         # Определяем сдвиг:
         if "A" <= keyword[current_letter_num] <= "Z":  # проверяем регистр кодовой буквы
-            shift = ord(keyword[current_letter_num]) - ord("A")  # сдвиг равен коду буквы минус код буквы "А"
+            shift = ord(keyword[current_letter_num]) - ord("A")  # считаем сдвиг
         elif "a" <= keyword[current_letter_num] <= "z":  # аналогично для строчных букв
             shift = ord(keyword[current_letter_num]) - ord("a")
         else:  # обрабатываем случай, когда некий элемент
@@ -37,7 +37,7 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
         else:  # Если элемент шифруемой строки - не буква, то
             ord_new_char = ord(char)  # оставляем как есть
 
-        ciphertext += chr(ord_new_char)  # записываем полученный элемент в строку с зашифрованным текстом
+        ciphertext += chr(ord_new_char)  # записываем полученный элемент
         count += 1  # переходим к следующей букве в кодовом слове
     return ciphertext
 
@@ -53,16 +53,16 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    count = 0  # вводим счетчик итераций, чтобы с каждой итерацией переходить к следующей букве кодового слова
+    count = 0  # вводим счетчик итераций
 
     # Дешифровываем каждый элемент зашифрованной строки:
     for char in ciphertext:
         # вводим переменную для порядкового номера буквы в кодовом слове:
-        current_letter_num = count % len(keyword)  # при этом проверяем, что нумерация не выходит за границы слова
+        current_letter_num = count % len(keyword)
 
         # Определяем сдвиг:
         if "A" <= keyword[current_letter_num] <= "Z":  # проверяем регистр кодовой буквы
-            shift = ord(keyword[current_letter_num]) - ord("A")  # сдвиг равен коду буквы минус код буквы "А"
+            shift = ord(keyword[current_letter_num]) - ord("A")  # считаем сдвиг
         elif "a" <= keyword[current_letter_num] <= "z":  # аналогично для строчных букв
             shift = ord(keyword[current_letter_num]) - ord("a")
         else:  # обрабатываем случай, когда некий элемент
@@ -81,6 +81,6 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
         else:  # Если элемент дешифруемой строки - не буква, то
             ord_new_char = ord(char)  # оставляем как есть
 
-        plaintext += chr(ord_new_char)  # записываем полученный элемент в строку с дешифрованным текстом
+        plaintext += chr(ord_new_char)  # записываем полученный элемент
         count += 1  # переходим к следующей букве в кодовом слове
     return plaintext
