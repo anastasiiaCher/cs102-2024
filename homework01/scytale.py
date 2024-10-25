@@ -1,8 +1,5 @@
 def encrypt_scytale(plaintext, n):
     from math import ceil
-
-def encrypt_scytale(plaintext, n):
-    from math import ceil
     
     m = ceil(len(plaintext) / n)
     
