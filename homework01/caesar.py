@@ -1,7 +1,12 @@
 """
 This module provides functions to encrypt and decrypt text using a Caesar cipher.
 """
+
+
 def letter_number(letter: str) -> int:
+    """
+    This function takes a letter and returns its position in the alphabet.
+    """
     if "A" <= letter <= "Z":
         return ord(letter) - ord("A")
     if "a" <= letter <= "z":
@@ -10,6 +15,9 @@ def letter_number(letter: str) -> int:
 
 
 def number_to_letter(number: int, is_upper: bool) -> str:
+    """
+    This function takes a number and returns the corresponding letter in the alphabet.
+    """
     if is_upper:
         return chr(number + ord("A"))
     return chr(number + ord("a"))
