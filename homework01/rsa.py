@@ -63,17 +63,20 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     return y0 % phi
 
 
-def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
-    if not (is_prime(p) and is_prime(q)):
+def generate_keypair(prime1: int, prime2: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+    """
+    Generates a pair of RSA keys.
+    """
+    if not (is_prime(prime1) and is_prime(prime2)):
         raise ValueError("Both numbers must be prime.")
-    if p == q:
+    if prime1 == prime2:
         raise ValueError("p and q cannot be equal")
 
     # n = pq
-    n = p * q
+    n = prime1 * prime2
 
     # phi = (p-1)(q-1)
-    phi = (p - 1) * (q - 1)
+    phi = (prime1 - 1) * (prime2 - 1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
@@ -93,7 +96,10 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
 
 
 def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
-    # Unpack the key into it's components
+    """
+    Encrypts a message using the public or private key.
+    """
+    # Unpack the key into its components
     key, n = pk
     # Convert each letter in the plaintext to numbers based on
     # the character using a^b mod m
@@ -103,6 +109,9 @@ def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
 
 
 def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
+    """
+    Decrypts a message using the public or private key.
+    """
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m

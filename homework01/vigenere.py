@@ -6,10 +6,9 @@ This module provides functions for encrypting and decrypting messages using the 
 def letter_number(letter: str) -> int:
     if "A" <= letter <= "Z":
         return ord(letter) - ord("A")
-    elif "a" <= letter <= "z":
+    if "a" <= letter <= "z":
         return ord(letter) - ord("a")
-    else:
-        return -1
+    return -1
 
 
 def number_to_letter(number: int, is_upper: bool) -> str:
