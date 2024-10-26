@@ -46,7 +46,26 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
+    a, b, mod = [], [], []
+    while phi % e != 0:
+        a.append(phi)
+        b.append(e)
+        mods = phi % e
+        mod.append(mods)
+        phi = e
+        e = mods
+    a.append(phi)
+    b.append(e)
+    mod.append(0)
+    k = len(a) - 2
+    x1, y1 = 1, 0 - a[k] // b[k]
+    for i in range(len(a) - 2):
+        k -= 1
+        x = x1
+        y = y1
+        x1 = y
+        y1 = x - y * (a[k] // b[k])
+    return y1 % a[0]
     pass
 
 
