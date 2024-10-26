@@ -9,17 +9,27 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    key = keyword * (len(plaintext) // len (keyword)) + keyword[: (len(plaintext) % len(keyword))]
+    key = []
+    key_index = 0
+
+    for letter in plaintext:
+        if letter.isalpha():  # Only consider alphabetic characters
+            key.append(keyword[key_index % len(keyword)].upper())
+            key_index += 1
+        else:
+            key.append(letter)
+
     for i in range(len(plaintext)):
         letter = plaintext[i]
         if letter.islower():
-            shift = ord(key[i]) - ord("a")
-            ciphertext += chr(((ord(letter) + shift - or("a")) % 26 + ord("a")))
-            elif letter.isupper():
+            shift = ord(key[i]) - ord("A")
+            ciphertext += chr(((ord(letter) + shift - ord("a")) % 26 + ord("a")))
+        elif letter.isupper():
             shift = ord(key[i]) - ord("A")
             ciphertext += chr(((ord(letter) + shift - ord("A")) % 26 + ord("A")))
-            else:
+        else:
             ciphertext += letter
+
     return ciphertext
 
 
@@ -34,15 +44,25 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    key = keyword * (len(plaintext) // len(keyword)) + keyword[: (len(plaintext) % len(keyword))]
+    key = []
+    key_index = 0
+
+    for letter in ciphertext:
+        if letter.isalpha():  # Only consider alphabetic characters
+            key.append(keyword[key_index % len(keyword)].upper())
+            key_index += 1
+        else:
+            key.append(letter)
+
     for i in range(len(ciphertext)):
         letter = ciphertext[i]
         if letter.islower():
-            shift = ord(key[i]) - ord("a")
-            plaintext += chr(((ord(letter) - shift - ord("a")) % 26 + ord("a")))
-            elif letter.isupper():
             shift = ord(key[i]) - ord("A")
-            plaintext += chr(((ord(letter) - shift - ord("A")) % 26 + ordd("A")))
-            else:
+            plaintext += chr(((ord(letter) - shift - ord('a')) % 26 + ord('a')))
+        elif letter.isupper():
+            shift = ord(key[i]) - ord("A")
+            plaintext += chr(((ord(letter) - shift - ord("A")) % 26 + ord("A")))
+        else:
             plaintext += letter
+
     return plaintext
