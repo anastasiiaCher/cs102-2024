@@ -50,7 +50,7 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     for el in ciphertext:
         if el in up_alph_eng:
             ord_letter = up_alph_eng.index(el) - shift
-            if ord_letter < 0:
+            while ord_letter < 0:
                 ord_letter += 26
             plaintext += up_alph_eng[ord_letter]
 
