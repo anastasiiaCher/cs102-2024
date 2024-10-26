@@ -56,10 +56,10 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     a, b = phi, e
 
     while b != 0:
-        q = a // b
+        quotient = a // b
         a, b = b, a % b
-        x0, x1 = x1, x0 - q * x1
-        y0, y1 = y1, y0 - q * y1
+        x0, x1 = x1, x0 - quotient * x1
+        y0, y1 = y1, y0 - quotient * y1
     return y0 % phi
 
 
@@ -130,7 +130,7 @@ if __name__ == "__main__":
     message = input("Enter a message to encrypt with your private key: ")
     encrypted_msg = encrypt(private, message)
     print("Your encrypted message is: ")
-    print("".join(map(lambda x: str(x), encrypted_msg)))
+    print("".join([str(x) for x in encrypted_msg]))
     print("Decrypting message with public key ", public, " . . .")
     print("Your message is:")
     print(decrypt(public, encrypted_msg))
