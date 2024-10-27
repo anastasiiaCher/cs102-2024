@@ -44,5 +44,20 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+
+
+    alphabet = list("abcdefghijklmnopqrstuvwxyz")
+
+    for i in ciphertext:
+        if i.isalpha():
+            new_letter_id = None
+            is_upper = i.isupper()
+            for letter in alphabet:
+                if letter == i.lower():
+                    letter_id = alphabet.index(letter)
+                    new_letter_id = letter_id - shift if letter_id - shift <= 0 else letter_id - shift - len(alphabet)
+            plaintext += alphabet[new_letter_id].upper() if is_upper else alphabet[new_letter_id]
+        else:
+            plaintext += i
+
     return plaintext
