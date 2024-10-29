@@ -1,6 +1,7 @@
 import random
 import typing as tp
 
+
 def is_prime(n: int) -> bool:
     """
     Tests to see if a number is prime.
@@ -18,7 +19,6 @@ def is_prime(n: int) -> bool:
     if total > 2 or n <= 0 or n == 1:
         return False
     return True
-
 
 
 def gcd(a: int, b: int) -> int:
