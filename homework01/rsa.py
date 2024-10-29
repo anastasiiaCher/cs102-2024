@@ -1,6 +1,7 @@
 """
 Encrypts and decrypts a text using RSA cipher.
 """
+
 import random
 import typing as tp
 
