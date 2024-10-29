@@ -10,10 +10,16 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
     keyword_length = len(keyword)
     ciphertext = ""
+    encryption_key = ""
+    for i in range(len(plaintext)):
+        if plaintext[i].isalpha():
+            encryption_key += keyword[i % keyword_length].lower()  
+        else:
+            encryption_key += plaintext[i]
 
     for i, char in enumerate(plaintext):
         if char.isalpha():
-            shift = ord(keyword[i % keyword_length].lower()) - ord('a')
+            shift = ord(encryption_key[i].lower()) - ord('a')
             if char.islower():
                 encrypted_char = chr((ord(char) - ord('a') + shift) % 26 + ord('a'))
             else:
@@ -21,7 +27,7 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
             ciphertext += encrypted_char
         else:
             ciphertext += char 
-
+    
     return ciphertext
 
 
@@ -38,9 +44,17 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     """
     keyword_length = len(keyword)
     plaintext = ""
+    encryption_key = ""
+    
+    for i in range(len(ciphertext)):
+        if ciphertext[i].isalpha():
+            encryption_key += keyword[i % keyword_length].lower()  
+        else:
+            encryption_key += ciphertext[i]
+
     for i, char in enumerate(ciphertext):
         if char.isalpha():
-            shift = ord(keyword[i % keyword_length].lower()) - ord('a')
+            shift = ord(encryption_key[i].lower()) - ord('a')
             if char.islower():
                 decrypted_char = chr((ord(char) - ord('a') - shift) % 26 + ord('a'))
             else:
@@ -48,7 +62,7 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
             plaintext += decrypted_char
         else:
             plaintext += char 
-
+    
     return plaintext
 
 print(encrypt_vigenere("ATTACKATDAWN", "LEMON"))
