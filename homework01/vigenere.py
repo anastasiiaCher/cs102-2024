@@ -58,7 +58,7 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
         letter = ciphertext[i]
         if letter.islower():
             shift = ord(key[i]) - ord("A")
-            plaintext += chr(((ord(letter) - shift - ord('a')) % 26 + ord('a')))
+            plaintext += chr(((ord(letter) - shift - ord("a")) % 26 + ord("a")))
         elif letter.isupper():
             shift = ord(key[i]) - ord("A")
             plaintext += chr(((ord(letter) - shift - ord("A")) % 26 + ord("A")))
