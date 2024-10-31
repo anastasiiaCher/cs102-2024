@@ -71,9 +71,7 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     return newtable[-1][5] % savephi
 
 
-def generate_keypair(
-    p: int, q: int
-) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
     """
     Final generation of keypairs.
     """
