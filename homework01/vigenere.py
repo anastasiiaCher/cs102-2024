@@ -9,7 +9,7 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    key = (keyword * ((len(plaintext) // len(keyword)) + 1))[:len(plaintext)]
+    key = (keyword * ((len(plaintext) // len(keyword)) + 1))[: len(plaintext)]
     for i, key_i in zip(plaintext, key):
         if i.isalpha():
             shift = ord(key_i.upper()) - ord("A")
@@ -32,7 +32,7 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    key = (keyword * ((len(ciphertext) // len(keyword)) + 1))[:len(ciphertext)]
+    key = (keyword * ((len(ciphertext) // len(keyword)) + 1))[: len(ciphertext)]
     for i, key_i in zip(ciphertext, key):
         if i.isalpha():
             shift = ord(key_i.upper()) - ord("A")
