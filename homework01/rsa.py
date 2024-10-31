@@ -1,3 +1,11 @@
+"""
+This module provides functions to generate RSA key pairs,
+encrypt messages using public/private keys,
+and decrypt messages. It also includes helper functions for
+prime testing,GCD calculation,
+and multiplicative inverse calculation.
+"""
+
 import random
 import typing as tp
 
@@ -12,8 +20,16 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
-    # PUT YOUR CODE HERE
-    pass
+    if n <= 1:
+        return False
+    if n == 2:
+        return True
+    if n % 2 == 0:
+        return False
+    for i in range(3, int(n**0.5) + 1, 2):
+        if n % i == 0:
+            return False
+    return True
 
 
 def gcd(a: int, b: int) -> int:
@@ -24,8 +40,9 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    # PUT YOUR CODE HERE
-    pass
+    while b != 0:
+        a, b = b, a % b
+    return a
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
@@ -35,21 +52,31 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
-    pass
+    x0, x1, y0, y1 = 1, 0, 0, 1
+    a, b = phi, e
+
+    while b != 0:
+        quotient = a // b
+        a, b = b, a % b
+        x0, x1 = x1, x0 - quotient * x1
+        y0, y1 = y1, y0 - quotient * y1
+    return y0 % phi
 
 
-def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
-    if not (is_prime(p) and is_prime(q)):
+def generate_keypair(prime1: int, prime2: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+    """
+    Generates a pair of RSA keys.
+    """
+    if not (is_prime(prime1) and is_prime(prime2)):
         raise ValueError("Both numbers must be prime.")
-    elif p == q:
+    if prime1 == prime2:
         raise ValueError("p and q cannot be equal")
 
     # n = pq
-    # PUT YOUR CODE HERE
+    n = prime1 * prime2
 
     # phi = (p-1)(q-1)
-    # PUT YOUR CODE HERE
+    phi = (prime1 - 1) * (prime2 - 1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
@@ -65,11 +92,14 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
 
     # Return public and private keypair
     # Public key is (e, n) and private key is (d, n)
-    return ((e, n), (d, n))
+    return (e, n), (d, n)
 
 
 def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
-    # Unpack the key into it's components
+    """
+    Encrypts a message using the public or private key.
+    """
+    # Unpack the key into its components
     key, n = pk
     # Convert each letter in the plaintext to numbers based on
     # the character using a^b mod m
@@ -79,10 +109,13 @@ def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
 
 
 def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
+    """
+    Decrypts a message using the public or private key.
+    """
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 
@@ -97,7 +130,7 @@ if __name__ == "__main__":
     message = input("Enter a message to encrypt with your private key: ")
     encrypted_msg = encrypt(private, message)
     print("Your encrypted message is: ")
-    print("".join(map(lambda x: str(x), encrypted_msg)))
+    print("".join([str(x) for x in encrypted_msg]))
     print("Decrypting message with public key ", public, " . . .")
     print("Your message is:")
     print(decrypt(public, encrypted_msg))

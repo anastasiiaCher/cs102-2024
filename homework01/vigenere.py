@@ -1,3 +1,10 @@
+"""
+This module provides functions for encrypting and decrypting messages using the Vigenere cipher.
+"""
+
+from cipher_utils import letter_number, process_text
+
+
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
     Encrypts plaintext using a Vigenere cipher.
@@ -8,9 +15,8 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     >>> encrypt_vigenere("ATTACKATDAWN", "LEMON")
     'LXFOPVEFRNHR'
     """
-    ciphertext = ""
-    # PUT YOUR CODE HERE
-    return ciphertext
+    shifts = [letter_number(k) for k in keyword]
+    return process_text(plaintext, shifts, encrypt=True)
 
 
 def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
@@ -23,6 +29,5 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     >>> decrypt_vigenere("LXFOPVEFRNHR", "LEMON")
     'ATTACKATDAWN'
     """
-    plaintext = ""
-    # PUT YOUR CODE HERE
-    return plaintext
+    shifts = [letter_number(k) for k in keyword]
+    return process_text(ciphertext, shifts, encrypt=False)

@@ -1,3 +1,10 @@
+"""
+This module provides functions to encrypt and decrypt text using a Caesar cipher.
+"""
+
+from cipher_utils import process_text
+
+
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     Encrypts plaintext using a Caesar cipher.
@@ -10,9 +17,7 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     >>> encrypt_caesar("")
     ''
     """
-    ciphertext = ""
-    # PUT YOUR CODE HERE
-    return ciphertext
+    return process_text(plaintext, [shift], encrypt=True)
 
 
 def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
@@ -27,6 +32,4 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     >>> decrypt_caesar("")
     ''
     """
-    plaintext = ""
-    # PUT YOUR CODE HERE
-    return plaintext
+    return process_text(ciphertext, [shift], encrypt=False)
