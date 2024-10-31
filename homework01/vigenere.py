@@ -2,20 +2,7 @@
 This module provides functions for encrypting and decrypting messages using the Vigenere cipher.
 """
 
-
-def letter_number(letter: str) -> int:
-    if "A" <= letter <= "Z":
-        return ord(letter) - ord("A")
-    elif "a" <= letter <= "z":
-        return ord(letter) - ord("a")
-    else:
-        return -1
-
-
-def number_to_letter(number: int, is_upper: bool) -> str:
-    if is_upper:
-        return chr(number + ord("A"))
-    return chr(number + ord("a"))
+from cipher_utils import letter_number, process_text
 
 
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
@@ -28,22 +15,8 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     >>> encrypt_vigenere("ATTACKATDAWN", "LEMON")
     'LXFOPVEFRNHR'
     """
-    ciphertext = ""
-    keyword_rep = (keyword * ((len(plaintext) // len(keyword)) + 1))[: len(plaintext)]
-
-    for i, letter in enumerate(plaintext):
-        key_letter = keyword_rep[i]
-        num = letter_number(letter)
-        key_num = letter_number(key_letter)
-
-        if num != -1:
-            shift = key_num
-            is_upper = letter.isupper()
-            shifted_num = (num + shift) % 26
-            ciphertext += number_to_letter(shifted_num, is_upper)
-        else:
-            ciphertext += letter
-    return ciphertext
+    shifts = [letter_number(k) for k in keyword]
+    return process_text(plaintext, shifts, encrypt=True)
 
 
 def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
@@ -56,19 +29,5 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     >>> decrypt_vigenere("LXFOPVEFRNHR", "LEMON")
     'ATTACKATDAWN'
     """
-    plaintext = ""
-    keyword_rep = (keyword * ((len(ciphertext) // len(keyword)) + 1))[: len(ciphertext)]
-
-    for i, letter in enumerate(ciphertext):
-        key_letter = keyword_rep[i]
-        num = letter_number(letter)
-        key_num = letter_number(key_letter)
-
-        if num != -1:
-            shift = key_num
-            is_upper = letter.isupper()
-            shifted_num = (num - shift) % 26
-            plaintext += number_to_letter(shifted_num, is_upper)
-        else:
-            plaintext += letter
-    return plaintext
+    shifts = [letter_number(k) for k in keyword]
+    return process_text(ciphertext, shifts, encrypt=False)

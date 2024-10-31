@@ -56,24 +56,27 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     a, b = phi, e
 
     while b != 0:
-        q = a // b
+        quotient = a // b
         a, b = b, a % b
-        x0, x1 = x1, x0 - q * x1
-        y0, y1 = y1, y0 - q * y1
+        x0, x1 = x1, x0 - quotient * x1
+        y0, y1 = y1, y0 - quotient * y1
     return y0 % phi
 
 
-def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
-    if not (is_prime(p) and is_prime(q)):
+def generate_keypair(prime1: int, prime2: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+    """
+    Generates a pair of RSA keys.
+    """
+    if not (is_prime(prime1) and is_prime(prime2)):
         raise ValueError("Both numbers must be prime.")
-    if p == q:
+    if prime1 == prime2:
         raise ValueError("p and q cannot be equal")
 
     # n = pq
-    n = p * q
+    n = prime1 * prime2
 
     # phi = (p-1)(q-1)
-    phi = (p - 1) * (q - 1)
+    phi = (prime1 - 1) * (prime2 - 1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
@@ -89,11 +92,14 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
 
     # Return public and private keypair
     # Public key is (e, n) and private key is (d, n)
-    return ((e, n), (d, n))
+    return (e, n), (d, n)
 
 
 def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
-    # Unpack the key into it's components
+    """
+    Encrypts a message using the public or private key.
+    """
+    # Unpack the key into its components
     key, n = pk
     # Convert each letter in the plaintext to numbers based on
     # the character using a^b mod m
@@ -103,6 +109,9 @@ def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
 
 
 def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
+    """
+    Decrypts a message using the public or private key.
+    """
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
@@ -121,7 +130,7 @@ if __name__ == "__main__":
     message = input("Enter a message to encrypt with your private key: ")
     encrypted_msg = encrypt(private, message)
     print("Your encrypted message is: ")
-    print("".join(map(lambda x: str(x), encrypted_msg)))
+    print("".join([str(x) for x in encrypted_msg]))
     print("Decrypting message with public key ", public, " . . .")
     print("Your message is:")
     print(decrypt(public, encrypted_msg))
