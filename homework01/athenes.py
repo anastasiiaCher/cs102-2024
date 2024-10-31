@@ -2,6 +2,7 @@
 Афинный шифр (рус)
 """
 
+
 def encrypt_affine(plaintext: str, a: int, b: int) -> str:
     """
     Функция для шифровании строку с использованием аффинного шифра.
@@ -12,7 +13,7 @@ def encrypt_affine(plaintext: str, a: int, b: int) -> str:
     for i in plaintext:
         if i.isalpha():
             # Проверяем, является ли символ буквой
-            if i.islower ():
+            if i.islower():
                 # Проверяем регистр
                 x = ord(i) - ord("а")
                 # Находим позицию символа в алфавите
