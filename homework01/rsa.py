@@ -20,7 +20,7 @@ def is_prime(n: int) -> bool:
     return True
 
 
-def gcd(a: int, b: int) -> int: #реализуем поиск НОД-а
+def gcd(a: int, b: int) -> int:  # реализуем поиск НОД-а
     """
     Euclid's algorithm for determining the greatest common divisor.
     >>> gcd(12, 15)
@@ -28,7 +28,7 @@ def gcd(a: int, b: int) -> int: #реализуем поиск НОД-а
     >>> gcd(3, 7)
     1
     """
-    while b != 0: 
+    while b != 0:
         a, b = b, a % b
     return a
 
@@ -40,6 +40,7 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
+
     def extended_gcd(a: int, b: int) -> tuple:
         if a == 0:
             return b, 0, 1
@@ -60,9 +61,9 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
     elif p == q:
         raise ValueError("p and q cannot be equal")
 
-    n = p*q
-    phi = (p-1)*(q-1)
-    
+    n = p * q
+    phi = (p - 1) * (q - 1)
+
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
 
@@ -94,7 +95,7 @@ def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 
