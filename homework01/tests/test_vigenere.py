@@ -18,7 +18,9 @@ class VigenereTestCase(unittest.TestCase):
             with self.subTest(
                 case=i, plaintext=plaintext, keyword=keyword, chiphertext=chiphertext
             ):
-                self.assertEqual(chiphertext, vigenere.encrypt_vigenere(plaintext, keyword))
+                self.assertEqual(
+                    chiphertext, vigenere.encrypt_vigenere(plaintext, keyword)
+                )
 
     def test_decrypt(self):
         cases = [
@@ -32,11 +34,15 @@ class VigenereTestCase(unittest.TestCase):
             with self.subTest(
                 case=i, chiphertext=chiphertext, keyword=keyword, plaintext=plaintext
             ):
-                self.assertEqual(plaintext, vigenere.decrypt_vigenere(chiphertext, keyword))
+                self.assertEqual(
+                    plaintext, vigenere.decrypt_vigenere(chiphertext, keyword)
+                )
 
     def test_randomized(self):
         kwlen = random.randint(4, 24)
-        keyword = ''.join(random.choice(string.ascii_letters) for _ in range(kwlen))
-        plaintext = ''.join(random.choice(string.ascii_letters + ' -,') for _ in range(64))
+        keyword = "".join(random.choice(string.ascii_letters) for _ in range(kwlen))
+        plaintext = "".join(
+            random.choice(string.ascii_letters + " -,") for _ in range(64)
+        )
         ciphertext = vigenere.encrypt_vigenere(plaintext, keyword)
         self.assertEqual(plaintext, vigenere.decrypt_vigenere(ciphertext, keyword))

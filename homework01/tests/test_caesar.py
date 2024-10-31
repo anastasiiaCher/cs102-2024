@@ -22,7 +22,9 @@ class CaesarTestCase(unittest.TestCase):
 
         for i, (plaintext, shift, chiphertext) in enumerate(cases):
             with self.subTest(case=i, plaintext=plaintext, chiphertext=chiphertext):
-                self.assertEqual(chiphertext, caesar.encrypt_caesar(plaintext, shift=shift))
+                self.assertEqual(
+                    chiphertext, caesar.encrypt_caesar(plaintext, shift=shift)
+                )
 
     def test_decrypt(self):
         cases = [
@@ -40,11 +42,15 @@ class CaesarTestCase(unittest.TestCase):
 
         for i, (chiphertext, shift, plaintext) in enumerate(cases):
             with self.subTest(case=i, chiphertext=chiphertext, plaintext=plaintext):
-                self.assertEqual(plaintext, caesar.decrypt_caesar(chiphertext, shift=shift))
+                self.assertEqual(
+                    plaintext, caesar.decrypt_caesar(chiphertext, shift=shift)
+                )
 
     def test_randomized(self):
         shift = random.randint(8, 24)
-        plaintext = "".join(random.choice(string.ascii_letters + " -,") for _ in range(64))
+        plaintext = "".join(
+            random.choice(string.ascii_letters + " -,") for _ in range(64)
+        )
         ciphertext = caesar.encrypt_caesar(plaintext, shift=shift)
         self.assertEqual(
             plaintext,
