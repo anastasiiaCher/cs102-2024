@@ -1,13 +1,13 @@
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
-    # """
-    # Encrypts plaintext using a Vigenere cipher.
-    # >>> encrypt_vigenere("PYTHON", "A")
-    # 'PYTHON'
-    # >>> encrypt_vigenere("python", "a")
-    # 'python'
-    # >>> encrypt_vigenere("ATTACKATDAWN", "LEMON")
-    # 'LXFOPVEFRNHR'
-    # """
+    """
+    Encrypts plaintext using a Vigenere cipher.
+    >>> encrypt_vigenere("PYTHON", "A")
+    'PYTHON'
+    >>> encrypt_vigenere("python", "a")
+    'python'
+    >>> encrypt_vigenere("ATTACKATDAWN", "LEMON")
+    'LXFOPVEFRNHR'
+    """
 
     if len(plaintext) > len(keyword):
         diff = len(plaintext) - len(keyword)
@@ -43,15 +43,15 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
 
 
 def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
+    """
+    Decrypts a ciphertext using a Vigenere cipher.
+    >>> decrypt_vigenere("PYTHON", "A")
+    'PYTHON'
+    >>> decrypt_vigenere("python", "a")
+    'python'
+    >>> decrypt_vigenere("LXFOPVEFRNHR", "LEMON")
+    'ATTACKATDAWN'
     # """
-    # Decrypts a ciphertext using a Vigenere cipher.
-    # >>> decrypt_vigenere("PYTHON", "A")
-    # 'PYTHON'
-    # >>> decrypt_vigenere("python", "a")
-    # 'python'
-    # >>> decrypt_vigenere("LXFOPVEFRNHR", "LEMON")
-    # 'ATTACKATDAWN'
-    # # """
 
     if len(ciphertext) > len(keyword):
         diff = len(ciphertext) - len(keyword)
