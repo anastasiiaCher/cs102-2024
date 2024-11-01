@@ -1,4 +1,13 @@
-def encrypt_atbash(plaintext):
+def encrypt_atbash(plaintext: str) -> str:
+    """
+    Шифрует текст методом Атбаш.
+
+    Args:
+        plaintext: Текст для шифрования.
+
+    Returns:
+        Зашифрованный текст.
+    """
     ciphertext = ""
     for i in plaintext:
         if i.isalpha():
