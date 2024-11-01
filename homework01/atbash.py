@@ -40,5 +40,3 @@ def encrypt_atbash(plaintext: str) -> str:
         else:
             ciphertext += i
     return ciphertext
-
-

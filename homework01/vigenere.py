@@ -14,26 +14,26 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
         for i in range(diff):
             keyword += keyword[i]
     nums = []
-    ciphertext = ''
+    ciphertext = ""
 
     for i in range(len(keyword)):
         if keyword[i].isalpha():
             if keyword[i].islower():
-                nums.append((ord(keyword[i]) - ord('a'))%26)
+                nums.append((ord(keyword[i]) - ord("a")) % 26)
             else:
-                nums.append((ord(keyword[i]) - ord('A'))%26)
+                nums.append((ord(keyword[i]) - ord("A")) % 26)
         else:
             nums.append(0)
 
     for i in range(len(nums)):
         if plaintext[i].isalpha():
             if plaintext[i].islower():
-                if ord(plaintext[i]) + nums[i] <= ord('z'):
+                if ord(plaintext[i]) + nums[i] <= ord("z"):
                     ciphertext += chr(ord(plaintext[i]) + nums[i])
                 else:
                     ciphertext += chr(ord(plaintext[i]) + nums[i] - 26)
             else:
-                if ord(plaintext[i]) + nums[i] <= ord('Z'):
+                if ord(plaintext[i]) + nums[i] <= ord("Z"):
                     ciphertext += chr(ord(plaintext[i]) + nums[i])
                 else:
                     ciphertext += chr(ord(plaintext[i]) + nums[i] - 26)
@@ -51,37 +51,35 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'python'
     >>> decrypt_vigenere("LXFOPVEFRNHR", "LEMON")
     'ATTACKATDAWN'
-    # """
+    #"""
 
     if len(ciphertext) > len(keyword):
         diff = len(ciphertext) - len(keyword)
         for i in range(diff):
             keyword += keyword[i]
     nums = []
-    plaintext = ''
+    plaintext = ""
     for i in range(len(ciphertext)):
         if keyword[i].isalpha():
             if keyword[i].islower():
-                nums.append((ord(keyword[i]) - ord('a'))%26)
+                nums.append((ord(keyword[i]) - ord("a")) % 26)
             else:
-                nums.append((ord(keyword[i]) - ord('A'))%26)
+                nums.append((ord(keyword[i]) - ord("A")) % 26)
         else:
             nums.append(0)
 
     for i in range(len(nums)):
         if ciphertext[i].isalpha():
             if ciphertext[i].islower():
-                if ord(ciphertext[i]) - nums[i] >= ord('a'):
+                if ord(ciphertext[i]) - nums[i] >= ord("a"):
                     plaintext += chr(ord(ciphertext[i]) - nums[i])
                 else:
                     plaintext += chr(ord(ciphertext[i]) - nums[i] + 26)
             else:
-                if ord(ciphertext[i]) - nums[i] >= ord('A'):
+                if ord(ciphertext[i]) - nums[i] >= ord("A"):
                     plaintext += chr(ord(ciphertext[i]) - nums[i])
                 else:
                     plaintext += chr(ord(ciphertext[i]) - nums[i] + 26)
         else:
             plaintext += ciphertext[i]
     return plaintext
-
-
