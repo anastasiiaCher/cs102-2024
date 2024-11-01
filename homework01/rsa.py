@@ -25,7 +25,6 @@ def is_prime(n: int) -> bool:
         return False
 
 
-
 def gcd(a: int, b: int) -> int:
     """
     Euclid's algorithm for determining the greatest common divisor.
@@ -51,6 +50,8 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     d = 1
     while (d * e) % phi != 1:
         d += 1
+    if e == 1 or phi == 1:
+        d = 0
     return d
 
 
@@ -59,7 +60,6 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
         raise ValueError("Both numbers must be prime.")
     elif p == q:
         raise ValueError("p and q cannot be equal")
-
     n = p*q
 
     phi = (p-1)*(q-1)
