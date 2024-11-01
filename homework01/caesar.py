@@ -40,7 +40,7 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     plaintext = ""
     for char in ciphertext:
         if char.isalpha():
-            char_code= ord(char) - shift
+            char_code = ord(char) - shift
             if char.islower():
                 if char_code < ord("a"):
                     char_code += 26
@@ -49,5 +49,5 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
                     char_code += 26
             plaintext += chr(char_code)
         else:
-            plaintext+=char
+            plaintext += char
     return plaintext
