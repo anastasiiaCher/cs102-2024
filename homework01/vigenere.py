@@ -40,5 +40,22 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+
+    alphabet = "abcdefghijklmnopqrstuvwxyz"  # Using string for simplicity
+    keyword_indices: list[int] = []  # Specify that this will hold integers
+
+    # Build keyword indices
+    for char in keyword:
+        if char.isalpha():
+            keyword_indices.append(alphabet.index(char.lower()))
+
+    # Decrypt the ciphertext
+    for i, char in enumerate(ciphertext):
+        if char.isalpha():
+            base = ord("A") if char.isupper() else ord("a")
+            shift = (alphabet.index(char.lower()) - keyword_indices[i % len(keyword_indices)] + 26) % 26
+            plaintext += chr(base + shift)
+        else:
+            plaintext += char
+
     return plaintext
