@@ -10,21 +10,21 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
     ciphertext = ""
 
-    alphabet = list("abcdefghijklmnopqrstuvwxyz")
-    keyword_ides = list(keyword)
+    alphabet = "abcdefghijklmnopqrstuvwxyz"
+    keyword_indices: list[int] = []
     text = list(plaintext)
 
-    for i in range(len(keyword_ides)):
-        if keyword_ides[i].isalpha():
-            keyword_ides[i] = alphabet.index(keyword_ides[i].lower())
+    for char in keyword:
+        if char.isalpha():
+            keyword_indices.append(alphabet.index(char.lower()))
 
-    for i in range(len(text)):
-        if text[i].isalpha():
-            base = ord('A') if text[i].isupper() else ord('a')
-            shift = (alphabet.index(text[i].lower()) + keyword_ides[i % len(keyword_ides)]) % 26
+    for i, char in enumerate(text):
+        if char.isalpha():
+            base = ord("A") if char.isupper() else ord("a")
+            shift = (alphabet.index(char.lower()) + keyword_indices[i % len(keyword_indices)]) % 26
             ciphertext += chr(base + shift)
         else:
-            ciphertext += text[i]
+            ciphertext += char
 
     return ciphertext
 
