@@ -12,9 +12,13 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
-    # PUT YOUR CODE HERE
-    pass
+    flag = False
+    if n == 2 or n % 2 == 1:
+        flag = True
+    else:
+        flag = False
 
+    return flag
 
 def gcd(a: int, b: int) -> int:
     """
