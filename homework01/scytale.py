@@ -1,5 +1,6 @@
 import math
 
+
 def encrypt_scytale(plaintext, n):
     plaintext = plaintext.replace(" ", "")
     # ищем количество строк
