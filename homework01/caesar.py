@@ -45,7 +45,6 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     """
     plaintext = ""
 
-
     alphabet = list("abcdefghijklmnopqrstuvwxyz")
 
     for i in ciphertext:
