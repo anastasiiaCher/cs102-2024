@@ -1,9 +1,10 @@
 """Тестовая программа, просто передаёт строку на вывод"""
 
 
-def text(txt: str) -> str:
-    """Функция передаёт на вывод строку"""
-    return txt
+def text():
+    """Функция просто выводит строку message"""
+
+    return "message"
 
 
-print(text("hello world!"))
+print(text())
