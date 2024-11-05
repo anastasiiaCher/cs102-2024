@@ -10,23 +10,23 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
     ciphertext = ""
     repeats = (len(plaintext) // len(keyword) + 1) * keyword
-    rez = repeats[:len(plaintext)]
+    rez = repeats[: len(plaintext)]
     index = 0
     for i in plaintext:
-        if ord('a') > ord(i.lower()) or ord(i.lower()) > ord('z'):
+        if ord("a") > ord(i.lower()) or ord(i.lower()) > ord("z"):
             ciphertext += i
             index += 1
         else:
             k = rez[index]
-            shift = ord(k.lower()) - ord('a')
-            if ord(i.lower()) + shift <= ord('z'):
+            shift = ord(k.lower()) - ord("a")
+            if ord(i.lower()) + shift <= ord("z"):
                 index += 1
                 ciphertext += chr(ord(i) + shift)
             else:
                 if i.isupper():
-                    ciphertext += (chr(ord('a') + (ord(i.lower()) + shift - ord('z')) - 1)).upper()
+                    ciphertext += (chr(ord("a") + (ord(i.lower()) + shift - ord("z")) - 1)).upper()
                 if i.islower():
-                    ciphertext += (chr(ord('a') + (ord(i) + shift - ord('z')) - 1)).lower()
+                    ciphertext += (chr(ord("a") + (ord(i) + shift - ord("z")) - 1)).lower()
                 index += 1
     return ciphertext
 
@@ -43,22 +43,22 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     """
     plaintext = ""
     repeats = (len(ciphertext) // len(keyword) + 1) * keyword
-    rez = repeats[:len(ciphertext)]
+    rez = repeats[: len(ciphertext)]
     index = 0
     for i in ciphertext:
-        if ord('a') > ord(i.lower()) or ord(i.lower()) > ord('z'):
+        if ord("a") > ord(i.lower()) or ord(i.lower()) > ord("z"):
             plaintext += i
             index += 1
         else:
             k = rez[index]
-            shift = ord(k.lower()) - ord('a')
-            if ord(i.lower()) - shift >= ord('a'):
+            shift = ord(k.lower()) - ord("a")
+            if ord(i.lower()) - shift >= ord("a"):
                 index += 1
                 plaintext += chr(ord(i) - shift)
             else:
                 if i.isupper():
-                    plaintext += (chr(ord(i) - ord('a') + ord('z') - shift + 1)).upper()
+                    plaintext += (chr(ord(i) - ord("a") + ord("z") - shift + 1)).upper()
                 if i.islower():
-                    plaintext += (chr(ord(i) - ord('a') + ord('z') - shift + 1)).lower()
+                    plaintext += (chr(ord(i) - ord("a") + ord("z") - shift + 1)).lower()
                 index += 1
     return plaintext
