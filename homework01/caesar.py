@@ -1,4 +1,6 @@
 """модуль кодирования и декодирования по шифру"""
+
+
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     Encrypts plaintext using a Caesar cipher.
@@ -17,14 +19,14 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     letter_2 = ""
 
     for i in range(len(plaintext)):
-        list_of_plaintext.append(plaintext[i : i + 1])   
+        list_of_plaintext.append(plaintext[i : i + 1])
         letter = plaintext[i : i + 1]
         o_var = ord(letter)
-        if o_var in range(31,65) or o_var in range(91,97):
+        if o_var in range(31, 65) or o_var in range(91, 97):
             letter_2 = chr(o_var)
-        elif o_var in range(65,88) or  o_var in range(97,120):
+        elif o_var in range(65, 88) or o_var in range(97, 120):
             letter_2 = chr(o_var + shift)
-        elif  o_var in range(120,123) or o_var in range(88,91):
+        elif o_var in range(120, 123) or o_var in range(88, 91):
             letter_2 = chr(o_var - 23)
         list_of_ceaser.append(letter_2)
     for d in range(len(plaintext)):
@@ -56,11 +58,11 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
         list_of_ciphertext.append(ciphertext[i : i + 1])
         letter = ciphertext[i : i + 1]
         o_var = ord(letter)
-        if o_var in range(31,65) or  o_var in range(91,97):
+        if o_var in range(31, 65) or o_var in range(91, 97):
             letter_2 = chr(o_var)
-        elif o_var in range(68,91) or o_var in range(100,123):
+        elif o_var in range(68, 91) or o_var in range(100, 123):
             letter_2 = chr(o_var - shift)
-        elif o_var in range(97,100) or o_var in range(65,68):
+        elif o_var in range(97, 100) or o_var in range(65, 68):
             letter_2 = chr(o_var + 23)
         list_of_ceaser.append(str(letter_2))
     for d in range(len(ciphertext)):
