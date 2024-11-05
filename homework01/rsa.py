@@ -12,19 +12,21 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
+    if n < 0 and n != 1:
+        return False
     res_1 = 0
-    res_2 = bool
+    res_2 = False
     if n == 2:
-        res_2 = True
+        return True
     else:
         for i in range(2, n):
 
             res_1 = n % i
             if res_1 == 0:
-                res_2 = False
+                return False
                 break
             else:
-                res_2 = True
+                return True
 
     return res_2
 
@@ -59,20 +61,15 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    x0 = 0
-    x1 = 1
+    a, b = e, phi
+    x0, x1, y0, y1 = 1, 0, 0, 1
 
-    while e != 0 and phi != 0:
-        q = e // phi
-        print(1)
-        if e > phi:
-            e = e % phi
-        elif phi > e:
-            phi = phi % e
-            print
-    d = e + phi
-
-    return j
+    while b != 0:
+        q = a // b
+        a, b = b, a % b
+        x0, x1 = x1, x0 - q * x1
+        y0, y1 = y1, y0 - q * y1
+    return x0 % phi
 
 
 print(multiplicative_inverse(7, 40))
@@ -87,7 +84,7 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
     n = p * q
     # PUT YOUR CODE HERE
 
-    phi = (p - 1)(q - 1)
+    phi = (p - 1) * (q - 1)
     # PUT YOUR CODE HERE
 
     # Choose an integer e such that e and phi(n) are coprime
