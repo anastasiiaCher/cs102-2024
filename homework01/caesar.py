@@ -1,3 +1,8 @@
+"""
+Encrypts and decrypts a text using Caesar cipher and given shift.
+"""
+
+
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     Encrypts plaintext using a Caesar cipher.
@@ -11,7 +16,14 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ''
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    shift %= 26
+    for symbol in plaintext:
+        if symbol.isalpha() and symbol.isupper():
+            ciphertext += chr(ord(symbol) + shift) if ord(symbol) + shift < 91 else chr(ord(symbol) + shift - 26)
+        elif symbol.isalpha() and symbol.islower():
+            ciphertext += chr(ord(symbol) + shift) if ord(symbol) + shift < 123 else chr(ord(symbol) + shift - 26)
+        else:
+            ciphertext += symbol
     return ciphertext
 
 
@@ -28,5 +40,12 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    shift %= 26
+    for symbol in ciphertext:
+        if symbol.isalpha() and symbol.isupper():
+            plaintext += chr(ord(symbol) - shift) if ord(symbol) - shift > 64 else chr(ord(symbol) - shift + 26)
+        elif symbol.isalpha() and symbol.islower():
+            plaintext += chr(ord(symbol) - shift) if ord(symbol) - shift > 96 else chr(ord(symbol) - shift + 26)
+        else:
+            plaintext += symbol
     return plaintext
