@@ -1,4 +1,4 @@
-"""модуль кодирования и декодирования по шифру"""
+"""модуль кодирования и декодирования по шифру цезаря"""
 
 
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
@@ -14,23 +14,13 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ''
     """
     ciphertext = ""
-    list_of_ceaser = []
-    list_of_plaintext = []
-    letter_2 = ""
-
-    for i in range(len(plaintext)):
-        list_of_plaintext.append(plaintext[i : i + 1])
-        letter = plaintext[i : i + 1]
-        o_var = ord(letter)
-        if o_var in range(31, 65) or o_var in range(91, 97):
-            letter_2 = chr(o_var)
-        elif o_var in range(65, 88) or o_var in range(97, 120):
-            letter_2 = chr(o_var + shift)
-        elif o_var in range(120, 123) or o_var in range(88, 91):
-            letter_2 = chr(o_var - 23)
-        list_of_ceaser.append(letter_2)
-    for d in range(len(plaintext)):
-        ciphertext += list_of_ceaser[d]
+    for char in plaintext:
+        if ord(char) in range(65, 91):
+            ciphertext += chr((ord(char) - 65 + shift) % (26) + 65)
+        elif ord(char) in range(97, 123):
+            ciphertext += chr((ord(char) - 97 + shift) % (26) + 97)
+        else:
+            ciphertext += char
     return ciphertext
 
 
@@ -51,22 +41,15 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    list_of_ceaser = []
-    list_of_ciphertext = []
-    letter_2 = ""
-    for i in range(len(ciphertext)):
-        list_of_ciphertext.append(ciphertext[i : i + 1])
-        letter = ciphertext[i : i + 1]
-        o_var = ord(letter)
-        if o_var in range(31, 65) or o_var in range(91, 97):
-            letter_2 = chr(o_var)
-        elif o_var in range(68, 91) or o_var in range(100, 123):
-            letter_2 = chr(o_var - shift)
-        elif o_var in range(97, 100) or o_var in range(65, 68):
-            letter_2 = chr(o_var + 23)
-        list_of_ceaser.append(str(letter_2))
-    for d in range(len(ciphertext)):
-        plaintext += list_of_ceaser[d]
+    i = 0
+    for char in ciphertext:
+        i += 1
+        if ord(char) in range(65, 91):
+            plaintext += chr((ord(char) - 65 - shift) % 26 + 65)
+        elif ord(char) in range(97, 123):
+            plaintext += chr((ord(char) - 97 - shift) % 26 + 97)
+        else:
+            plaintext += char
     return plaintext
 
 
