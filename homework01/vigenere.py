@@ -71,6 +71,6 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     return plaintext
 
 
-print("введите текст и ключ для текста")
-print(encrypt_vigenere(plaintext=input(), keyword=input()))
-print(decrypt_vigenere(ciphertext=input(), keyword=input()))
+# print("введите текст и ключ для текста")
+# print(encrypt_vigenere(plaintext=input(), keyword=input()))
+# print(decrypt_vigenere(ciphertext=input(), keyword=input()))

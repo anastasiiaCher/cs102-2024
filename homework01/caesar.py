@@ -34,8 +34,8 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     return ciphertext
 
 
-print("введите что-то")
-print(encrypt_caesar(input()))
+# print("введите что-то")
+# print(encrypt_caesar(input()))
 
 
 def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
@@ -70,4 +70,4 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     return plaintext
 
 
-print(decrypt_caesar(input()))
+# print(decrypt_caesar(input()))
