@@ -1,4 +1,4 @@
-"Данная функция шифрует и расшифровывает строку"
+"""Данная функция шифрует и расшифровывает строку"""
 
 
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
@@ -67,6 +67,3 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
         else:
             plaintext += i
     return plaintext
-
-
-# print(decrypt_caesar('MnNfulvPqji`yUVN-ierspjhRsxJKXHH-uLKwuV,vLTpYGwlskuujGglnxJvQXWw', 13))
