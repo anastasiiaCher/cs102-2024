@@ -1,4 +1,4 @@
-"Данная функция шифрует и расшифровывает строку"
+"""Данная функция шифрует и расшифровывает строку"""
 
 
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
@@ -65,6 +65,3 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
         else:
             plaintext += chr(ord(char))
     return plaintext
-
-
-print(decrypt_vigenere("LXFOPVEFRNHR", "LEMON"))
