@@ -51,7 +51,7 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'python'
     >>> decrypt_vigenere("LXFOPVEFRNHR", "LEMON")
     'ATTACKATDAWN'
-    #"""
+    """
 
     if len(ciphertext) > len(keyword):
         diff = len(ciphertext) - len(keyword)
