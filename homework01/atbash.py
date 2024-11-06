@@ -10,7 +10,7 @@ def encrypt_atbash(plaintext: str) -> str:
             ciphertext = ciphertext + chr(sim)
         else:
             if sim <= 90:
-                ciphertext = ciphertext + chr(90-sim+1+64)
+                ciphertext = ciphertext + chr(90 - sim + 1 + 64)
             if sim >= 97:
-                ciphertext = ciphertext + chr(122-sim+1+96)
+                ciphertext = ciphertext + chr(122 - sim + 1 + 96)
     return ciphertext
