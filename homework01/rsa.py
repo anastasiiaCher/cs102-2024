@@ -1,5 +1,3 @@
-"""Шифрование RSA"""
-
 import random
 import typing as tp
 
@@ -22,10 +20,7 @@ def is_prime(n: int) -> bool:
         if n % i == 0:
             count += 1
     # Если число нацело делится на i, то прибавляем значение счетчику
-    if count == 0:
-        return True
-    else:
-        return False
+    return count == 0
 
 
 # Если число не поделилось ни на одно значение i, то оно простое

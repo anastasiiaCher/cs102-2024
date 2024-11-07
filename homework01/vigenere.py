@@ -1,6 +1,3 @@
-"""Модуль для работы с шифром Виженера"""
-
-
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
     Encrypts plaintext using a Vigenere cipher.
