@@ -12,8 +12,18 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
-    # PUT YOUR CODE HERE
-    pass
+    if n < 2:
+        return False
+    count = 0
+    for i in range(2, n // 2 + 1):
+        # Целочисленно делим число на 2 и прибавляем 1, так как после середины число делится зеркально
+        if n % i == 0:
+            count += 1
+    # Если число нацело делится на i, то прибавляем значение счетчику
+    return count == 0
+
+
+# Если число не поделилось ни на одно значение i, то оно простое
 
 
 def gcd(a: int, b: int) -> int:
@@ -24,8 +34,15 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    # PUT YOUR CODE HERE
-    pass
+    while b != 0:
+        a, b = b, a % b
+    # Обмениваем значения переменных: переменной "а" присваевается значаение "b"
+    # а переменной "b" присваевается значаение остатка a/b
+    return a
+
+
+# Цикл длится до тех пор, пока значение "b" не станет равно нулю
+# и каждый раз обменивает значение переменных
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
@@ -35,21 +52,27 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
-    pass
+    a, b = e, phi
+    x0, x1 = 0, 1
+    while a != 0:
+        q, a, b = b // a, b % a, a
+        x0, x1 = x1, x0 - q * x1
+    if b != 1:
+        raise ValueError("Inverse does not exist")
+    return x0 % phi
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+    """
+    Generate a public/private keypair.
+    """
     if not (is_prime(p) and is_prime(q)):
         raise ValueError("Both numbers must be prime.")
-    elif p == q:
+    if p == q:
         raise ValueError("p and q cannot be equal")
 
-    # n = pq
-    # PUT YOUR CODE HERE
-
-    # phi = (p-1)(q-1)
-    # PUT YOUR CODE HERE
+    n = p * q
+    phi = (p - 1) * (q - 1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
@@ -82,7 +105,7 @@ def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 
@@ -97,7 +120,7 @@ if __name__ == "__main__":
     message = input("Enter a message to encrypt with your private key: ")
     encrypted_msg = encrypt(private, message)
     print("Your encrypted message is: ")
-    print("".join(map(lambda x: str(x), encrypted_msg)))
+    print("".join(map(str, encrypted_msg)))
     print("Decrypting message with public key ", public, " . . .")
     print("Your message is:")
     print(decrypt(public, encrypted_msg))
