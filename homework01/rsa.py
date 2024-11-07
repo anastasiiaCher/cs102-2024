@@ -48,10 +48,12 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     23
     """
     d = 1
-    while (d * e) % phi != 1:
-        d += 1
-    if e == 1 or phi == 1:
+    if (e == 1) or (phi == 1):
         d = 0
+    else:
+        while (d * e) % phi != 1:
+            d += 1
+
     return d
 
 
