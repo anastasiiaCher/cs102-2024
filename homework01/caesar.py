@@ -11,21 +11,18 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ''
     """
     ciphertext = ""
-    up_alph_eng = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    low_alph_eng = "abcdefghijklmnopqrstuvwxyz"
 
     for el in plaintext:
-        if el in up_alph_eng:
-            ord_letter = up_alph_eng.index(el) + shift
-            if ord_letter > 26:
+        if el.isupper():
+            ord_letter = ord(el) + shift
+            while ord_letter > ord('Z'):
                 ord_letter -= 26
-            ciphertext += up_alph_eng[ord_letter]
-
-        elif el in low_alph_eng:
-            ord_letter = low_alph_eng.index(el) + shift
-            while ord_letter > 26:
+            ciphertext += chr(ord_letter)
+        elif el.islower():
+            ord_letter = ord(el) + shift
+            while ord_letter > ord('z'):
                 ord_letter -= 26
-            ciphertext += low_alph_eng[ord_letter]
+            ciphertext += chr(ord_letter)
         else:
             ciphertext += el
     return ciphertext
@@ -44,21 +41,19 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    up_alph_eng = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    low_alph_eng = "abcdefghijklmnopqrstuvwxyz"
 
     for el in ciphertext:
-        if el in up_alph_eng:
-            ord_letter = up_alph_eng.index(el) - shift
-            while ord_letter < 0:
+        if el.isupper():
+            ord_letter = ord(el) - shift
+            while ord_letter < ord('A'):
                 ord_letter += 26
-            plaintext += up_alph_eng[ord_letter]
+            plaintext += chr(ord_letter)
 
-        elif el in low_alph_eng:
-            ord_letter = low_alph_eng.index(el) - shift
-            while ord_letter < 0:
+        elif el.islower():
+            ord_letter = ord(el) - shift
+            while ord_letter < ord('a'):
                 ord_letter += 26
-            plaintext += low_alph_eng[ord_letter]
+            plaintext += chr(ord_letter)
 
         else:
             plaintext += el
