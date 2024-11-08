@@ -1,10 +1,7 @@
 """Fixed mistakes"""
 
 
-def text(message):
+def text():
     """Returns variable"""
-    return message
+    return "message"
 
-
-R = text(1)
-print(R)
