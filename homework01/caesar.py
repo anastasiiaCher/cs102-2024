@@ -15,12 +15,12 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     for el in plaintext:
         if el.isupper():
             ord_letter = ord(el) + shift
-            while ord_letter > ord('Z'):
+            while ord_letter > ord("Z"):
                 ord_letter -= 26
             ciphertext += chr(ord_letter)
         elif el.islower():
             ord_letter = ord(el) + shift
-            while ord_letter > ord('z'):
+            while ord_letter > ord("z"):
                 ord_letter -= 26
             ciphertext += chr(ord_letter)
         else:
@@ -45,13 +45,13 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     for el in ciphertext:
         if el.isupper():
             ord_letter = ord(el) - shift
-            while ord_letter < ord('A'):
+            while ord_letter < ord("A"):
                 ord_letter += 26
             plaintext += chr(ord_letter)
 
         elif el.islower():
             ord_letter = ord(el) - shift
-            while ord_letter < ord('a'):
+            while ord_letter < ord("a"):
                 ord_letter += 26
             plaintext += chr(ord_letter)
 
