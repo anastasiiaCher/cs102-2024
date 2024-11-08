@@ -9,42 +9,22 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    keyword = keyword.lower()
-    keys = []
 
-    while len(keyword) < len(plaintext):
-        keyword += keyword
-    if len(keyword) != len(plaintext):
-        keyword = keyword[: len(plaintext)]
+    keyword = (keyword * (len(plaintext) // len(keyword) + 1))[:len(plaintext)]
 
-    for el in keyword:
-        keys.append(ord(el))
-
-    for i in range(len(plaintext)):
-
-        if plaintext[i] in " ,-":
-            ciphertext += plaintext[i]
-            continue
-
-        if plaintext[i].isupper():
-
-            shift = keys[i] - 97
-            new_ord = ord(plaintext[i]) + shift
-
-            if new_ord > 90:
-                new_ord -= 26
-
-            ciphertext += chr(new_ord)
-
+    for i, letter in enumerate(plaintext):
+        if letter.isupper():
+            ord_letter = ord(letter) + ord(keyword[i].upper()) - ord('A')
+            if ord_letter > ord('Z'):
+                ord_letter -= 26
+            ciphertext += chr(ord_letter)
+        elif letter.islower():
+            ord_letter = ord(letter) + ord(keyword[i].lower()) - ord('a')
+            if ord_letter > ord('z'):
+                ord_letter -= 26
+            ciphertext += chr(ord_letter)
         else:
-
-            shift = keys[i] - 97
-            new_ord = ord(plaintext[i]) + shift
-
-            if new_ord > 122:
-                new_ord -= 26
-
-            ciphertext += chr(new_ord)
+            ciphertext += letter
 
     return ciphertext
 
@@ -61,43 +41,21 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     """
 
     plaintext = ""
-    keys = []
 
-    keyword = keyword.lower()
+    keyword = (keyword * (len(ciphertext) // len(keyword) + 1))[:len(ciphertext)]
 
-    while len(keyword) < len(ciphertext):
-        keyword += keyword
+    for i, letter in enumerate(ciphertext):
+        if letter.isupper():
+            ord_letter = ord(letter) - ord(keyword[i].upper()) + ord('A')
+            if ord_letter < ord('A'):
+                ord_letter += 26
+            plaintext += chr(ord_letter)
 
-    if len(keyword) != len(ciphertext):
-        keyword = keyword[: len(ciphertext)]
-
-    for el in keyword:
-        keys.append(ord(el))
-
-    for i in range(len(ciphertext)):
-
-        if ciphertext[i] in " ,-":
-            plaintext += ciphertext[i]
-            continue
-
-        if ciphertext[i].isupper():
-
-            shift = keys[i] - 97
-            new_ord = ord(ciphertext[i]) - shift
-
-            if new_ord < 65:
-                new_ord += 26
-
-            plaintext += chr(new_ord)
-
+        elif letter.islower():
+            ord_letter = ord(letter) - ord(keyword[i].lower()) + ord('a')
+            if ord_letter < ord('a'):
+                ord_letter += 26
+            plaintext += chr(ord_letter)
         else:
-
-            shift = keys[i] - 97
-            new_ord = ord(ciphertext[i]) - shift
-
-            if new_ord < 97:
-                new_ord += 26
-
-            plaintext += chr(new_ord)
-    # PUT YOUR CODE HERE
+            plaintext += letter
     return plaintext
