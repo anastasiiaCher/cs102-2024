@@ -13,11 +13,7 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ciphertext = ""
     for char in plaintext:
         if char.isupper():
-<<<<<<< HEAD
             stayInAlphabet = ord(char) + shift
-=======
-            stayInAlphabet = ord(char) + shift 
->>>>>>> a6f5bf7228dd900b0db3679dfa36982ba85e67c3
             if stayInAlphabet > ord("Z"):
                 stayInAlphabet -= 26
                 finalLetter = chr(stayInAlphabet)
@@ -25,11 +21,7 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
             else:
                 ciphertext += chr(stayInAlphabet)
         if char.islower():
-<<<<<<< HEAD
             stayInAlphabet = ord(char) + shift
-=======
-            stayInAlphabet = ord(char) + shift 
->>>>>>> a6f5bf7228dd900b0db3679dfa36982ba85e67c3
             if stayInAlphabet > ord("z"):
                 stayInAlphabet -= 26
                 finalLetter = chr(stayInAlphabet)
@@ -39,7 +31,7 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
         if not char.isalpha():
             ciphertext += char
     return ciphertext
-    
+
 
 def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     """
@@ -56,11 +48,7 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     plaintext = ""
     for char in ciphertext:
         if char.isupper():
-<<<<<<< HEAD
             stayInAlphabet = ord(char) - shift
-=======
-            stayInAlphabet = ord(char) - shift 
->>>>>>> a6f5bf7228dd900b0db3679dfa36982ba85e67c3
             if stayInAlphabet < ord("A"):
                 stayInAlphabet += 26
                 finalLetter = chr(stayInAlphabet)
@@ -68,11 +56,7 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
             else:
                 plaintext += chr(stayInAlphabet)
         if char.islower():
-<<<<<<< HEAD
             stayInAlphabet = ord(char) - shift
-=======
-            stayInAlphabet = ord(char) - shift 
->>>>>>> a6f5bf7228dd900b0db3679dfa36982ba85e67c3
             if stayInAlphabet < ord("a"):
                 stayInAlphabet += 26
                 finalLetter = chr(stayInAlphabet)
