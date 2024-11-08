@@ -1,2 +1,6 @@
+"""Fixed mistakes"""
+
+
 def text():
-    return message
+    """Returns variable"""
+    return "message"
