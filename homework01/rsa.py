@@ -43,18 +43,18 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     23
     """
     def extended_gcd(a, b):
-    if a == 0:
-        return b, 0, 1
-    gcd, x1, y1 = extended_gcd(b % a, a)
-    x = y1 - (b // a) * x1
-    y = x1
-    return gcd, x, y
+        if not a:
+            return b, 0, 1
+        gcd, x1, y1 = extended_gcd(b % a, a)
+        x = y1 - (b // a) * x1
+        y = x1
+        return gcd, x, y
 
-    gcd, x, y = extended_gcd(e, phi)
-    if gcd != 1:
-        return "Обратного элемента не существует"
-    else:
-        return x % phi
+        gcd, x, y = extended_gcd(e, phi)
+        if gcd != 1:
+            return "Обратного элемента не существует"
+        else:
+            return x % phi
     pass
 
 
