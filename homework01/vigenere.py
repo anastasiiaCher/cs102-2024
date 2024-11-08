@@ -4,10 +4,7 @@
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """Encrypting with Vigenere cipher"""
     ciphertext = ""
-    key = (
-        keyword * (len(plaintext) // len(keyword))
-        + keyword[: (len(plaintext) % len(keyword))]
-    )
+    key = keyword * (len(plaintext) // len(keyword)) + keyword[: (len(plaintext) % len(keyword))]
     for i in enumerate(plaintext):
         let = plaintext[i[0]]
         if let.islower():
@@ -24,10 +21,7 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
 def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     """Decrypting with Vigenere cipher"""
     plaintext = ""
-    key = (
-        keyword * (len(ciphertext) // len(keyword))
-        + keyword[: (len(ciphertext) % len(keyword))]
-    )
+    key = keyword * (len(ciphertext) // len(keyword)) + keyword[: (len(ciphertext) % len(keyword))]
     for i in enumerate(ciphertext):
         let = ciphertext[i[0]]
         if let.islower():
