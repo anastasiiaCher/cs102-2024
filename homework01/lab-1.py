@@ -15,5 +15,5 @@ def encrypt_atbash(plaintext):
     return ciphertext
 
 
-# Пример использования
+#  Пример использования
 print(encrypt_atbash("Hello, World!"))
