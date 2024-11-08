@@ -11,7 +11,7 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     ciphertext = ""
     for char in range(len(plaintext)):
         if plaintext[char].isupper():
-            new_ord = ord(plaintext[char]) + (ord(keyword[char % len(keyword)])-ord("A"))
+            new_ord = ord(plaintext[char]) + (ord(keyword[char % len(keyword)]) - ord("A"))
             if new_ord > ord("Z"):
                 new_ord -= 26
             ciphertext += chr(new_ord)
