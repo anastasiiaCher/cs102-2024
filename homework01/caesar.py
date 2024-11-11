@@ -11,23 +11,20 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ''
     """
     ciphertext = ""
-    shift %= 26
-    for i in plaintext:
-         if i.isalpha() is False:
-             ciphertext += i
-             continue
-         if i.isupper() is True:
-             if (ord(i) + shift) > 90:
-                 # print(chr((ord(i) + shift) % 90 + 64))
-                 ciphertext += chr((ord(i) + shift) % 90 + 64)
+    for char in plaintext:
+         if "A" <= char <= "Z":
+             if ord(char) + shift > ord("Z"):
+                 new_char = chr(ord(char) + shift - 26)
              else:
-                 # print(chr((ord(i) + shift) % 90), i, ord(i) + shift)
-                 ciphertext += chr(ord(i) + shift)
+                 new_char = chr(ord(char) + shift)
+         elif "a" <= char <= "z":
+             if ord(char) + shift > ord("z"):
+                 new_char = chr(ord(char) + shift - 26)
+             else:
+                 new_char = chr(ord(char) + shift)
          else:
-             if (ord(i) + shift) > 122:
-                 ciphertext += chr((ord(i) + shift) % 122 + 96)
-             else:
-                 ciphertext += chr(ord(i) + shift)
+             new_char = char
+         ciphertext += new_char
     return ciphertext
 
 
@@ -44,24 +41,19 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    shift %= 26
-    for i in ciphertext:
-         if i.isalpha() is False:
-             plaintext += i
-             continue
-         if i.isupper() is True:
-             if (ord(i) - shift) < 65:
-                 # print(chr(90 - (shift - ord(i) + 64)))
-                 plaintext += chr(90 - (shift - ord(i) + 64))
+    for char in ciphertext:
+         if "A" <= char <= "Z":
+             if ord(char) - shift < ord("A"):
+                 new_char = chr(ord(char) - shift + 26)
              else:
-                 # print(chr(ord(i) - shift), i, ord(i) + shift)
-                 plaintext += chr(ord(i) - shift)
+                 new_char = chr(ord(char) - shift)
+         elif "a" <= char <= "z":
+             if ord(char) - shift < ord("a"):
+                 new_char = chr(ord(char) - shift + 26)
+             else:
+                 new_char = chr(ord(char) - shift)
          else:
-             if (ord(i) - shift) < 97:
-                 plaintext += chr(122 - (shift - ord(i) + 96))
-             else:
-                 # print(chr((ord(i) + shift) % 90), i, ord(i) + shift)
-                 plaintext += chr(ord(i) - shift)
-
+             new_char = char
+         plaintext += new_char
     return plaintext
     
