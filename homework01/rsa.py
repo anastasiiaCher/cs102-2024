@@ -3,9 +3,10 @@ import typing as tp
 
 
 def is_prime(n: int):
-    '''Tests to see if a number is prime. '''
+    """Tests to see if a number is prime."""
     mark = 1
-    n = abs(n)
+    if n < 2:
+        return False
     for i in range(2, n // 2 + 1):
         if n % i == 0:
             mark = 0
@@ -16,30 +17,31 @@ def is_prime(n: int):
 
 
 def gcd(a: int, b: int):
-    '''Euclid's algorithm for determining the greatest common divisor.'''
+    """Euclid's algorithm for determining the greatest common divisor."""
 
     divisors = []
-    for i in range(1, a // 2 + 1):
-        for j in range(1, b // 2 + 1):
-            if i == j and ((a % i == 0) and (b % i == 0)):
-                divisors.append(i)
-
+    mi = min(a, b)
+    if a == 0 or b == 0:
+        return max(a, b)
+    for i in range(1, mi + 1):
+        if (a % i == 0) and (b % i == 0):
+            divisors.append(i)
     return max(divisors)
 
 
 def multiplicative_inverse(e: int, phi: int):
-    '''
+    """
     Euclid's extended algorithm for finding the multiplicative inverse of two numbers.' \
-    '''
+    """
 
     for x in range(1, phi):
         if (e * x) % phi == 1:
             return x
-    return None
+
+    return 0
 
 
 def generate_keypair(p: int, q: int):
-
     if not (is_prime(p) and is_prime(q)):
         raise ValueError("Both numbers must be prime.")
     elif p == q:
@@ -62,9 +64,6 @@ def generate_keypair(p: int, q: int):
     # Return public and private keypair
     # Public key is (e, n) and private key is (d, n)
     return ((e, n), (d, n))
-
-
-print(generate_keypair(7, 13))
 
 
 def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
@@ -100,5 +99,3 @@ if __name__ == "__main__":
     print("Decrypting message with public key ", public, " . . .")
     print("Your message is:")
     print(decrypt(public, encrypted_msg))
-
-print(is_prime(-11))

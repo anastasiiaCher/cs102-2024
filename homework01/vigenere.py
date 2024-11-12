@@ -101,4 +101,5 @@ def decrypt_vigenere(ciphertext: str, keyword: str):
 
     return plaintext
 
-print(decrypt_vigenere('tfvzzvwkeaqv lq aqvpzf', 'lsci'))
+
+print(decrypt_vigenere("tfvzzvwkeaqv lq aqvpzf", "lsci"))
