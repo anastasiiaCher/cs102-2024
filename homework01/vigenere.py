@@ -11,11 +11,11 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     keyword_length = len(keyword)
     ciphertext = ""
     encryption_key = ""
-    for i in range(len(plaintext)):
-        if plaintext[i].isalpha():
+    for i, char in enumerate(plaintext):
+        if char.isalpha():
             encryption_key += keyword[i % keyword_length].lower()
         else:
-            encryption_key += plaintext[i]
+            encryption_key += char
 
     for i, char in enumerate(plaintext):
         if char.isalpha():
