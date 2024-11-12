@@ -163,7 +163,7 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     return True
 
 
-def shuffle_grid(grid):
+def shuffle_grid(grid: list[list[str]]) -> list[list[str]]:
     """Перемешивает столбцы и строки пазла, сохраняя их внутри одного блока строк и столбцов"""
     for _ in range(2):
         for block_row in range(0, 9, 3):
@@ -207,7 +207,7 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
         ["8", "9", "1", "2", "3", "4", "5", "6", "7"],
         ["3", "4", "5", "6", "7", "8", "9", "1", "2"],
         ["6", "7", "8", "9", "1", "2", "3", "4", "5"],
-        ["9", "1", "2", "3", "4", "5", "6", "7", "8"]
+        ["9", "1", "2", "3", "4", "5", "6", "7", "8"],
     ]
     null_grid = [["." for _ in range(9)] for _ in range(9)]
     point_list = [(i, j) for i in range(9) for j in range(9)]
