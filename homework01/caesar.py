@@ -58,5 +58,6 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     return plaintext
 
 
-print(encrypt_caesar("Python3.6"))
-print(decrypt_caesar("Sbwkrq3.6"))
+if __name__ == "__main__":
+    print(encrypt_caesar("Python3.6"))
+    print(decrypt_caesar("Sbwkrq3.6"))
