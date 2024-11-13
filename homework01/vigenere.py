@@ -9,25 +9,21 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    k = 0
     newkeyword = keyword * (len(plaintext) // len(keyword) + 1) if len(keyword) < len(plaintext) else keyword
     shift = [ord(x.lower()) - ord("a") for x in newkeyword]
-    for i in plaintext:
-        if i.isupper() and i.isalpha():
-            if ord(i) + shift[k] > ord("Z"):
-                ciphertext += chr(ord(i) + (shift[k] - 26))
+    for i, letter in enumerate(plaintext):
+        if letter.isupper() and letter.isalpha():
+            if ord(letter) + shift[i] > ord("Z"):
+                ciphertext += chr(ord(letter) + (shift[i] - 26))
             else:
-                ciphertext += chr(ord(i) + shift[k])
-            k += 1
-        elif i.islower() and i.isalpha():
-            if ord(i) + shift[k] > ord("z"):
-                ciphertext += chr(ord(i) + (shift[k] - 26))
+                ciphertext += chr(ord(letter) + shift[i])
+        elif letter.islower() and letter.isalpha():
+            if ord(letter) + shift[i] > ord("z"):
+                ciphertext += chr(ord(letter) + (shift[i] - 26))
             else:
-                ciphertext += chr(ord(i) + shift[k])
-            k += 1
-        elif not (i.isalpha()):
-            ciphertext += i
-            k += 1
+                ciphertext += chr(ord(letter) + shift[i])
+        elif not (letter.isalpha()):
+            ciphertext += letter
     return ciphertext
 
 
@@ -42,23 +38,19 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    k = 0
     newkeyword = keyword * (len(ciphertext) // len(keyword) + 1) if len(keyword) < len(ciphertext) else keyword
     shift = [ord(x.lower()) - ord("a") for x in newkeyword]
-    for i in ciphertext:
-        if i.isupper() and i.isalpha():
-            if ord(i) - shift[k] < ord("A"):
-                plaintext += chr(ord(i) + (26 - shift[k]))
+    for i, letter in enumerate(ciphertext):
+        if letter.isupper() and letter.isalpha():
+            if ord(letter) - shift[i] < ord("A"):
+                plaintext += chr(ord(letter) + (26 - shift[i]))
             else:
-                plaintext += chr(ord(i) - shift[k])
-            k += 1
-        elif i.islower() and i.isalpha():
-            if ord(i) - shift[k] < ord("a"):
-                plaintext += chr(ord(i) + (26 - shift[k]))
+                plaintext += chr(ord(letter) - shift[i])
+        elif letter.islower() and letter.isalpha():
+            if ord(letter) - shift[i] < ord("a"):
+                plaintext += chr(ord(letter) + (26 - shift[i]))
             else:
-                plaintext += chr(ord(i) - shift[k])
-            k += 1
-        elif not (i.isalpha()):
-            plaintext += i
-            k += 1
+                plaintext += chr(ord(letter) - shift[i])
+        elif not (letter.isalpha()):
+            plaintext += letter
     return plaintext
