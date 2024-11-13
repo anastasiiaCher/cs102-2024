@@ -1,9 +1,3 @@
-import os
-import sys
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-
 import random
 import unittest
 
@@ -12,7 +6,6 @@ import rsa
 
 class RSATestCase(unittest.TestCase):
     def test_is_prime(self):
-        print('text is prime start')
         self.assertFalse(rsa.is_prime(-11))
         self.assertFalse(rsa.is_prime(-1))
         self.assertFalse(rsa.is_prime(1))
@@ -24,7 +17,6 @@ class RSATestCase(unittest.TestCase):
         self.assertTrue(rsa.is_prime(7))
         self.assertFalse(rsa.is_prime(8))
         self.assertTrue(rsa.is_prime(3571))
-        print('end')
 
     def test_gcd(self):
         self.assertEqual(0, rsa.gcd(0, 0))
