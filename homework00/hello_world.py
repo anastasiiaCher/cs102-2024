@@ -1,2 +1,6 @@
+""" Just prints a message. """
+
+
 def text():
-    return message
+    """Function returns the message."""
+    return "message"

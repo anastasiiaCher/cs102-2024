@@ -1,3 +1,7 @@
+"""
+Rsa encryption and decryption.
+"""
+
 import random
 import typing as tp
 
@@ -12,8 +16,12 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
-    # PUT YOUR CODE HERE
-    pass
+    divisors = 0
+    for i in range(1, n + 1):
+        if n % i == 0:
+            divisors += 1
+
+    return divisors == 2
 
 
 def gcd(a: int, b: int) -> int:
@@ -24,8 +32,15 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    # PUT YOUR CODE HERE
-    pass
+    if a == 0 and b == 0:
+        return 0
+    if min(a, b) == 0 and max(a, b) != 0:
+        return max(a, b)
+
+    while not max(a, b) % min(a, b) == 0:
+        a, b = min(a, b), max(a, b) % min(a, b)
+
+    return min(a, b)
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
@@ -35,21 +50,41 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
-    pass
+    savephi = phi
+    mytable = []
+    newtable = []
+    a, b = max(e, phi), min(e, phi)
+    while a % b != 0:
+        mytable.append([a, b, a % b, a // b])
+        a, b = b, a % b
+
+    newtable.append([a, b, a % b, a // b, 0, 1])
+
+    for i, myrow in enumerate(mytable[::-1]):
+        mydiv = myrow[3]
+
+        xip1 = newtable[i][4]
+        yip1 = newtable[i][5]
+
+        newtable.append([*myrow, yip1, xip1 - yip1 * mydiv])
+
+    return newtable[-1][5] % savephi
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+    """
+    Final generation of keypairs.
+    """
     if not (is_prime(p) and is_prime(q)):
         raise ValueError("Both numbers must be prime.")
     elif p == q:
         raise ValueError("p and q cannot be equal")
 
     # n = pq
-    # PUT YOUR CODE HERE
+    n = p * q
 
     # phi = (p-1)(q-1)
-    # PUT YOUR CODE HERE
+    phi = (p - 1) * (q - 1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
@@ -82,7 +117,7 @@ def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 

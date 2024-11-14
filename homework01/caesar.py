@@ -1,3 +1,8 @@
+"""
+Caesar cipher and decipher algorithms.
+"""
+
+
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     Encrypts plaintext using a Caesar cipher.
@@ -10,8 +15,21 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     >>> encrypt_caesar("")
     ''
     """
+    if plaintext == "" or shift == 0:
+        return plaintext
+
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    for letter in plaintext:
+        oldcode = ord(letter)
+        newcode = oldcode + (shift % 27)
+
+        if "A" <= letter <= "Z":
+            letter = chr(newcode % 91 + 65) if newcode > 90 else chr(newcode)
+        elif "a" <= letter <= "z":
+            letter = chr(newcode % 123 + 97) if newcode > 122 else chr(newcode)
+
+        ciphertext += letter
+
     return ciphertext
 
 
@@ -28,5 +46,18 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    if ciphertext == "" or shift == 0:
+        return ciphertext
+
+    for letter in ciphertext:
+        newcode = ord(letter)
+        oldcode = newcode - (shift % 27)
+
+        if "A" <= letter <= "Z":
+            letter = chr(oldcode + 26) if oldcode < 65 else chr(oldcode)
+        elif "a" <= letter <= "z":
+            letter = chr(oldcode + 26) if oldcode < 97 else chr(oldcode)
+
+        plaintext += letter
+
     return plaintext
