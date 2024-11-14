@@ -9,12 +9,12 @@ def encrypt_scytale(plaintext, n):
     'виксв_еедмте__лпкара'
     """
 
-    plaintext = plaintext.replace(' ', '_')
-    result = [''] * n
+    plaintext = plaintext.replace(" ", "_")
+    result = [""] * n
 
     for i in range(len(plaintext)):
         col = i % n
         result[col] += plaintext[i]
-    ciphertext = ''.join(result)
+    ciphertext = "".join(result)
 
     return ciphertext
