@@ -13,8 +13,8 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
 
     for p, k in zip(plaintext, keyword_repeated):
         if p.isalpha():  # Check if character is alphabetic
-            shift = ord(k.upper()) - ord("A")  # Calculate the shift from the keyword
-            new_char = chr((ord(p.upper()) - ord("A") + shift) % 26 + ord("A"))
+            shift = ord(k) - ord("A")  # Calculate the shift from the keyword
+            new_char = chr((ord(p) - ord("A") + shift) % 26 + ord("A"))
             ciphertext += new_char
         else:
             ciphertext += p  # Non-alphabetic characters are added unchanged
@@ -37,8 +37,8 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
 
     for c, k in zip(ciphertext, keyword_repeated):
         if c.isalpha():  # Check if character is alphabetic
-            shift = ord(k.upper()) - ord("A")  # Calculate the shift from the keyword
-            new_char = chr((ord(c.upper()) - ord("A") - shift) % 26 + ord("A"))
+            shift = ord(k) - ord("A")  # Calculate the shift from the keyword
+            new_char = chr((ord(c) - ord("A") - shift) % 26 + ord("A"))
             plaintext += new_char
         else:
             plaintext += c  # Non-alphabetic characters are added unchanged
