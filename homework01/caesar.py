@@ -23,9 +23,9 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
         oldcode = ord(letter)
         newcode = oldcode + (shift % 27)
 
-        if 65 <= oldcode <= 90:
+        if "A" <= letter <= "Z":
             letter = chr(newcode % 91 + 65) if newcode > 90 else chr(newcode)
-        elif 97 <= oldcode <= 122:
+        elif "a" <= letter <= "z":
             letter = chr(newcode % 123 + 97) if newcode > 122 else chr(newcode)
 
         ciphertext += letter
@@ -53,9 +53,9 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
         newcode = ord(letter)
         oldcode = newcode - (shift % 27)
 
-        if 65 <= newcode <= 90:
+        if "A" <= letter <= "Z":
             letter = chr(oldcode + 26) if oldcode < 65 else chr(oldcode)
-        elif 97 <= newcode <= 122:
+        elif "a" <= letter <= "z":
             letter = chr(oldcode + 26) if oldcode < 97 else chr(oldcode)
 
         plaintext += letter
