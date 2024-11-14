@@ -2,9 +2,7 @@ def encrypt_transposition(plaintext, block_size, id1, id2):
     if id1 >= block_size or id2 >= block_size:
         raise ValueError("Индексы id1 и id2 должны быть меньше размера блока.")
 
-    blocks = [
-        plaintext[i : i + block_size] for i in range(0, len(plaintext), block_size)
-    ]
+    blocks = [plaintext[i : i + block_size] for i in range(0, len(plaintext), block_size)]
     encrypted_blocks = []
 
     for block in blocks:
