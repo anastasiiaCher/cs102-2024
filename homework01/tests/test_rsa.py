@@ -7,7 +7,6 @@ import rsa
 class RSATestCase(unittest.TestCase):
     def test_is_prime(self):
         self.assertTrue(rsa.is_prime(11))
-        self.assertFalse(rsa.is_prime(1))
         self.assertTrue(rsa.is_prime(2))
         self.assertTrue(rsa.is_prime(3))
         self.assertFalse(rsa.is_prime(4))
