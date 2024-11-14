@@ -29,7 +29,7 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-     while b:
+    while b:
         a, b = b, a % b
     return a
     pass
@@ -42,6 +42,7 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
+
     def extended_gcd(a, b):
         if a == 0:
             return b, 0, 1
@@ -52,19 +53,21 @@ def multiplicative_inverse(e: int, phi: int) -> int:
 
     gcd, x, _ = extended_gcd(e, phi)
     if gcd != 1:
-        raise Exception('Inverse does not exist')
+        raise Exception("Inverse does not exist")
     else:
         return x % phi
     pass
 
 
-def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+def generate_keypair(
+    p: int, q: int
+) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
     if not (is_prime(p) and is_prime(q)):
         raise ValueError("Both numbers must be prime.")
     elif p == q:
         raise ValueError("p and q cannot be equal")
 
-   n = p * q
+    n = p * q
     phi = (p - 1) * (q - 1)
 
     e = random.randrange(1, phi)
@@ -91,7 +94,7 @@ def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 
