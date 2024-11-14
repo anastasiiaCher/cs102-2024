@@ -65,5 +65,6 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     return plaintext
 
 
-print(encrypt_vigenere("ATTACKATDAWN", "LEMON"))
-print(decrypt_vigenere("LXFOPVEFRNHR", "LEMON"))
+if __name__ == "__main__":
+    print(encrypt_vigenere("ATTACKATDAWN", "LEMON"))
+    print(decrypt_vigenere("LXFOPVEFRNHR", "LEMON"))
