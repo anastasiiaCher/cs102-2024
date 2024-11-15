@@ -135,11 +135,18 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     return None
 
 
-
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """ Если решение solution верно, то вернуть True, в противном случае False """
     # TODO: Add doctests with bad puzzles
-    pass
+    standard = {'1', '2', '3', '4', '5', '6', '7', '8', '9'}
+    for i in range(9):
+        if standard.intersection(get_row(solution, (i, 0)), get_col(solution, (0, i))) != standard:
+            return False
+    for i in range(1, 8, 3):
+        for j in range(1, 8, 3):
+            if standard.intersection(get_block(solution, (i, j))) != standard:
+                return False
+    return True
 
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
