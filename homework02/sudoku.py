@@ -103,7 +103,11 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
-    pass
+    all_values = {'1', '2', '3', '4', '5', '6', '7', '8', '9'}
+    all_values -= {el for el in get_row(grid, pos) if el in '123456789'}
+    all_values -= {el for el in get_col(grid, pos) if el in '123456789'}
+    all_values -= {el for el in get_block(grid, pos) if el in '123456789'}
+    return all_values
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
