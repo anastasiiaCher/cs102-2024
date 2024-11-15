@@ -122,12 +122,18 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     >>> solve(grid)
     [['5', '3', '4', '6', '7', '8', '9', '1', '2'], ['6', '7', '2', '1', '9', '5', '3', '4', '8'], ['1', '9', '8', '3', '4', '2', '5', '6', '7'], ['8', '5', '9', '7', '6', '1', '4', '2', '3'], ['4', '2', '6', '8', '5', '3', '7', '9', '1'], ['7', '1', '3', '9', '2', '4', '8', '5', '6'], ['9', '6', '1', '5', '3', '7', '2', '8', '4'], ['2', '8', '7', '4', '1', '9', '6', '3', '5'], ['3', '4', '5', '2', '8', '6', '1', '7', '9']]
     """
-    if not find_empty_positions(grid):
+    pos = find_empty_positions(grid)
+    if not pos:
         return grid
-    else:
-        pos = find_empty_positions(grid)
-        for el in find_possible_values(grid, pos):
+
+    for el in '123456789':
+        if el in find_possible_values(grid, pos):
             grid[pos[0]][pos[1]] = el
+            if solve(grid):
+                return grid
+            grid[pos[0]][pos[1]] = '.'
+    return None
+
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
