@@ -146,7 +146,6 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     >>> check_solution([['5', '3', '4', '6', '7', '8', '9', '1', '2'], ['5', '7', '2', '1', '9', '5', '3', '4', '8'], ['1', '9', '8', '3', '4', '2', '5', '6', '7'], ['8', '5', '9', '7', '6', '1', '4', '2', '3'], ['4', '2', '6', '8', '5', '3', '7', '9', '1'], ['7', '1', '3', '9', '2', '4', '8', '5', '6'], ['9', '6', '1', '5', '3', '7', '2', '8', '4'], ['2', '8', '7', '4', '1', '9', '6', '3', '5'], ['3', '4', '5', '2', '8', '6', '1', '7', '9']])
     False
     """
-
     standard = {'1', '2', '3', '4', '5', '6', '7', '8', '9'}
     for i in range(9):
         if standard.intersection(get_row(solution, (i, 0)), get_col(solution, (0, i))) != standard:
@@ -179,7 +178,34 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    pass
+    import random
+
+    sudoku = [['.'] * 9 for _ in range(9)]
+    numbers = list('123456789')
+    empty_pos = [(i, j) for i in range(9) for j in range(9)]
+    random.shuffle(empty_pos)
+
+    # присваивание 9 случайным позициям случайного значения
+    for i in range(9):
+        pos = empty_pos[i]
+        rand_num = random.choice(numbers)
+        sudoku[pos[0]][pos[1]] = rand_num
+        numbers.remove(rand_num)
+
+    # проверка, решается ли случайная комбинация (иначе составление заново)
+    sudoku = solve(sudoku)
+    if not sudoku:
+        generate_sudoku(N)
+
+    # удаление N случайных позиций
+    if N > 81:
+        N = 81
+    random.shuffle(empty_pos)
+    for i in range(81 - N):
+        pos = empty_pos[i]
+        sudoku[pos[0]][pos[1]] = '.'
+
+    return sudoku
 
 
 if __name__ == "__main__":
