@@ -101,13 +101,13 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    cordinates = []
+    pos = []
     for i in range(len(grid)):
         for j in range(len(grid[i])):
             if grid[i][j] == '.':
-                cordinates.append(i)
-                cordinates.append(j)
-                return tuple(cordinates)
+                pos.append(i)
+                pos.append(j)
+                return tuple(pos)
 
 
 def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
@@ -120,7 +120,31 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
-    pass
+    values = '123456789'
+
+    row = pos[0]
+    col = pos[-1]
+
+    square = get_block(grid, pos)
+    square_str = ''.join(square)
+    square_set = set(square_str.replace('.', ''))
+
+    row_str = ''.join(grid[row])
+    row_set = set(row_str.replace('.', ''))
+
+    col_list = list()
+    col_list = [grid[i][col] for i in range(len(grid))]
+    col_str = ''.join(col_list)
+    col_set = set(col_str.replace('.', ''))
+
+    existing_values = square_set.union(row_set, col_set)
+
+    potential_values = set()
+    for num in values:
+        if num not in existing_values:
+            potential_values.add(num)
+    return potential_values
+
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
