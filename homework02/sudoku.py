@@ -1,11 +1,14 @@
+"""Solving and generating sudoku"""
+
 import pathlib
+import random
 import typing as tp
 
 T = tp.TypeVar("T")
 
 
 def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
-    """ Прочитать Судоку из указанного файла """
+    """Прочитать Судоку из указанного файла"""
     path = pathlib.Path(path)
     with path.open() as f:
         puzzle = f.read()
@@ -19,15 +22,11 @@ def create_grid(puzzle: str) -> tp.List[tp.List[str]]:
 
 
 def display(grid: tp.List[tp.List[str]]) -> None:
-    """Вывод Судоку """
+    """Вывод Судоку"""
     width = 2
     line = "+".join(["-" * (width * 3)] * 3)
     for row in range(9):
-        print(
-            "".join(
-                grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)
-            )
-        )
+        print("".join(grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)))
         if str(row) in "25":
             print(line)
     print()
@@ -41,7 +40,7 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     >>> group([1,2,3,4,5,6,7,8,9], 3)
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
-    gr = [values[i: i + n] for i in range(0, len(values), n)]
+    gr = [values[i : i + n] for i in range(0, len(values), n)]
     return gr
 
 
@@ -87,8 +86,6 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     return arr
 
 
-
-
 def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:
     """Найти первую свободную позицию в пазле
     >>> find_empty_positions([['1', '2', '.'], ['4', '5', '6'], ['7', '8', '9']])
@@ -98,7 +95,17 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    pass
+    pos = None
+    flag = 0
+    for i in range(len(grid)):
+        for j in range(len(grid[i])):
+            if grid[i][j] == ".":
+                pos = (i, j)
+                flag = -1
+                break
+        if flag == -1:
+            break
+    return pos
 
 
 def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
@@ -111,11 +118,30 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
-    pass
+    used = [0] * 10
+    arr1 = get_col(grid, pos)
+    for i, row in enumerate(arr1):
+        for j, val in enumerate(row):
+            if val != ".":
+                used[ord(val) - ord("0")] = 1
+    arr2 = get_row(grid, pos)
+    for i, val in enumerate(arr2):
+        if val != ".":
+            used[ord(val) - ord("0")] = 1
+    arr3 = get_block(grid, pos)
+    for i, row in enumerate(arr3):
+        for j, val in enumerate(row):
+            if val != ".":
+                used[ord(val) - ord("0")] = 1
+    values = set()
+    for i in range(1, len(used)):
+        if used[i] == 0:
+            values.add(chr(i + 48))
+    return values
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
-    """ Решение пазла, заданного в grid """
+    """Решение пазла, заданного в grid"""
     """ Как решать Судоку?
         1. Найти свободную позицию
         2. Найти все возможные значения, которые могут находиться на этой позиции
@@ -126,13 +152,54 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     >>> solve(grid)
     [['5', '3', '4', '6', '7', '8', '9', '1', '2'], ['6', '7', '2', '1', '9', '5', '3', '4', '8'], ['1', '9', '8', '3', '4', '2', '5', '6', '7'], ['8', '5', '9', '7', '6', '1', '4', '2', '3'], ['4', '2', '6', '8', '5', '3', '7', '9', '1'], ['7', '1', '3', '9', '2', '4', '8', '5', '6'], ['9', '6', '1', '5', '3', '7', '2', '8', '4'], ['2', '8', '7', '4', '1', '9', '6', '3', '5'], ['3', '4', '5', '2', '8', '6', '1', '7', '9']]
     """
-    pass
+    if find_empty_positions(grid) is None:
+        return grid
+    pos = find_empty_positions(grid)
+    if pos is not None:
+        values = find_possible_values(grid, pos)
+    for i in values:
+        if pos is not None:
+            grid[pos[0]][pos[1]] = i
+            solve(grid)
+        if find_empty_positions(grid) is None:
+            return grid
+        else:
+            if pos is not None:
+                grid[pos[0]][pos[1]] = "."
+    return grid
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
-    """ Если решение solution верно, то вернуть True, в противном случае False """
+    """Если решение solution верно, то вернуть True, в противном случае False"""
     # TODO: Add doctests with bad puzzles
-    pass
+    flag = True
+    for i in range(0, 9):
+        arr = get_row(solution, (i, 0))
+        used = [0] * 10
+        for j, val in enumerate(arr):
+            used[ord(val) - ord("0")] += 1
+            if used[ord(val) - ord("0")] > 1:
+                flag = False
+                break
+    for i in range(0, 9):
+        arr = get_col(solution, (i, 0))
+        used = [0] * 10
+        for j, row in enumerate(arr):
+            for z, val in enumerate(row):
+                used[ord(arr[j]) - ord("0")] += 1
+                if used[ord(arr[j][z]) - ord("0")] > 1:
+                    flag = False
+                    break
+    for i in range(0, 9, 3):
+        for j in range(0, 9, 3):
+            arr = get_block(solution, (i, j))
+            used = [0] * 10
+            for z, val in enumerate(arr):
+                used[ord(val) - ord("0")] += 1
+                if used[ord(val) - ord("0")] > 1:
+                    flag = False
+                    break
+    return flag
 
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
@@ -156,28 +223,45 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    pass
+    sudoku = [
+        ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+        ["4", "5", "6", "7", "8", "9", "1", "2", "3"],
+        ["7", "8", "9", "1", "2", "3", "4", "5", "6"],
+        ["2", "3", "4", "5", "6", "7", "8", "9", "1"],
+        ["5", "6", "7", "8", "9", "1", "2", "3", "4"],
+        ["8", "9", "1", "2", "3", "4", "5", "6", "7"],
+        ["3", "4", "5", "6", "7", "8", "9", "1", "2"],
+        ["6", "7", "8", "9", "1", "2", "3", "4", "5"],
+        ["9", "1", "2", "3", "4", "5", "6", "7", "8"],
+    ]
+    n = random.randint(0, 1000)
+    for i in range(n):
+        a1 = random.randint(0, 2)
+        a2 = random.randint(0, 2)
+        sudoku[a1], sudoku[a2] = sudoku[a2], sudoku[a1]
+        a1 = random.randint(3, 5)
+        a2 = random.randint(3, 5)
+        sudoku[a1], sudoku[a2] = sudoku[a2], sudoku[a1]
+        a1 = random.randint(6, 8)
+        a2 = random.randint(6, 8)
+        sudoku[a1], sudoku[a2] = sudoku[a2], sudoku[a1]
+        sudoku = [[grid[j][i] for j in range(len(grid[i]))] for i in range(len(grid))]
+    still = 81
+    while still > N:
+        pos1 = random.randint(0, 8)
+        pos2 = random.randint(0, 8)
+        if grid[pos1][pos2] != ".":
+            grid[pos1][pos2] = "."
+            still -= 1
+    return grid
 
 
-# if __name__ == "__main__":
-#     for fname in ["puzzle1.txt", "puzzle2.txt", "puzzle3.txt"]:
-#         grid = read_sudoku(fname)
-#         display(grid)
-#         solution = solve(grid)
-#         if not solution:
-#             print(f"Puzzle {fname} can't be solved")
-#         else:
-#             display(solution)
-
-grid = [['5', '3', '.', '.', '7', '.', '.', '.', '.'],
-['6', '.', '.', '1', '9', '5', '.', '.', '.'],
-['.', '9', '8', '.', '.', '.', '.', '6', '.'],
-['8', '.', '.', '.', '6', '.', '.', '.', '3'],
-['4', '.', '.', '8', '.', '3', '.', '.', '1'],
-['7', '.', '.', '.', '2', '.', '.', '.', '6'],
-['.', '6', '.', '.', '.', '.', '2', '8', '.'],
-['.', '.', '.', '4', '1', '9', '.', '.', '5'],
-['.', '.', '.', '.', '8', '.', '.', '7', '9']]
-print(get_col(grid, (0, 1)))
-print(get_row(grid, (0, 1)))
-print(get_block(grid, (8, 8)))
+if __name__ == "__main__":
+    for fname in ["puzzle1.txt", "puzzle2.txt", "puzzle3.txt"]:
+        grid = read_sudoku(fname)
+        display(grid)
+        solution = solve(grid)
+        if not solution:
+            print(f"Puzzle {fname} can't be solved")
+        else:
+            display(solution)
