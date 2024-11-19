@@ -193,7 +193,7 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     for i in range(0, 9, 3):
         for j in range(0, 9, 3):
             arr = get_block(solution, (i, j))
-            used = [0] * 10
+            used = [0]*10
             for z, val in enumerate(arr):
                 used[ord(val) - ord("0")] += 1
                 if used[ord(val) - ord("0")] > 1:
