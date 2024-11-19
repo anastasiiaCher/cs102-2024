@@ -41,6 +41,7 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     >>> group([1,2,3,4,5,6,7,8,9], 3)
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
+    return [values[i:i + n] for i in range(0, len(values), n)]
     pass
 
 
@@ -53,6 +54,8 @@ def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_row([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (2, 0))
     ['.', '8', '9']
     """
+    row_index = pos[0]
+    return grid[row_index]
     pass
 
 
@@ -65,6 +68,8 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_col([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (0, 2))
     ['3', '6', '9']
     """
+    col_index = pos[1]
+    return [grid[row][col_index] for row in range(len(grid))]
     pass
 
 
@@ -78,6 +83,13 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     >>> get_block(grid, (8, 8))
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
     """
+    row_start = (pos[0] // 3) * 3
+    col_start = (pos[1] // 3) * 3
+    return [
+        grid[row][col]
+        for row in range(row_start, row_start + 3)
+        for col in range(col_start, col_start + 3)
+    ]
     pass
 
 
