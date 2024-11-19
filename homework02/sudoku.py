@@ -80,7 +80,11 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     >>> get_block(grid, (8, 8))
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
     """
-    return [grid[i][j] for i in range(pos[0] // 3 * 3, pos[0] // 3 * 3 + 3) for j in range(pos[1] // 3 * 3, pos[1] // 3 * 3 + 3)]
+    return [
+        grid[i][j]
+        for i in range(pos[0] // 3 * 3, pos[0] // 3 * 3 + 3)
+        for j in range(pos[1] // 3 * 3, pos[1] // 3 * 3 + 3)
+    ]
 
 
 def find_empty_positions(
@@ -108,7 +112,9 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
-    return set(str(i) for i in range(1, 10)) - (set(get_row(grid, pos)) | set(get_col(grid, pos)) | set(get_block(grid, pos)))
+    return set(str(i) for i in range(1, 10)) - (
+        set(get_row(grid, pos)) | set(get_col(grid, pos)) | set(get_block(grid, pos))
+    )
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
