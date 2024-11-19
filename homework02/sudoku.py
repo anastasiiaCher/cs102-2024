@@ -203,7 +203,8 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
 
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
-    """Генерация судоку заполненного на N элементов
+    """Генерация судоку заполненного на N элементов"""
+    """
     >>> grid = generate_sudoku(40)
     >>> sum(1 for row in grid for e in row if e == '.')
     41
@@ -245,7 +246,7 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
         a1 = random.randint(6, 8)
         a2 = random.randint(6, 8)
         sudoku[a1], sudoku[a2] = sudoku[a2], sudoku[a1]
-        sudoku = [[grid[j][i] for j in range(len(grid[i]))] for i in range(len(grid))]
+        sudoku = [[sudoku[j][i] for j in range(len(sudoku[i]))] for i in range(len(sudoku))]
     still = 81
     while still > N:
         pos1 = random.randint(0, 8)
