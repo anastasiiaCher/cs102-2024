@@ -41,15 +41,13 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     """
     plaintext = ""
 
-    alphabet = "abcdefghijklmnopqrstuvwxyz"  # Using string for simplicity
-    keyword_indices: list[int] = []  # Specify that this will hold integers
+    alphabet = "abcdefghijklmnopqrstuvwxyz"
+    keyword_indices: list[int] = []
 
-    # Build keyword indices
     for char in keyword:
         if char.isalpha():
             keyword_indices.append(alphabet.index(char.lower()))
 
-    # Decrypt the ciphertext
     for i, char in enumerate(ciphertext):
         if char.isalpha():
             base = ord("A") if char.isupper() else ord("a")
