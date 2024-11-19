@@ -81,10 +81,9 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     >>> get_block(grid, (8, 8))
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
     """
-    grid = read_sudoku('puzzle1.txt')
-    target = grid[pos[0]][pos[1]]
+    
     row = pos[0]
-    col = pos[1]
+    col = pos[-1]
     start_row = 3 * (row // 3)
     start_col = 3 * (col // 3)
     block = [grid[i][j] for i in range(start_row, start_row + 3) for j in range(start_col, start_col + 3)]
@@ -108,6 +107,8 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
                 pos.append(i)
                 pos.append(j)
                 return tuple(pos)
+    else:
+        return None
 
 
 def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
@@ -120,32 +121,28 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
-    values = '123456789'
-
-    row = pos[0]
-    col = pos[-1]
+    val = '123456789'
 
     square = get_block(grid, pos)
-    square_str = ''.join(square)
-    square_set = set(square_str.replace('.', ''))
+    square = ''.join(square)
+    square_set = set(square.replace('.', ''))
 
-    row_str = ''.join(grid[row])
-    row_set = set(row_str.replace('.', ''))
+    row = ''.join(get_row(grid, pos))
+    row_set = set(row.replace('.', ''))
 
-    col_list = list()
-    col_list = [grid[i][col] for i in range(len(grid))]
-    col_str = ''.join(col_list)
-    col_set = set(col_str.replace('.', ''))
+    col = ''.join(get_col(grid, pos))
+    col_set = set(col.replace('.', ''))
 
     existing_values = square_set.union(row_set, col_set)
 
     potential_values = set()
-    for num in values:
+    for num in val:
         if num not in existing_values:
             potential_values.add(num)
+    if potential_values == set():
+        return None
     return potential_values
-
-
+    
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     """ Решение пазла, заданного в grid """
@@ -159,7 +156,29 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     >>> solve(grid)
     [['5', '3', '4', '6', '7', '8', '9', '1', '2'], ['6', '7', '2', '1', '9', '5', '3', '4', '8'], ['1', '9', '8', '3', '4', '2', '5', '6', '7'], ['8', '5', '9', '7', '6', '1', '4', '2', '3'], ['4', '2', '6', '8', '5', '3', '7', '9', '1'], ['7', '1', '3', '9', '2', '4', '8', '5', '6'], ['9', '6', '1', '5', '3', '7', '2', '8', '4'], ['2', '8', '7', '4', '1', '9', '6', '3', '5'], ['3', '4', '5', '2', '8', '6', '1', '7', '9']]
     """
-    pass
+
+
+    pos = find_empty_positions(grid)
+    if pos == None:
+        return grid
+    else:
+        potential_values = find_possible_values(grid, pos)
+        if potential_values == None:
+            return None
+        
+        for num in potential_values:
+            grid[pos[0]][pos[-1]] = num
+            res = solve(grid)
+            if res == None:
+                grid[pos[0]][pos[-1]] = '.'
+            else:
+                return res
+
+
+
+
+
+
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
