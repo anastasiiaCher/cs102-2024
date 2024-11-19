@@ -161,7 +161,7 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     # TODO: Add doctests with bad puzzles
     if find_empty_positions(solution):
         return False
-    sol_copy = solution.copy()
+    sol_copy = [[solution[i][j] for j in range(len(solution[i]))] for i in range(len(solution))]
     for i in range(len(solution)):
         for j in range(len(solution[i])):
             num = sol_copy[i][j]
