@@ -251,10 +251,10 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     while still > N:
         pos1 = random.randint(0, 8)
         pos2 = random.randint(0, 8)
-        if grid[pos1][pos2] != ".":
-            grid[pos1][pos2] = "."
+        if sudoku[pos1][pos2] != ".":
+            sudoku[pos1][pos2] = "."
             still -= 1
-    return grid
+    return sudoku
 
 
 if __name__ == "__main__":
