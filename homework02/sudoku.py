@@ -1,7 +1,8 @@
 """решение и создание судоку"""
+
 import pathlib
-import typing as tp
 import random
+import typing as tp
 
 T = tp.TypeVar("T")
 
@@ -93,9 +94,7 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    return next(((i, j)
-                 for i in range(len(grid))
-                 for j in range(len(grid[i])) if grid[i][j] == "."), None)
+    return next(((i, j) for i in range(len(grid)) for j in range(len(grid[i])) if grid[i][j] == "."), None)
 
 
 def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
