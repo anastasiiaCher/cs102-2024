@@ -204,7 +204,6 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     False
 
     """
-    # TODO: Add doctests with bad puzzles
     val_0 = tuple('123456789')
     for i in range(9):
         pos = (i, i)
@@ -259,7 +258,29 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    pass
+    import random
+
+    correct_grid = tuple([
+            ["5", "3", "4", "6", "7", "8", "9", "1", "2"],
+            ["6", "7", "2", "1", "9", "5", "3", "4", "8"],
+            ["1", "9", "8", "3", "4", "2", "5", "6", "7"],
+            ["8", "5", "9", "7", "6", "1", "4", "2", "3"],
+            ["4", "2", "6", "8", "5", "3", "7", "9", "1"],
+            ["7", "1", "3", "9", "2", "4", "8", "5", "6"],
+            ["9", "6", "1", "5", "3", "7", "2", "8", "4"],
+            ["2", "8", "7", "4", "1", "9", "6", "3", "5"],
+            ["3", "4", "5", "2", "8", "6", "1", "7", "9"],
+        ])
+    
+    returned_grid = list(correct_grid)
+
+    while 81 - N > 0:
+        row = random.randint(0, 8)
+        col = random.randint(0, 8)
+        if returned_grid[row][col] != '.':
+            returned_grid[row][col] = '.'
+            N += 1
+    return returned_grid
 
 
 if __name__ == "__main__":
