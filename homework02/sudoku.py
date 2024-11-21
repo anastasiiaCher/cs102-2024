@@ -175,16 +175,40 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
                 return res
 
 
-
-
-
-
-
-
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """ Если решение solution верно, то вернуть True, в противном случае False """
     # TODO: Add doctests with bad puzzles
-    pass
+    val_0 = tuple('123456789')
+    for i in range(9):
+        pos = (i, i)
+        row = get_row(solution, pos)
+        col = get_col(solution, pos)
+        block = get_block(solution, pos)
+
+        val = list(val_0)
+        for element in row:
+            try:
+                val.pop(val.index(element))
+            except ValueError:
+                return False
+
+        val = list(val_0)
+        for element_col in col:
+            try:
+                val.pop(val.index(element_col))
+            except ValueError:
+                return False
+
+        val = list(val_0)
+        for element in block:
+            try:
+                val.pop(val.index(element))
+            except ValueError:
+                return False
+    else:
+        return True
+
+            
 
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
