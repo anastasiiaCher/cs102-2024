@@ -3,7 +3,7 @@ def encrypt_transposition(plaintext, block_size, id1, id2):
     """Making it a reality"""
     newtext = ""
     if len(plaintext) % block_size == 0:
-        pltxt= ""
+        pltxt = ""
     else:
         pltxt = plaintext[plaintext - plaintext % block_size + 1 :]
         plaintext = plaintext[: len(plaintext) - len(plaintext) % block_size]
