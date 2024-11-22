@@ -79,10 +79,12 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     >>> get_block(grid, (8, 8))
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
     """
-    arr = []
-    for i in range((pos[0] // 3) * 3, (pos[0] // 3) * 3 + 3):
-        for j in range((pos[1] // 3) * 3, (pos[1] // 3) * 3 + 3):
-            arr.append(grid[i][j])
+    arr = [[grid[i][j] for i in range((pos[0] // 3) * 3, (pos[0] // 3) * 3 + 3)] for j in range((pos[1] // 3) * 3, (pos[1] // 3) * 3 + 3)]
+    arr = [
+        grid[i][j]
+        for i in range((pos[0] // 3) * 3, (pos[0] // 3) * 3 + 3)
+        for j in range((pos[1] // 3) * 3, (pos[1] // 3) * 3 + 3)
+    ]
     return arr
 
 
@@ -97,8 +99,8 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     """
     pos = None
     flag = 0
-    for i in range(len(grid)):
-        for j in range(len(grid[i])):
+    for i, row in enumerate(grid):
+        for j, val in enumerate(row):
             if grid[i][j] == ".":
                 pos = (i, j)
                 flag = -1
@@ -121,18 +123,18 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     used = [0] * 10
     arr1 = get_col(grid, pos)
     for i, row in enumerate(arr1):
-        for j, val in enumerate(row):
-            if val != ".":
-                used[ord(val) - ord("0")] = 1
+        for val in enumerate(row):
+            if val[1] != ".":
+                used[ord(val[1]) - ord("0")] = 1
     arr2 = get_row(grid, pos)
     for i, val in enumerate(arr2):
         if val != ".":
             used[ord(val) - ord("0")] = 1
     arr3 = get_block(grid, pos)
     for i, row in enumerate(arr3):
-        for j, val in enumerate(row):
-            if val != ".":
-                used[ord(val) - ord("0")] = 1
+        for val in enumerate(row):
+            if val[1] != ".":
+                used[ord(val[1]) - ord("0")] = 1
     values = set()
     for i in range(1, len(used)):
         if used[i] == 0:
@@ -157,21 +159,47 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     pos = find_empty_positions(grid)
     if pos is not None:
         values = find_possible_values(grid, pos)
-    for i in values:
-        if pos is not None:
-            grid[pos[0]][pos[1]] = i
-            solve(grid)
-        if find_empty_positions(grid) is None:
-            return grid
-        else:
+        for i in values:
             if pos is not None:
-                grid[pos[0]][pos[1]] = "."
+                grid[pos[0]][pos[1]] = i
+                solve(grid)
+            if find_empty_positions(grid) is None:
+                return grid
+            else:
+                if pos is not None:
+                    grid[pos[0]][pos[1]] = "."
     return grid
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
-    """Если решение solution верно, то вернуть True, в противном случае False"""
-    # TODO: Add doctests with bad puzzles
+    """Если решение solution верно, то вернуть True, в противном случае False
+    >>> grid = [
+        ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+        ["4", "5", "6", "7", "8", "9", "1", "2", "3"],
+        ["7", "8", "9", "1", "2", "3", "4", "5", "6"],
+        ["2", "3", "4", "5", "6", "7", "8", "9", "1"],
+        ["5", "6", "7", "8", "9", "1", "2", "3", "4"],
+        ["8", "9", "1", "2", "3", "4", "5", "6", "7"],
+        ["3", "4", "5", "6", "7", "8", "9", "1", "2"],
+        ["6", "7", "8", "9", "1", "2", "3", "4", "5"],
+        ["9", "1", "2", "3", "4", "5", "6", "7", "8"],
+    ]
+    >>> check_solution(grid)
+    True
+    >>> grid = [
+        ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+        ["4", "6", "5", "7", "8", "9", "1", "2", "3"],
+        ["7", "8", "9", "1", "2", "3", "4", "5", "6"],
+        ["2", "3", "4", "5", "6", "7", "8", "9", "1"],
+        ["5", "6", "7", "8", "9", "1", "2", "3", "4"],
+        ["8", "9", "1", "2", "3", "4", "5", "6", "7"],
+        ["3", "4", "5", "6", "7", "8", "9", "1", "2"],
+        ["6", "7", "8", "9", "1", "2", "3", "4", "5"],
+        ["9", "1", "2", "3", "4", "5", "6", "7", "8"],
+    ]
+    >>> check_solution(grid)
+    False
+    """
     flag = True
     for i in range(0, 9):
         arr = get_row(solution, (i, 0))
@@ -265,3 +293,4 @@ if __name__ == "__main__":
             print(f"Puzzle {fname} can't be solved")
         else:
             display(solution)
+
