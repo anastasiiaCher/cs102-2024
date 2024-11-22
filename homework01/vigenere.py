@@ -1,6 +1,5 @@
-def encrypt_vigenere(plaintext: str, keyword: str) -> str:
+def encrypt_vigenere(plaintext, keyword):
     """
-    Encrypts plaintext using a Vigenere cipher.
     >>> encrypt_vigenere("PYTHON", "A")
     'PYTHON'
     >>> encrypt_vigenere("python", "a")
@@ -8,28 +7,25 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     >>> encrypt_vigenere("ATTACKATDAWN", "LEMON")
     'LXFOPVEFRNHR'
     """
-    ciphertext = ""
-    key_index = 0
-    keyword_length = len(keyword)
 
-    for letter in plaintext:
-        if letter.isalpha():  # Only consider alphabetic characters
-            key_char = keyword[key_index % keyword_length].upper()
-            shift = ord(key_char) - ord("A")
-            if letter.islower():
-                ciphertext += chr((ord(letter) + shift - ord("a")) % 26 + ord("a"))
-            elif letter.isupper():
-                ciphertext += chr((ord(letter) + shift - ord("A")) % 26 + ord("A"))
-            key_index += 1
+    ciphertext = ''
+    key_repeated = (keyword * (len(plaintext) // len(keyword))) + keyword[:len(plaintext) % len(keyword)]
+    for i in range(len(plaintext)):
+        if plaintext[i].isalpha():
+            shift = ord(key_repeated[i].upper()) - ord('A')
+            if plaintext[i].isupper():
+                ciphertext += chr((ord(plaintext[i]) + shift - ord('A')) % 26 + ord('A'))
+            else:
+                ciphertext += chr((ord(plaintext[i]) + shift - ord('a')) % 26 + ord('a'))
         else:
-            ciphertext += letter
-
+            ciphertext += plaintext[i]
     return ciphertext
 
 
-def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
+
+
+def decrypt_vigenere(ciphertext, keyword):
     """
-    Decrypts a ciphertext using a Vigenere cipher.
     >>> decrypt_vigenere("PYTHON", "A")
     'PYTHON'
     >>> decrypt_vigenere("python", "a")
@@ -37,20 +33,15 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     >>> decrypt_vigenere("LXFOPVEFRNHR", "LEMON")
     'ATTACKATDAWN'
     """
-    plaintext = ""
-    key_index = 0
-    keyword_length = len(keyword)
-
-    for letter in ciphertext:
-        if letter.isalpha():  # Only consider alphabetic characters
-            key_char = keyword[key_index % keyword_length].upper()
-            shift = ord(key_char) - ord("A")
-            if letter.islower():
-                plaintext += chr((ord(letter) - shift - ord("a")) % 26 + ord("a"))
-            elif letter.isupper():
-                plaintext += chr((ord(letter) - shift - ord("A")) % 26 + ord("A"))
-            key_index += 1
+    plaintext = ''
+    key_repeated = (keyword * (len(ciphertext) // len(keyword))) + keyword[:len(ciphertext) % len(keyword)]
+    for i in range(len(ciphertext)):
+        if ciphertext[i].isalpha():
+            shift = ord(key_repeated[i].upper()) - ord('A')
+            if ciphertext[i].isupper():
+                plaintext += chr((ord(ciphertext[i]) - shift - ord('A')) % 26 + ord('A'))
+            else:
+                plaintext += chr((ord(ciphertext[i]) - shift - ord('a')) % 26 + ord('a'))
         else:
-            plaintext += letter
-
+            plaintext += ciphertext[i]
     return plaintext
