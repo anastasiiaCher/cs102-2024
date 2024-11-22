@@ -18,4 +18,4 @@ def encrypt_transposition(plaintext, block_size, id1, id2):
     return newtext
 
 
-#print(encrypt_transposition('abcdefghij', 3, 0, 1))
+# print(encrypt_transposition('abcdefghij', 3, 0, 1))
