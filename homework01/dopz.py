@@ -1,4 +1,6 @@
 """Writing a function for new cipher method"""
+
+
 def encrypt_transposition(plaintext, block_size, id1, id2):
     """Making it a reality"""
     newtext = ""
