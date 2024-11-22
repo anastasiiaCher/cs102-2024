@@ -217,7 +217,7 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     all_positions = [(i, j) for i in range(9) for j in range(9)]
     random.shuffle(all_positions)
 
-    # Удаляем элементы, чтобы оставить только N заполненных
+    # Удаляем элементы, чтобы оставить только N заполненных.
     to_remove = max(0, 81 - N)
     for pos in all_positions[:to_remove]:
         grid[pos[0]][pos[1]] = "."
