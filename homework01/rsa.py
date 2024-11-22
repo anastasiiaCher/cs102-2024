@@ -31,7 +31,6 @@ def gcd(a: int, b: int) -> int:
     while b:
         a, b = b, a % b
     return a
-    pass
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
@@ -41,11 +40,15 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    d = 0
-    for i in range(1, phi):
-        if i * e % phi == 1:
-            d = i
-    return d
+    original_phi = phi
+    x0, x1 = 0, 1  # Coefficients for the Bézout identity
+    while e > 0:
+        quotient, remainder = divmod(phi, e)
+        phi, e = e, remainder
+        x0, x1 = x1, x0 - quotient * x1
+    if phi != 1:
+        raise ValueError("Multiplicative inverse does not exist.")
+    return x0 % original_phi
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
