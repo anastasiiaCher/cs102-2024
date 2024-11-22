@@ -98,7 +98,7 @@ def find_empty_positions(
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    empty_positions = [(i, j) for i in range(len(grid)) for j in range(len(grid[0])) if grid[i][j] == "."]
+    empty_positions = [(i, j) for i, char in enumerate(grid) for j, _ in enumerate(grid[0]) if char[j] == "."]
     return empty_positions[0] if empty_positions else None
 
 
@@ -158,10 +158,10 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
 def transpose(grid: tp.List[tp.List[str]]) -> tp.List[tp.List[str]]:
     """Транспонирует матрицу"""
     grid_t: tp.List[tp.List[str]] = []
-    for i in range(len(grid[0])):
+    for i, _ in enumerate(grid[0]):
         grid_t.append([])
-        for j in range(len(grid)):
-            grid_t[i].append(grid[j][i])
+        for _, row in enumerate(grid):
+            grid_t[i].append(row[i])
     return grid_t
 
 
