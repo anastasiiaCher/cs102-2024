@@ -92,8 +92,8 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    for r in range(9):
-        for c in range(9):
+    for r in range(len(grid)):
+        for c in range(len(grid)):
             if grid[r][c] == ".":
                 return r, c
     return None  # Если свободных позиций нет
