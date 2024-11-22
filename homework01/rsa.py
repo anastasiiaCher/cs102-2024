@@ -1,5 +1,11 @@
+"""
+RSA algorithm
+"""
+
 import random
 import typing as tp
+
+# python3 -m unittest -v tests.test_rsa
 
 
 def is_prime(n: int) -> bool:
@@ -12,8 +18,15 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
-    # PUT YOUR CODE HERE
-    pass
+    flag = 1
+    if n < 2:
+        return False
+
+    for i in range(2, int(abs(n) ** 0.5 + 1)):
+        if abs(n) % i == 0:
+            flag = 0
+            break
+    return bool(flag)
 
 
 def gcd(a: int, b: int) -> int:
@@ -24,8 +37,15 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    # PUT YOUR CODE HERE
-    pass
+    if a == 0 or b == 0:
+        return a + b
+    if a == 1 or b == 1:
+        return 1
+    if a == b:
+        return a
+    if a > b:
+        return gcd(a - b, b)
+    return gcd(a, b - a)
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
@@ -35,21 +55,46 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
-    pass
+    a_array = []
+    b_array = []
+    x_array = []
+    y_array = []
+    a = phi
+    b = e
+    a_array.append(a)
+    b_array.append(b)
+    x_array.append(0)
+    y_array.append(0)
+    while a % b != 0:
+        c = b
+        b = a % b
+        a = c
+        a_array.append(a)
+        b_array.append(b)
+        x_array.append(0)
+        y_array.append(0)
+    x_array[-1] = 0
+    y_array[-1] = 1
+    for i in range(len(y_array) - 2, -1, -1):
+        x_array[i] = y_array[i + 1]
+        y_array[i] = x_array[i + 1] - y_array[i + 1] * (a_array[i] // b_array[i])
+        # print(x_array[i], y_array[i])
+
+    return y_array[0] % phi
 
 
-def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
-    if not (is_prime(p) and is_prime(q)):
+def generate_keypair(pp: int, qq: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+    """
+    generating rsa
+    """
+    if not (is_prime(pp) and is_prime(qq)):
         raise ValueError("Both numbers must be prime.")
-    elif p == q:
+    if pp == qq:
         raise ValueError("p and q cannot be equal")
 
-    # n = pq
-    # PUT YOUR CODE HERE
+    n = pp * qq
 
-    # phi = (p-1)(q-1)
-    # PUT YOUR CODE HERE
+    phi = (pp - 1) * (qq - 1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
@@ -69,6 +114,12 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
 
 
 def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
+    """
+    Encrypting
+    :param pk:
+    :param plaintext:
+    :return:
+    """
     # Unpack the key into it's components
     key, n = pk
     # Convert each letter in the plaintext to numbers based on
@@ -79,10 +130,16 @@ def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
 
 
 def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
+    """
+    Decrypting
+    :param pk:
+    :param ciphertext:
+    :return:
+    """
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 
