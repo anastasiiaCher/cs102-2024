@@ -1,32 +1,43 @@
+"""Caesar cipher system"""
+
+
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
-    """
-    Encrypts plaintext using a Caesar cipher.
-    >>> encrypt_caesar("PYTHON")
-    'SBWKRQ'
-    >>> encrypt_caesar("python")
-    'sbwkrq'
-    >>> encrypt_caesar("Python3.6")
-    'Sbwkrq3.6'
-    >>> encrypt_caesar("")
-    ''
-    """
+    """Encrypting with C.c.s"""
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    for plain in enumerate(plaintext):
+        if plain[1] in alphabet:
+            if ord(plain[1]) in range(ord("a"), ord("z") + 1):
+                if ord(plain[1]) + shift > ord("z"):
+                    ciphertext += chr(ord(plain[1]) + shift - 26)
+                else:
+                    ciphertext += chr(ord(plain[1]) + shift)
+            if ord(plain[1]) in range(ord("A"), ord("Z") + 1):
+                if ord(plain[1]) + shift > ord("Z"):
+                    ciphertext += chr(ord(plain[1]) + shift - 26)
+                else:
+                    ciphertext += chr(ord(plain[1]) + shift)
+        else:
+            ciphertext += plain[1]
     return ciphertext
 
 
 def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
-    """
-    Decrypts a ciphertext using a Caesar cipher.
-    >>> decrypt_caesar("SBWKRQ")
-    'PYTHON'
-    >>> decrypt_caesar("sbwkrq")
-    'python'
-    >>> decrypt_caesar("Sbwkrq3.6")
-    'Python3.6'
-    >>> decrypt_caesar("")
-    ''
-    """
+    """Decrypting with C.c.s"""
     plaintext = ""
-    # PUT YOUR CODE HERE
+    alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    for cipher in enumerate(ciphertext):
+        if cipher[1] in alphabet:
+            if ord(cipher[1]) in range(ord("a"), ord("z") + 1):
+                if ord(cipher[1]) - shift < ord("a"):
+                    plaintext += chr(ord(cipher[1]) - shift + 26)
+                else:
+                    plaintext += chr(ord(cipher[1]) - shift)
+            if ord(cipher[1]) in range(ord("A"), ord("Z") + 1):
+                if ord(cipher[1]) - shift < ord("A"):
+                    plaintext += chr(ord(cipher[1]) - shift + 26)
+                else:
+                    plaintext += chr(ord(cipher[1]) - shift)
+        else:
+            plaintext += cipher[1]
     return plaintext
