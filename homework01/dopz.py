@@ -7,7 +7,7 @@ def encrypt_transposition(plaintext, block_size, id1, id2):
     if len(plaintext) % block_size == 0:
         pltxt = ""
     else:
-        pltxt = plaintext[plaintext - plaintext % block_size + 1 :]
+        pltxt = plaintext[len(plaintext) - len(plaintext) % block_size + 1 :]
         plaintext = plaintext[: len(plaintext) - len(plaintext) % block_size]
     for i in range(0, len(plaintext), block_size):
         newblock = ""
@@ -18,4 +18,4 @@ def encrypt_transposition(plaintext, block_size, id1, id2):
     return newtext
 
 
-# print(encrypt_transposition('abcdefghij', 2, 0, 1))
+#print(encrypt_transposition('abcdefghij', 3, 0, 1))
