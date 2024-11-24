@@ -156,7 +156,7 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     # TODO: Add doctests with bad puzzles
     if find_empty_positions(solution):
         return False
-    allowed = set('123456789')
+    allowed = set("123456789")
     for i in range(9):
         row = set(get_row(solution, (i, 0)))
         col = set(get_col(solution, (0, i)))
