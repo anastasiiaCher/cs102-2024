@@ -42,8 +42,7 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
     len_group = len(values) // n
-    matrix = [values[i : i + len_group] for i in range(0, len(values), len_group)]
-    return matrix
+    return [values[i : i + len_group] for i in range(0, len(values), len_group)]
 
 
 def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -67,11 +66,7 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_col([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (0, 2))
     ['3', '6', '9']
     """
-    res = []
-    for i in range(0, len(grid)):
-        row = grid[i]
-        res.append(row[pos[1]])
-    return res
+    return [row[pos[1]] for row in grid]
 
 
 def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -150,9 +145,9 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     res_grid = [i.copy() for i in grid]
     for i in find_possible_values(grid, space):
         res_grid[space[0]][space[1]] = i
-        next = solve(res_grid)
-        if next:
-            return next
+        next_ = solve(res_grid)
+        if next_:
+            return next_
     return None
 
 
@@ -161,20 +156,13 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     # TODO: Add doctests with bad puzzles
     if find_empty_positions(solution):
         return False
-    sol_copy = [[solution[i][j] for j in range(len(solution[i]))] for i in range(len(solution))]
-    for i in range(len(solution)):
-        for j in range(len(solution[i])):
-            num = sol_copy[i][j]
-            sol_copy[i][j] = "."
-
-            if (
-                num in get_row(sol_copy, (i, j))
-                or num in get_col(sol_copy, (i, j))
-                or num in get_block(sol_copy, (i, j))
-            ):
-                return False
-
-            sol_copy[i][j] = num
+    allowed = set('123456789')
+    for i in range(9):
+        row = set(get_row(solution, (i, 0)))
+        col = set(get_col(solution, (0, i)))
+        block = set(get_block(solution, (i, i)))
+        if row != allowed or col != allowed or block != allowed:
+            return False
     return True
 
 
