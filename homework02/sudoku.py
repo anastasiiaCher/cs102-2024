@@ -160,7 +160,25 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """ Если решение solution верно, то вернуть True, в противном случае False """
     # TODO: Add doctests with bad puzzles
-    pass
+    
+    for i in range(9):
+        col = get_col(solution, (0,i))
+        row = get_row(solution,(i,0))
+        block_row = (i // 3) * 3
+        block_col = (i % 3) * 3
+        block = get_block(solution,(block_row,block_col))
+
+        for j in range(1, 10, 1):
+            if str(j) not in col:
+                return False
+            
+            if str(j) not in row:
+                return False
+            
+            if str(j) not in block:
+                return False
+    
+    return True
 
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
