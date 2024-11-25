@@ -183,7 +183,6 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
             if solve([posx[:] for posx in readyplane]):
                 break
             readyplane[posx][posy] = "."
-
     return readyplane
 
 
