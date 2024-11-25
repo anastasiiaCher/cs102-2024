@@ -41,7 +41,13 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     >>> group([1,2,3,4,5,6,7,8,9], 3)
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
-    pass
+
+    output = [[values[i*n + j] for j in range(n)] for i in range(n)]
+
+    # for i, obj in enumerate(values):
+    #     output[i//n][i%n] = obj
+
+    return output
 
 
 def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
