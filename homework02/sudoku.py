@@ -1,11 +1,13 @@
+"""Sudoku"""
 import pathlib
+import random
 import typing as tp
 
 T = tp.TypeVar("T")
 
 
 def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
-    """ Прочитать Судоку из указанного файла """
+    """Прочитать Судоку из указанного файла"""
     path = pathlib.Path(path)
     with path.open() as f:
         puzzle = f.read()
@@ -19,15 +21,11 @@ def create_grid(puzzle: str) -> tp.List[tp.List[str]]:
 
 
 def display(grid: tp.List[tp.List[str]]) -> None:
-    """Вывод Судоку """
+    """Вывод Судоку"""
     width = 2
     line = "+".join(["-" * (width * 3)] * 3)
     for row in range(9):
-        print(
-            "".join(
-                grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)
-            )
-        )
+        print("".join(grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)))
         if str(row) in "25":
             print(line)
     print()
@@ -130,7 +128,7 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
-    """ Решение пазла, заданного в grid """
+    """Решение пазла, заданного в grid"""
     """ Как решать Судоку?
         1. Найти свободную позицию
         2. Найти все возможные значения, которые могут находиться на этой позиции
@@ -175,7 +173,7 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
             return False
 
     # Проверяем блоки
-    block_size = int(size ** 0.5)  # Размер блока 3x3
+    block_size = int(size**0.5)  # Размер блока 3x3
     for row_start in range(0, size, block_size):
         for col_start in range(0, size, block_size):
             block = get_block(solution, (row_start, col_start))
@@ -184,7 +182,8 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
 
     return True
 
-def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
+
+def generate_sudoku(n: int) -> tp.List[tp.List[str]]:
     """Генерация судоку заполненного на N элементов
     >>> grid = generate_sudoku(40)
     >>> sum(1 for row in grid for e in row if e == '.')
@@ -205,7 +204,22 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    pass
+    size = 9
+    empty_grid = [["." for _ in range(size)] for _ in range(size)]
+
+    solve(empty_grid)
+    solved_grid = [row[:] for row in empty_grid]
+
+    cells_to_remove = size * size - n
+
+    positions = [(i, j) for i in range(size) for j in range(size)]
+    random.shuffle(positions)
+
+    for i in range(cells_to_remove):
+        x, y = positions[i]
+        solved_grid[x][y] = "."
+
+    return solved_grid
 
 
 if __name__ == "__main__":
