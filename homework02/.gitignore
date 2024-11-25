@@ -1,0 +1,4 @@
+.DS_Store__pycache__/*.pycsdk/
+*.pyc
+sdk/
+
