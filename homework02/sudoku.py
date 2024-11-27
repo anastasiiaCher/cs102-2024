@@ -78,8 +78,11 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     >>> get_block(grid, (8, 8))
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
     """
-    pass
-
+    row, col = pos
+    row_start = (row // 3) * 3
+    col_start = (col // 3) * 3
+    result = [grid[row_start + i // 3][col_start + i % 3] for i in range(9)]
+    return result
 
 def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:
     """Найти первую свободную позицию в пазле
@@ -90,8 +93,10 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    pass
-
+    for row in range(len(grid)):
+        for col in range(len(grid[row])):
+            if grid[row][col] == ".":
+                return (row, col)
 
 def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
     """Вернуть множество возможных значения для указанной позиции
@@ -103,7 +108,13 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
-    pass
+    row_values = set(get_row(grid, pos))
+    col_values = set(get_col(grid, pos))
+    block_values = set(get_block(grid, pos))
+    used_values = row_values | col_values | block_values
+    all_values = set(map(str, range(1, 10)))
+    result = list(all_values - used_values)
+    return set(result)
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
