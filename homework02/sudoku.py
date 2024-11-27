@@ -1,4 +1,5 @@
 import pathlib
+import random
 import typing as tp
 
 T = tp.TypeVar("T")
@@ -23,11 +24,7 @@ def display(grid: tp.List[tp.List[str]]) -> None:
     width = 2
     line = "+".join(["-" * (width * 3)] * 3)
     for row in range(9):
-        print(
-            "".join(
-                grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)
-            )
-        )
+        print("".join(grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)))
         if str(row) in "25":
             print(line)
     print()
@@ -91,8 +88,11 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    pass
-
+    for n, row in enumerate(grid):
+        for k, tochka in enumerate(row):
+            if tochka == '.':
+                return n, k
+    return None
 
 def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
     """Вернуть множество возможных значения для указанной позиции
@@ -104,8 +104,12 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
-    pass
-
+    row = get_row(grid, pos)
+    col = get_col(grid, pos)
+    block = get_block(grid, pos)
+    permissible_set = {str(num) for num in range(1,10)}
+    possible_values = permissible_set - set(row) - set(col) - set(block)
+    return possible_values
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     """ Решение пазла, заданного в grid """
@@ -119,14 +123,37 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     >>> solve(grid)
     [['5', '3', '4', '6', '7', '8', '9', '1', '2'], ['6', '7', '2', '1', '9', '5', '3', '4', '8'], ['1', '9', '8', '3', '4', '2', '5', '6', '7'], ['8', '5', '9', '7', '6', '1', '4', '2', '3'], ['4', '2', '6', '8', '5', '3', '7', '9', '1'], ['7', '1', '3', '9', '2', '4', '8', '5', '6'], ['9', '6', '1', '5', '3', '7', '2', '8', '4'], ['2', '8', '7', '4', '1', '9', '6', '3', '5'], ['3', '4', '5', '2', '8', '6', '1', '7', '9']]
     """
-    pass
+    tochka_isempty = find_empty_positions(grid)
+    if not tochka_isempty:
+        return grid
+    row, col = tochka_isempty
+    for num in find_possible_values(grid, (row, col)):
+        grid[row][col] = num
+        if solve(grid):
+            return grid
+        grid[row][col] = "."
+    return None
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """ Если решение solution верно, то вернуть True, в противном случае False """
     # TODO: Add doctests with bad puzzles
-    pass
+    digits_set = set("123456789")
 
+    for i in range(9):
+        row_check = set()
+        col_check = set()
+        block_check = set()
+
+        for j in range(9):
+            row_check.add(solution[i][j])
+            col_check.add(solution[j][i])
+            block_check.add(solution[(i // 3) * 3 + j // 3][(i % 3) * 3 + j % 3])
+        
+        if row_check != digits_set or col_check != digits_set or block_check != digits_set:
+            return False
+        
+    return True
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     """Генерация судоку заполненного на N элементов
@@ -149,8 +176,25 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    pass
+    sudoku = [["." for _ in range(9)] for _ in range(9)]
+    N = min(N, 81)
+    for _ in range(N):
+        row, col = random.randint(0, 8), random.randint(0, 8)
 
+    while sudoku[row][col] != ".":
+        row, col = random.randint(0, 8), random.randint(0, 8)
+
+    values = find_possible_values(sudoku, (row, col))
+    # Пока есть возможные значения для заполнения клетки
+    while values:
+        value = values.pop()
+        sudoku[row][col] = value
+        if solve([row[:] for row in sudoku]):
+            break
+        else:
+            sudoku[row][col] = "."
+    
+    return sudoku 
 
 if __name__ == "__main__":
     for fname in ["puzzle1.txt", "puzzle2.txt", "puzzle3.txt"]:
