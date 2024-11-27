@@ -4,6 +4,8 @@ from typing import Set, Tuple
 
 T = tp.TypeVar("T")
 
+import random
+
 
 def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
     """Прочитать Судоку из указанного файла"""
@@ -183,8 +185,6 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]] | None:
     >>> check_solution(solution)
     True
     """
-    import random
-
     base = [["." for i in range(9)] for x in range(9)]
     sudoku = solve(base)
     if N > 81:
