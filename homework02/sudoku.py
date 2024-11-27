@@ -172,7 +172,20 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    pass
+    import random
+    base = [['.' for i in range(9)] for x in range(9)]
+    sudoku = solve(base)
+    if N > 81:
+        return sudoku
+    uniquepairs = set()
+    while len(uniquepairs) < 81 - N:
+        a = random.randint(0, 8)
+        b = random.randint(0, 8)
+        pair = (a, b)
+        uniquepairs.add(pair)
+    for i in uniquepairs:
+        sudoku[i[0]][i[1]] = '.'
+    return sudoku
 
 
 if __name__ == "__main__":
