@@ -1,4 +1,4 @@
-"""Решенеи Судоку и его генерация"""
+"""Решение Судоку и его генерация"""
 
 import pathlib
 import random
@@ -81,8 +81,8 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     """
     block = [
         grid[i][j]
-        for i in range(pos[0] - pos[0] % 3, pos[0] - pos[0] % 3 + 3)
-        for j in range(pos[1] - pos[1] % 3, pos[1] - pos[1] % 3 + 3)
+        for i in range(pos[0] - pos[0]%3, pos[0] - pos[0]%3 + 3)
+        for j in range(pos[1] - pos[1]%3, pos[1] - pos[1]%3 + 3)
     ]
     return block
 
