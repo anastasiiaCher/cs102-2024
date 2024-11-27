@@ -112,7 +112,10 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
-    pass
+    num = [str(x) for x in range(1, 10)]
+    existnum = [x for x in num if
+                x not in get_block(grid, pos) + get_col(grid, pos) + get_row(grid, pos)]
+    return set(existnum)
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
