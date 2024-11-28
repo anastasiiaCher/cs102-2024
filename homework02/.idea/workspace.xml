@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="98e31d76-2d5f-448a-b418-f3be43baf914" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sudoku.py" beforeDir="false" afterPath="$PROJECT_DIR$/sudoku.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,20 +21,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "configurable.group.appearance",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.appearance&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="RunManager" selected="Python tests.Doctest generate_sudoku">
+}</component>
+  <component name="RunManager" selected="Python tests.Doctest get_col">
     <configuration name="Doctest generate_sudoku" type="tests" factoryName="Doctests" temporary="true" nameIsGenerated="true">
       <module name="homework02" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -53,7 +54,7 @@
       <option name="USE_PATTERN" value="false" />
       <method v="2" />
     </configuration>
-    <configuration name="Doctests in sudoku (1)" type="tests" factoryName="Doctests" temporary="true" nameIsGenerated="true">
+    <configuration name="Doctest get_col" type="tests" factoryName="Doctests" temporary="true" nameIsGenerated="true">
       <module name="homework02" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -65,14 +66,14 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/sudoku.py" />
       <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
+      <option name="METHOD_NAME" value="get_col" />
       <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="TEST_TYPE" value="TEST_FUNCTION" />
       <option name="PATTERN" value="" />
       <option name="USE_PATTERN" value="false" />
       <method v="2" />
     </configuration>
-    <configuration name="Doctests in sudoku (4)" type="tests" factoryName="Doctests" temporary="true" nameIsGenerated="true">
+    <configuration name="Doctests in sudoku (1)" type="tests" factoryName="Doctests" temporary="true" nameIsGenerated="true">
       <module name="homework02" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -131,11 +132,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Doctest get_col" />
         <item itemvalue="Python tests.Doctest generate_sudoku" />
         <item itemvalue="Python tests.Doctests in sudoku (1)" />
         <item itemvalue="Python tests.Doctests in sudoku" />
         <item itemvalue="Python tests.Doctests in sudoku (5)" />
-        <item itemvalue="Python tests.Doctests in sudoku (4)" />
       </list>
     </recent_temporary>
   </component>
@@ -148,6 +149,7 @@
       <option name="presentableId" value="Default" />
       <updated>1732739562048</updated>
       <workItem from="1732739564193" duration="6541000" />
+      <workItem from="1732799180109" duration="137000" />
     </task>
     <servers />
   </component>
@@ -164,6 +166,7 @@
     <SUITE FILE_PATH="coverage/homework02$Doctest_get_block.coverage" NAME="Doctest get_block Coverage Results" MODIFIED="1732744682746" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/homework02$Doctests_in_sudoku__5_.coverage" NAME="Doctests in sudoku (5) Coverage Results" MODIFIED="1732745368565" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/homework02$Doctests_in_sudoku.coverage" NAME="Doctests in sudoku Coverage Results" MODIFIED="1732745575699" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/sudoku_py$Doctest_get_col.coverage" NAME="Doctest get_col Coverage Results" MODIFIED="1732799308693" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/homework02$Doctests_in_sudoku__3_.coverage" NAME="Doctests in sudoku (3) Coverage Results" MODIFIED="1732745245803" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/homework02$Doctest_find_empty_positions.coverage" NAME="Doctest find_empty_positions Coverage Results" MODIFIED="1732744788577" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/homework02$Doctest_get_col.coverage" NAME="Doctest get_col Coverage Results" MODIFIED="1732744069726" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
