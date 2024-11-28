@@ -4,6 +4,8 @@ import typing as tp
 T = tp.TypeVar("T")
 
 
+
+
 def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
     """ Прочитать Судоку из указанного файла """
     path = pathlib.Path(path)
@@ -11,7 +13,23 @@ def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
         puzzle = f.read()
     return create_grid(puzzle)
 
+def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
+    """
+    Сгруппировать значения values в список, состоящий из списков по n элементов
 
+    >>> group([1,2,3,4], 2)
+    [[1, 2], [3, 4]]
+    >>> group([1,2,3,4,5,6,7,8,9], 3)
+    [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    """
+    c = 0
+    two_dim = [ values[c:c+n] for c in range( 0, len(values), n ) ]
+
+
+    return two_dim
+
+
+group([1,2,3,4], 2)
 def create_grid(puzzle: str) -> tp.List[tp.List[str]]:
     digits = [c for c in puzzle if c in "123456789."]
     grid = group(digits, 9)
