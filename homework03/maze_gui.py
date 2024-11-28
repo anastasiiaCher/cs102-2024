@@ -20,7 +20,7 @@ def draw_maze(grid: List[List[str]], size: int = 10):
             elif cell == "■":
                 color = 'black'
             elif cell == "X":
-                color = "red"
+                color = "green"
             draw_cell(y, x, color, size)
 
 
@@ -51,4 +51,3 @@ if __name__ == "__main__":
     ttk.Button(window, text="Solve", command=show_solution).pack(pady=20)
 
     window.mainloop()
-
