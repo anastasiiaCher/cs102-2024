@@ -1,10 +1,8 @@
 import pathlib
+import random
 import typing as tp
-from typing import Set, Tuple
 
 T = tp.TypeVar("T")
-
-import random
 
 
 def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
@@ -90,7 +88,7 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     return square
 
 
-def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]] | None:
+def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:
     """Найти первую свободную позицию в пазле
     >>> find_empty_positions([['1', '2', '.'], ['4', '5', '6'], ['7', '8', '9']])
     (0, 2)
@@ -99,11 +97,10 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    for i in range(len(grid)):
-        for j in range(len(grid[i])):
-            if grid[i][j] == ".":
-                pose = (i, j)
-                return pose
+    for i, p in enumerate(grid):
+        for j, s in enumerate(p):
+            if s == ".":
+                return (i, j)
     return None
 
 
@@ -122,7 +119,7 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     return set(exn)
 
 
-def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]] | None:
+def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     """Решение пазла, заданного в grid"""
     """ Как решать Судоку?
         1. Найти свободную позицию
