@@ -1,5 +1,6 @@
 import pathlib
 import typing as tp
+import random
 
 T = tp.TypeVar("T")
 
@@ -172,7 +173,17 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """ Если решение solution верно, то вернуть True, в противном случае False """
     # TODO: Add doctests with bad puzzles
-    pass
+    for y, line in enumerate(solution):
+        for x, n in enumerate(line):
+            pos = (y, x)
+            row = get_row(grid, pos)
+            col = get_col(grid, pos)
+            block = get_block(grid, pos)
+
+            if row.count(n) == 1 and col.count(n) == 1 and block.count(n) == 1:
+                return True
+            else:
+                return False
 
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
