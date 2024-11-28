@@ -216,9 +216,9 @@ def generate_sudoku(n: int) -> tp.List[tp.List[str]]:
 
 if __name__ == "__main__":
     for fname in ["puzzle1.txt", "puzzle2.txt", "puzzle3.txt"]:
-        gridd = read_sudoku(fname)
-        display(gridd)
-        solution = solve(gridd)
+        grid_ = read_sudoku(fname)
+        display(grid_)
+        solution = solve(grid_)
         if not solution:
             print(f"Puzzle {fname} can't be solved")
         else:
