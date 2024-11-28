@@ -112,10 +112,7 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
-    row_values = set(get_row(grid, pos))
-    col_values = set(get_col(grid, pos))
-    block_values = set(get_block(grid, pos))
-    used_values = row_values | col_values | block_values
+    used_values = set(get_row(grid, pos)) | set(get_col(grid, pos)) | set(get_block(grid, pos))
     all_values = set(map(str, range(1, 10)))
     result = list(all_values - used_values)
     return set(result)
