@@ -186,22 +186,23 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     """
     sudoku = [["." for _ in range(9)] for _ in range(9)]
     N = min(N, 81)
+
     for _ in range(N):
         row, col = random.randint(0, 8), random.randint(0, 8)
+        while sudoku[row][col] != ".":
+            row, col = random.randint(0, 8), random.randint(0, 8)
 
-    while sudoku[row][col] != ".":
-        row, col = random.randint(0, 8), random.randint(0, 8)
-
-    values = find_possible_values(sudoku, (row, col))
-    while values:
-        value = values.pop()
-        sudoku[row][col] = value
-        if solve([row[:] for row in sudoku]):
-            break
-        else:
+        values = find_possible_values(sudoku, (row, col))
+        while values:
+            value = values.pop()
+            sudoku[row][col] = value
+            if solve([row[:] for row in sudoku]):
+                break
+            
             sudoku[row][col] = "."
 
     return sudoku
+
 
 
 if __name__ == "__main__":
