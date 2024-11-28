@@ -198,11 +198,10 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
             sudoku[row][col] = value
             if solve([row[:] for row in sudoku]):
                 break
-            
+
             sudoku[row][col] = "."
 
     return sudoku
-
 
 
 if __name__ == "__main__":
