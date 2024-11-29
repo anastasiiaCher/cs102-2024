@@ -24,8 +24,7 @@ def display(grid: tp.List[tp.List[str]]) -> None:
     width = 2
     line = "+".join(["-" * (width * 3)] * 3)
     for row in range(9):
-        print("".join(grid[row][col].center(width) + \
-                ("|" if str(col) in "25" else "") for col in range(9)))
+        print("".join(grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)))
         if str(row) in "25":
             print(line)
     print()
@@ -101,18 +100,15 @@ def get_block(copy: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     mass = []
     if pos[0] % 3 == 0:
         mass.extend(
-            [full_line(grid, pos), full_line(grid, (pos[0] + 1,\
-            pos[1])), full_line(grid, (pos[0] + 2, pos[1]))]
+            [full_line(grid, pos), full_line(grid, (pos[0] + 1, pos[1])), full_line(grid, (pos[0] + 2, pos[1]))]
         )
     elif pos[0] % 3 == 1:
         mass.extend(
-            [full_line(grid, (pos[0] - 1, pos[1])), \
-             full_line(grid, pos), full_line(grid, (pos[0] + 1, pos[1]))]
+            [full_line(grid, (pos[0] - 1, pos[1])), full_line(grid, pos), full_line(grid, (pos[0] + 1, pos[1]))]
         )
     elif pos[0] % 3 == 2:
         mass.extend(
-            [full_line(grid, (pos[0] - 2, pos[1])), \
-             full_line(grid, (pos[0] - 1, pos[1])), full_line(grid, pos)]
+            [full_line(grid, (pos[0] - 2, pos[1])), full_line(grid, (pos[0] - 1, pos[1])), full_line(grid, pos)]
         )
     line = []
     for i in mass:
@@ -149,9 +145,7 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     perfect = "123456789"
     myset = set()
     for num in perfect:
-        if (not num in get_col(grid, pos)) and \
-                (not num in get_row(grid, pos)) and \
-                (not num in get_block(grid, pos)):
+        if (not num in get_col(grid, pos)) and (not num in get_row(grid, pos)) and (not num in get_block(grid, pos)):
             myset.add(num)
     return myset
 
