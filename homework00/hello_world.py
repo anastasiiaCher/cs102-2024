@@ -1,2 +1,6 @@
+"""Исправлены ошибки"""
+
+
 def text():
-    return message
+    """return"""
+    return "message"
