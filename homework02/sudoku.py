@@ -1,3 +1,4 @@
+from cmath import sqrt
 import pathlib
 import typing as tp
 
@@ -13,23 +14,8 @@ def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
         puzzle = f.read()
     return create_grid(puzzle)
 
-def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
-    """
-    Сгруппировать значения values в список, состоящий из списков по n элементов
-
-    >>> group([1,2,3,4], 2)
-    [[1, 2], [3, 4]]
-    >>> group([1,2,3,4,5,6,7,8,9], 3)
-    [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-    """
-    c = 0
-    two_dim = [ values[c:c+n] for c in range( 0, len(values), n ) ]
 
 
-    return two_dim
-
-
-group([1,2,3,4], 2)
 def create_grid(puzzle: str) -> tp.List[tp.List[str]]:
     digits = [c for c in puzzle if c in "123456789."]
     grid = group(digits, 9)
@@ -54,12 +40,17 @@ def display(grid: tp.List[tp.List[str]]) -> None:
 def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     """
     Сгруппировать значения values в список, состоящий из списков по n элементов
+
     >>> group([1,2,3,4], 2)
     [[1, 2], [3, 4]]
     >>> group([1,2,3,4,5,6,7,8,9], 3)
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
-    pass
+    c = 0
+    two_dim = [ values[c:c+n] for c in range( 0, len(values), n ) ]
+
+   
+    return two_dim
 
 
 def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -71,7 +62,11 @@ def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_row([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (2, 0))
     ['.', '8', '9']
     """
-    pass
+    
+    d = pos[0]
+   
+    element = grid[d]
+    return element
 
 
 def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -83,7 +78,15 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_col([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (0, 2))
     ['3', '6', '9']
     """
-    pass
+    e = pos[1]
+    n = len(grid)
+    grid_B = []
+    k = 0
+    for k in range (0,n):
+        grid_T = [ grid[i][k] for i in range (0,n)]
+        grid_B.append(grid_T)
+    element = grid_B [e] 
+    return element
 
 
 def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -96,7 +99,54 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     >>> get_block(grid, (8, 8))
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
     """
-    pass
+    grid_A = []
+    grid_B = []
+    grid_C = []
+    n = len(grid)
+    n_2 =  int(len(grid)**0.5)
+    i = 0
+    
+  
+    for d in range (i, i+n_2):
+        t = i
+        if i>= (n*n_2):
+            break
+        for a in range (0, n,n_2):
+            for c in range(t, t+n_2) :
+                grid_A = grid[c][a:a+n_2] 
+                grid_B += grid_A  
+        i+=n_2
+
+    grid_C = [grid_B[b : b+int(len((grid_B))**0.5)] for b in range (0, len(grid_B), int(len((grid_B))**0.5)) ]  
+    i = pos[0]
+    j = pos[1]
+    n2 = len(grid_C)
+    n2_2 = n2**0.5
+
+    t = i*j
+    t_2 = int(t**0.5)
+
+    element = grid_C[t_2]
+
+
+    # for t in range(0,n2,n2_2) and c in range(0,n_2):
+    #     if i in range(t, t+n_2):
+    #         i_2 = c
+    #         break
+    #     else:
+    #         continue
+
+    # for t in range(0,n2,n2_2) and c in range(0,n_2):
+    #     if j in range(t, t+n_2):
+    #         j_2 = c
+    #         break
+    #     else:
+    #         continue    
+
+    return element
+
+
+
 
 
 def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:
@@ -145,36 +195,36 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     pass
 
 
-def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
-    """Генерация судоку заполненного на N элементов
-    >>> grid = generate_sudoku(40)
-    >>> sum(1 for row in grid for e in row if e == '.')
-    41
-    >>> solution = solve(grid)
-    >>> check_solution(solution)
-    True
-    >>> grid = generate_sudoku(1000)
-    >>> sum(1 for row in grid for e in row if e == '.')
-    0
-    >>> solution = solve(grid)
-    >>> check_solution(solution)
-    True
-    >>> grid = generate_sudoku(0)
-    >>> sum(1 for row in grid for e in row if e == '.')
-    81
-    >>> solution = solve(grid)
-    >>> check_solution(solution)
-    True
-    """
-    pass
+# def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
+#     """Генерация судоку заполненного на N элементов
+#     >>> grid = generate_sudoku(40)
+#     >>> sum(1 for row in grid for e in row if e == '.')
+#     41
+#     >>> solution = solve(grid)
+#     >>> check_solution(solution)
+#     True
+#     >>> grid = generate_sudoku(1000)
+#     >>> sum(1 for row in grid for e in row if e == '.')
+#     0
+#     >>> solution = solve(grid)
+#     >>> check_solution(solution)
+#     True
+#     >>> grid = generate_sudoku(0)
+#     >>> sum(1 for row in grid for e in row if e == '.')
+#     81
+#     >>> solution = solve(grid)
+#     >>> check_solution(solution)
+#     True
+#     """
+#     pass
 
 
-if __name__ == "__main__":
-    for fname in ["puzzle1.txt", "puzzle2.txt", "puzzle3.txt"]:
-        grid = read_sudoku(fname)
-        display(grid)
-        solution = solve(grid)
-        if not solution:
-            print(f"Puzzle {fname} can't be solved")
-        else:
-            display(solution)
+# if __name__ == "__main__":
+#     for fname in ["homework02/puzzle1.txt", "homework02/puzzle2.txt", "homework02/puzzle3.txt"]:
+#         grid = read_sudoku(fname)
+#         display(grid)
+#         solution = solve(grid)
+#         if not solution:
+#             print(f"Puzzle {fname} can't be solved")
+#         else:
+#             display(solution)
