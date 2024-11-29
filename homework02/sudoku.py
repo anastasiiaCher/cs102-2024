@@ -2,7 +2,6 @@ import pathlib
 import random
 import typing as tp
 
-
 T = tp.TypeVar("T")
 
 
