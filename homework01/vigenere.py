@@ -22,8 +22,6 @@ def encrypt_vigenere(plaintext, keyword):
     return ciphertext
 
 
-
-
 def decrypt_vigenere(ciphertext, keyword):
     """
     >>> decrypt_vigenere("PYTHON", "A")
