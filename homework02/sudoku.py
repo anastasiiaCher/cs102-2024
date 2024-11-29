@@ -6,7 +6,6 @@ from random import choice, randint
 
 T = tp.TypeVar("T")
 
-
 def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
     """Прочитать Судоку из указанного файла"""
     path = pathlib.Path(path)
@@ -236,7 +235,7 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     empty_grid = ["." for _ in range(81)]
     grid = group(empty_grid, 9)
 
-    full = solve(read_sudoku("puzzle1.txt"))
+    full = solve(create_grid("""53..7....6..195....98....6.8...6...34..8.3..17...2...6.6....28....419..5....8..79"""))
 
     if full is None:
         return grid
