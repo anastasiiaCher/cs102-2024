@@ -1,3 +1,5 @@
+"Программа для судоку"
+
 import pathlib
 import random
 import typing as tp
@@ -14,6 +16,7 @@ def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
 
 
 def create_grid(puzzle: str) -> tp.List[tp.List[str]]:
+    "создаем субоку по файлу"
     digits = [c for c in puzzle if c in "123456789."]
     grid = group(digits, 9)
     return grid
@@ -74,8 +77,8 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
 
 
 def full_line(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
+    "восстанавливаем строку"
     line = grid[pos[0]]
-    dot = line[pos[1]]
     mass = []
     if pos[1] % 3 == 0:
         mass.extend(line[pos[1] : pos[1] + 3])
@@ -126,9 +129,9 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    for i in range(len(grid)):
-        if "." in grid[i]:
-            return (i, grid[i].index("."))
+    for i, row in enumerate(grid):
+        if "." in row:
+            return (i, row.index("."))
     return None
 
 
@@ -186,7 +189,6 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """Если решение solution верно, то вернуть True, в противном случае False"""
-    # TODO: Add doctests with bad puzzles
     if find_empty_positions(solution):
         return False
     else:
