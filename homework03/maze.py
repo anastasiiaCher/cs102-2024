@@ -127,8 +127,17 @@ def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) ->
     :param coord:
     :return:
     """
+    row, col = coord
 
-    pass
+    if row == 0 and grid[row + 1][col] == "■":
+        return True
+    if col == 0 and grid[row][col + 1] == "■":
+        return True
+    if row == len(grid) - 1 and grid[row - 1][col] == "■":
+        return True
+    if col == len(grid[row]) - 1 and grid[row][col - 1] == "■":
+        return True
+    return False
 
 
 def solve_maze(
@@ -139,8 +148,9 @@ def solve_maze(
     :param grid:
     :return:
     """
-
-    pass
+    exits = get_exits(grid)
+    if len(exits) < 2:
+        return grid, exits[0]
 
 
 def add_path_to_grid(
