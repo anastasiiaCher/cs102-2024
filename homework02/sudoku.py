@@ -5,7 +5,6 @@ import typing as tp
 T = tp.TypeVar("T")
 
 
-
 def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
     """Прочитать Судоку из указанного файла"""
     path = pathlib.Path(path)
@@ -18,7 +17,6 @@ def create_grid(puzzle: str) -> tp.List[tp.List[str]]:
     digits = [c for c in puzzle if c in "123456789."]
     grid = group(digits, 9)
     return grid
-
 
 
 def display(grid: tp.List[tp.List[str]]) -> None:
