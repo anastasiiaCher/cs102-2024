@@ -104,8 +104,19 @@ def make_step(grid: List[List[Union[str, int]]], k: int) -> List[List[Union[str,
     :param k:
     :return:
     """
-
-    pass
+    m_row, m_col = len(grid), len(grid[0])
+    for i, row in enumerate(grid):
+        for j, col in enumerate(row):
+            if col == k:
+                if j - 1 >= 0 == grid[i][j - 1]:
+                    grid[i][j - 1] = k + 1
+                if j + 1 < m_col and grid[i][j + 1] == 0:
+                    grid[i][j + 1] = k + 1
+                if i - 1 >= 0 and grid[i - 1][j] == 0:
+                    grid[i - 1][j] = k + 1
+                if i + 1 < m_row and grid[i + 1][j] == 0:
+                    grid[i + 1][j] = k + 1
+    return grid
 
 
 def shortest_path(
@@ -150,7 +161,21 @@ def solve_maze(
     """
     exits = get_exits(grid)
     if len(exits) < 2:
-        return grid, exits[0]
+        return grid, exits
+
+    for el in exits:
+        if encircled_exit(grid, el):
+            return grid, None
+    k = 1
+    grid[exits[0][0]][exits[0][1]] = 1
+    for i, row in enumerate(grid):
+        for j, col in enumerate(row):
+            if col == " ":
+                grid[i][j] = 0
+
+    while grid[exits[1][0]][exits[1][1]] == 0:
+        make_step(grid, k)
+        k += 1
 
 
 def add_path_to_grid(
