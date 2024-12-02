@@ -1,10 +1,9 @@
-import copy
 import pathlib
-import random
 import typing as tp
-from random import choice, randint
+from random import randint
 
 T = tp.TypeVar("T")
+
 
 def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
     """Прочитать Судоку из указанного файла"""
@@ -103,7 +102,7 @@ def find_empty_positions(
     for row in range(len(grid)):
         for col in range(len(grid[0])):
             if grid[row][col] == ".":
-                return (row, col)
+                return row, col
     return None
 
 
