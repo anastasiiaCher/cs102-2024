@@ -1,3 +1,5 @@
 def text():
     return "message"
-print (text)
+
+
+print(text)
