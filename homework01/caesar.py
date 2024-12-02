@@ -1,3 +1,6 @@
+"""Реализация шифра Цезаря"""
+
+
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     Encrypts plaintext using a Caesar cipher.
@@ -12,6 +15,16 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     ciphertext = ""
     # PUT YOUR CODE HERE
+    shift_base = 0
+    for char in plaintext:
+        if char.isalpha():
+            if char.isupper():
+                shift_base = 65
+            if char.islower():
+                shift_base = 97
+            ciphertext += chr((ord(char) - shift_base + shift) % 26 + shift_base)
+        else:
+            ciphertext += char
     return ciphertext
 
 
@@ -29,4 +42,15 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     """
     plaintext = ""
     # PUT YOUR CODE HERE
+    shift_base = 0
+    for char in ciphertext:
+        if char.isalpha():
+            if char.isupper():
+                shift_base = 65
+            if char.islower():
+                shift_base = 97
+            plaintext += chr((ord(char) - shift_base - shift) % 26 + shift_base)
+        else:
+            plaintext += char
+
     return plaintext
