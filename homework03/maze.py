@@ -84,8 +84,17 @@ def get_exits(grid: List[List[Union[str, int]]]) -> List[Tuple[int, int]]:
     :param grid:
     :return:
     """
+    exits = []
 
-    pass
+    for i, row in enumerate(grid):
+        if "X" in row:
+            exits.append((i, row.index('X')))
+            break
+    for i, row in enumerate(grid):
+        if "X" in row and exits[0] != (i, row.index('X')):
+            exits.append((i, row.index('X')))
+            break
+    return exits
 
 
 def make_step(grid: List[List[Union[str, int]]], k: int) -> List[List[Union[str, int]]]:
