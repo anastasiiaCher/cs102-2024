@@ -27,7 +27,11 @@ def display(grid: tp.List[tp.List[str]]) -> None:
     width = 2
     line = "+".join(["-" * (width * 3)] * 3)
     for row in range(9):
-        print("".join(grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)))
+        print(
+            "".join(
+                grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)
+            )
+        )
         if str(row) in "25":
             print(line)
     print()
@@ -84,7 +88,11 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
     """
     y, x = pos[0] // 3, pos[1] // 3
-    return [*grid[y * 3][x * 3 : x * 3 + 3], *grid[y * 3 + 1][x * 3 : x * 3 + 3], *grid[y * 3 + 2][x * 3 : x * 3 + 3]]
+    return [
+        *grid[y * 3][x * 3 : x * 3 + 3],
+        *grid[y * 3 + 1][x * 3 : x * 3 + 3],
+        *grid[y * 3 + 2][x * 3 : x * 3 + 3]
+    ]
 
 
 def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:
@@ -153,8 +161,15 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
-    """Если решение solution верно, то вернуть True, в противном случае False"""
-    # TODO: Add doctests with bad puzzles
+    """Если решение solution верно, то вернуть True, в противном случае False
+    >>> puzzle = create_grid("981425763456738129372691485123569874794283516568174932247856391819342657635917248")
+    >>> check_solution(puzzle)
+    True
+    >>> puzzle = create_grid("999999999999999999999999999999999999999999999999999999999999999999999999999999999")
+    >>> check_solution(puzzle)
+    False
+    """
+    
     if find_empty_positions(solution):
         return False
 
@@ -165,7 +180,9 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
             symbol = copy[i][j]
             copy[i][j] = "."
 
-            if symbol in get_row(copy, (i, j)) or symbol in get_col(copy, (i, j)) or symbol in get_block(copy, (i, j)):
+            if symbol in get_row(copy, (i, j)) \
+                or symbol in get_col(copy, (i, j)) \
+                    or symbol in get_block(copy, (i, j)):
                 return False
 
             copy[i][j] = symbol
@@ -245,6 +262,10 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
 
 
 def transpose(grid: tp.List[tp.List[str]]) -> tp.List[tp.List[str]]:
+    """Функция транспонирует матрицу (таблицу)
+    >>> transpose([[1, 2], [3, 4]])
+    [[1, 3], [2, 4]]
+    """
     return [[grid[i][j] for i in range(len(grid))] for j in range(len(min(grid, key=len)))]
 
 
