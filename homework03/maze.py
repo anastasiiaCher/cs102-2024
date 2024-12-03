@@ -13,20 +13,20 @@ def remove_wall(
     grid: List[List[Union[str, int]]], coord: Tuple[int, int]
 ) -> List[List[Union[str, int]]]:
     """
-
     :param grid:
     :param coord:
     :return:
     """
 
-    pass
+    wrecking_ball = deepcopy(grid)
+    wrecking_ball[coord[0]][coord[1]] = ' '
+    return wrecking_ball
 
 
 def bin_tree_maze(
     rows: int = 15, cols: int = 15, random_exit: bool = True
 ) -> List[List[Union[str, int]]]:
     """
-
     :param rows:
     :param cols:
     :param random_exit:
