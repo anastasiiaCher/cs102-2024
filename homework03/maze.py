@@ -128,27 +128,29 @@ def shortest_path(
     :param exit_coord:
     :return:
     """
-    needed_len, cur_coord = grid[exit_coord[0]][exit_coord[1]], exit_coord
-    path = [exit_coord]
-    count = needed_len
-    while grid[cur_coord[0]][cur_coord[1]] != 1:
-        possible = [
-            (cur_coord[0], cur_coord[1] - 1),
-            (cur_coord[0], cur_coord[1] + 1),
-            (cur_coord[0] - 1, cur_coord[1]),
-            (cur_coord[0] + 1, cur_coord[1])
-        ]
+    needed_len, path = grid[exit_coord[0]][exit_coord[1]], [exit_coord]
+    cur_num = needed_len
+    row, col = exit_coord
 
-        for i, j in possible:
-            if grid[i][j] == grid[cur_coord[0]][cur_coord[1]] - 1:
-                count -= 1
-                cur_coord = (i, j)
-                path.append(cur_coord)
-                break
+    while grid[path[-1][0]][path[-1][1]] != 1:
+        found = False
+        for x, y in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            n_row, n_col = row + x, col + y
+            if 0 <= n_row < len(grid) and 0 <= n_col < len(grid[0]):
+                if grid[n_row][n_col] == cur_num - 1:
+                    path.append((n_row, n_col))
+                    cur_num -= 1
+                    row, col = n_row, n_col
+                    found = True
+                    break
+        if not found:
+            break
 
-    if len(path) != needed_len:
-        grid[cur_coord[0]][cur_coord[1]] = " "
-        shortest_path(grid, exit_coord)
+    if len(path) != needed_len or grid[path[-1][0]][path[-1][1]] != 1:
+        grid[path[-1][0]][path[-1][1]] = " "
+        path.pop(-1)
+        shortest_path(grid, path[-1])
+
     return path
 
 
@@ -187,14 +189,14 @@ def solve_maze(
     for el in exits:
         if encircled_exit(grid, el):
             return grid, None
-    k = 0
+
     grid[exits[0][0]][exits[0][1]] = 1
     grid[exits[1][0]][exits[1][1]] = 0
     for i, row in enumerate(grid):
         for j, col in enumerate(row):
             if col == " ":
                 grid[i][j] = 0
-
+    k = 0
     while grid[exits[1][0]][exits[1][1]] == 0:
         k += 1
         make_step(grid, k)
@@ -224,6 +226,6 @@ if __name__ == "__main__":
     print(pd.DataFrame(bin_tree_maze(15, 15)))
     GRID = bin_tree_maze(15, 15)
     print(pd.DataFrame(GRID))
-    _, PATH = solve_maze(GRID)
-    MAZE = add_path_to_grid(GRID, PATH)
+    MAZE, PATH = solve_maze(GRID)
+    MAZE = add_path_to_grid(MAZE, PATH)
     print(pd.DataFrame(MAZE))
