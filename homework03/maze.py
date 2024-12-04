@@ -9,23 +9,46 @@ def create_grid(rows: int = 15, cols: int = 15) -> List[List[Union[str, int]]]:
     return [["■"] * cols for _ in range(rows)]
 
 
-def remove_wall(
-    grid: List[List[Union[str, int]]], coord: Tuple[int, int]
-) -> List[List[Union[str, int]]]:
+def remove_wall(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> List[List[Union[str, int]]]:
     """
-    :param grid:
-    :param coord:
-    :return:
+    Apparently that does not work:
+
+    if coord[0] - 1 == 0 and coord[1] == len(grid[0]) - 2:
+        return grid
+    if coord[0] - 1 == 0:
+        direction = (0, 1)
+    elif coord[1] == len(grid[0]) - 2:
+        direction = (-1, 0)
+    else:
+        direction = choice([(0, 1), (-1, 0)])
+    grid[coord[0] + direction[0]][coord[1] + direction[1]] = ' '
+    return grid
+
+    IDK why
+    The labyrinth is just fine but the tests fail
     """
+    grid = deepcopy(grid)
+    cols = len(grid[0])
+    x, y = coord
 
-    wrecking_ball = deepcopy(grid)
-    wrecking_ball[coord[0]][coord[1]] = ' '
-    return wrecking_ball
+    right = randint(0, 1)
+    up = int(not right)
+    can_go_up = int(x - 1 != 0)
+    can_go_right = int(y + 2 != cols)
+
+    match (up, right, can_go_up, can_go_right):
+        case (1, 0, 1, _):
+            grid[x - 1][y] = " "
+        case (1, 0, 0, 1):
+            grid[x][y + 1] = " "
+        case (0, 1, _, 1):
+            grid[x][y + 1] = " "
+        case (0, 1, 1, 0):
+            grid[x - 1][y] = " "
+    return grid
 
 
-def bin_tree_maze(
-    rows: int = 15, cols: int = 15, random_exit: bool = True
-) -> List[List[Union[str, int]]]:
+def bin_tree_maze(rows: int = 15, cols: int = 15, random_exit: bool = True) -> List[List[Union[str, int]]]:
     """
     Делает пустое поле, выкалывает в нем клетки
     Ходит змейкой по всем клетками и наугад сносит верхнюю или правую стену
@@ -38,18 +61,13 @@ def bin_tree_maze(
             if x % 2 == 1 and y % 2 == 1:
                 grid[x][y] = " "
                 empty_cells.append((x, y))
-
+    """
     for y in range(1, rows, 2):
         for x in range(1, cols, 2):
-            if x == cols - 2 and y == rows - 2:
-                break
-            if x == cols - 2:
-                direction = (1, 0)
-            elif y == rows - 2:
-                direction = (0, 1)
-            else:
-                direction = choice([(0, 1), (1, 0)])
-            grid = remove_wall(grid, (y + direction[0], x + direction[1]))
+            grid = remove_wall(grid, (y, x))
+    """
+    for cell in empty_cells:
+        grid = remove_wall(grid, cell)
 
     # генерация входа и выхода
     if random_exit:
@@ -71,7 +89,7 @@ def get_exits(grid: List[List[Union[str, int]]]) -> List[Tuple[int, int]]:
     :param grid:
     :return:
     """
-    return [(x, y.index("X")) for x, y  in enumerate(grid) if 'X' in y]
+    return [(x, y.index("X")) for x, y in enumerate(grid) if "X" in y]
 
 
 def make_step(grid: List[List[Union[str, int]]], k: int) -> List[List[Union[str, int]]]:
@@ -83,36 +101,54 @@ def make_step(grid: List[List[Union[str, int]]], k: int) -> List[List[Union[str,
     >>> make_step(grid, 1)
     [[0, 2, 0], [2, 1, 2], [2, 1, 2]]
     """
-    for step in [(x, y.index(k)) for x, y  in enumerate(grid) if k in y]:
-        for direction in ((0, 1), (0, -1), (1, 0), (-1, 0)):
-            if step[0] + direction[0] not in (-1, len(grid)) \
-                and step[1] + direction[1] not in (-1, len(grid[0])) \
-                and  grid[step[0] + direction[0]][step[1] + direction[1]] == 0:
-                grid[step[0] + direction[0]][step[1] + direction[1]] = k + 1
+    for y in range(len(grid)):
+        for x in range(len(grid[y])):
+            step = (y, x)
+            if grid[step[0]][step[1]] == k:
+                for direction in ((0, 1), (0, -1), (1, 0), (-1, 0)):
+                    if step[0] + direction[0] not in (-1, len(grid)) and step[1] + direction[1] not in (
+                        -1,
+                        len(grid[0]),
+                    ):
+                        if grid[step[0] + direction[0]][step[1] + direction[1]] == 0:
+                            grid[step[0] + direction[0]][step[1] + direction[1]] = k + 1
     return grid
+
 
 def shortest_path(
     grid: List[List[Union[str, int]]], exit_coord: Tuple[int, int]
 ) -> Optional[Union[Tuple[int, int], List[Tuple[int, int]]]]:
     """
+    k = int(grid[exit_coord[0]][exit_coord[1]])
+    if grid[exit_coord[0]][exit_coord[1]] == 1:
+        return exit_coord
+    for directions in ((0, 1), (0, -1), (1, 0), (-1, 0)):
+        if not (exit_coord[0] + directions[0] in {-1, len(grid)}
+        or exit_coord[1] + directions[1] in {-1, len(grid[0])}):
+            if grid[exit_coord[0] + directions[0]][exit_coord[1] + directions[1]] == k - 1:
+                next_step_coord = (exit_coord[0] + directions[0], exit_coord[1] + directions[1])
+                break
 
-    :param grid:
-    :param exit_coord:
-    :return:
+    next_step = shortest_path(grid, next_step_coord)
+    mypy_step = list(next_step)[0]
+    if type(mypy_step) == int:
+        return [exit_coord, mypy_step]
+    return [exit_coord, *mypy_step]
     """
     if grid[exit_coord[0]][exit_coord[1]] == 1:
         return exit_coord
-    else:
-        for i in [(x, y.index(grid[exit_coord[0]][exit_coord[1]] - 1))
-            for x, y in enumerate(grid) if grid[exit_coord[0]][exit_coord[1]] - 1 in y]:
-            if max((i[0] - exit_coord[0]) ** 2, (i[1] - exit_coord[1]) ** 2) == 1 \
-                and min((i[0] - exit_coord[0]) ** 2, (i[1] - exit_coord[1]) ** 2) == 0:
-                next_step_coord = i
-
-        next_step = shortest_path(grid, next_step_coord)
-        if type(next_step[0]) == int:
-            return [exit_coord, next_step]
-        return [exit_coord, *next_step]
+    k = int(grid[exit_coord[0]][exit_coord[1]])
+    path = [exit_coord]
+    while k > 1:
+        for directions in ((0, 1), (0, -1), (1, 0), (-1, 0)):
+            if not (
+                exit_coord[0] + directions[0] in {-1, len(grid)} or exit_coord[1] + directions[1] in {-1, len(grid[0])}
+            ):
+                if grid[exit_coord[0] + directions[0]][exit_coord[1] + directions[1]] == k - 1:
+                    exit_coord = exit_coord[0] + directions[0], exit_coord[1] + directions[1]
+                    path.append(exit_coord)
+                    k -= 1
+    return path
 
 
 def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> bool:
@@ -122,20 +158,22 @@ def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) ->
     >>> grid = [["■", "■"], ["■", "X"], ["■", "■"]]
     >>> encircled_exit(grid, (1, 1))
     True
-    >>> grid = [["■", "■", "■"], ["■", "X" "■"]]
+    >>> grid = [["■", "■", "■"], ["■", "X", "■"]]
     >>> encircled_exit(grid, (1, 1))
     True
     >>> grid = [["■", "■", "■"], ["■", " ", "■"], ["■", "X", "■"]]
     >>> encircled_exit(grid, (2, 1))
     False
     """
+    wall_counter = 0
+    void_counter = 0
     for direction in ((0, 1), (0, -1), (1, 0), (-1, 0)):
-        if not (coord[0] + direction[0] in {-1, len(grid)}
-        or coord[1] + direction[1] in {-1, len(grid[0])}):
-            if grid[coord[0] + direction[0]][coord[1] + direction[1]] in " X":
-                return False
-    return True
-
+        if not (coord[0] + direction[0] in {-1, len(grid)} or coord[1] + direction[1] in {-1, len(grid[0])}):
+            if grid[coord[0] + direction[0]][coord[1] + direction[1]] == "■":
+                wall_counter += 1
+        else:
+            void_counter += 1
+    return (void_counter == 1 and wall_counter == 3) or (void_counter == 2 and wall_counter == 2)
 
 
 def solve_maze(
@@ -149,26 +187,26 @@ def solve_maze(
     grid = deepcopy(grid)
     exits = get_exits(grid)
 
-    #Проверка совпадения выходов
-    if exits[0] == exits[1]:
+    # Проверка совпадения выходов
+    if len(exits) == 1:
         return grid, exits[0]
 
-    #Проверка тупиковости выходов
+    # Проверка тупиковости выходов
     for door in exits:
         if encircled_exit(grid, door):
             return grid, None
 
-    #Заполнение поля нулями, замена входа единицей
-    grid = [["■" if y == "■" else 0 for y in x] \
-            for x in grid]
+    # Заполнение поля нулями, замена входа единицей
+    grid = [["■" if y == "■" else 0 for y in x] for x in grid]
     grid[exits[0][0]][exits[0][1]] = 1
 
-    #Алгоритм Дейкстры
+    # Алгоритм Дейкстры
     k = 0
     while grid[exits[1][0]][exits[1][1]] == 0:
         k += 1
         grid = make_step(grid, k)
     return grid, shortest_path(grid, exits[1])
+
 
 def add_path_to_grid(
     grid: List[List[Union[str, int]]], path: Optional[Union[Tuple[int, int], List[Tuple[int, int]]]]
