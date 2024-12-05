@@ -1,3 +1,5 @@
+"""Creating and solving maze"""
+
 from copy import deepcopy
 from random import choice, randint
 from typing import List, Optional, Tuple, Union
@@ -6,12 +8,11 @@ import pandas as pd
 
 
 def create_grid(rows: int = 15, cols: int = 15) -> List[List[Union[str, int]]]:
+    """Create grid"""
     return [["■"] * cols for _ in range(rows)]
 
 
-def remove_wall(
-    grid: List[List[Union[str, int]]], coord: Tuple[int, int]
-) -> List[List[Union[str, int]]]:
+def remove_wall(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> List[List[Union[str, int]]]:
     """
 
     :param grid:
@@ -35,9 +36,7 @@ def remove_wall(
     return grid
 
 
-def bin_tree_maze(
-    rows: int = 15, cols: int = 15, random_exit: bool = True
-) -> List[List[Union[str, int]]]:
+def bin_tree_maze(rows: int = 15, cols: int = 15, random_exit: bool = True) -> List[List[Union[str, int]]]:
     """
 
     :param rows:
@@ -88,11 +87,11 @@ def get_exits(grid: List[List[Union[str, int]]]) -> List[Tuple[int, int]]:
 
     for i, row in enumerate(grid):
         if "X" in row:
-            exits.append((i, row.index('X')))
+            exits.append((i, row.index("X")))
             break
     for i, row in enumerate(grid):
-        if "X" in row and exits[0] != (i, row.index('X')):
-            exits.append((i, row.index('X')))
+        if "X" in row and exits[0] != (i, row.index("X")):
+            exits.append((i, row.index("X")))
             break
     return exits
 
@@ -129,7 +128,7 @@ def shortest_path(
     :return:
     """
     needed_len, path = grid[exit_coord[0]][exit_coord[1]], [exit_coord]
-    cur_num = needed_len
+    cur_num = int(needed_len)
     row, col = exit_coord
 
     while grid[path[-1][0]][path[-1][1]] != 1:
