@@ -1,5 +1,6 @@
 import pathlib
 import typing as tp
+import random
 
 T = tp.TypeVar("T")
 
@@ -100,6 +101,10 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
+    for row_index, row in enumerate(grid):
+        for col_index, cell in enumerate(row):
+            if cell == '.':
+                return (row_index, col_index)
     pass
 
 
@@ -113,6 +118,11 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
+    row = set(get_row(grid, pos))
+    col = set(get_col(grid, pos))
+    block = set(get_block(grid, pos))
+    possible = set("123456789") - row - col - block
+    return possible
     pass
 
 
@@ -128,20 +138,18 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     >>> solve(grid)
     [['5', '3', '4', '6', '7', '8', '9', '1', '2'], ['6', '7', '2', '1', '9', '5', '3', '4', '8'], ['1', '9', '8', '3', '4', '2', '5', '6', '7'], ['8', '5', '9', '7', '6', '1', '4', '2', '3'], ['4', '2', '6', '8', '5', '3', '7', '9', '1'], ['7', '1', '3', '9', '2', '4', '8', '5', '6'], ['9', '6', '1', '5', '3', '7', '2', '8', '4'], ['2', '8', '7', '4', '1', '9', '6', '3', '5'], ['3', '4', '5', '2', '8', '6', '1', '7', '9']]
     """
-    find = find_empty(grid)
-    if not find:
+    pos = find_empty_positions(grid)
+    if pos is None:
         return grid
-    else:
-        row, col = find
 
-    for i in range(1, 10):
-        if is_valid(grid, i, (row, col)):
-            grid[row][col] = str(i)
+    row, col = pos
+    possible_values = find_possible_values(grid, pos)
 
-            if solve(grid):
-                return grid
-
-            grid[row][col] = '.'
+    for value in possible_values:
+        grid[row][col] = value
+        if solve(grid):
+            return grid
+        grid[row][col] = '.'
 
     return None
     pass
@@ -149,6 +157,23 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """ Если решение solution верно, то вернуть True, в противном случае False """
+    if not solution: return False
+    for row in solution:
+        if len(set(row)) != 9 or '0' in row or '.' in row:
+            return False
+    for col in range(9):
+        column = [row[col] for row in solution]
+        if len(set(column)) != 9 or '0' in column or '.' in column:
+            return False
+    for i in range(0, 9, 3):
+        for j in range(0, 9, 3):
+            square = []
+            for x in range(i, i + 3):
+                for y in range(j, j + 3):
+                    square.append(solution[x][y])
+            if len(set(square)) != 9 or '0' in square or '.' in square:
+                return False
+    return True
     # TODO: Add doctests with bad puzzles
     pass
 
@@ -174,6 +199,19 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
+    grid = solve([['.' for _ in range(9)] for _ in range(9)])
+
+    if not grid:
+        return [['.' for _ in range(9)] for _ in range(9)]
+
+    cellsrem = 81 - N
+    while cellsrem > 0:
+        row = random.randint(0, 8)
+        col = random.randint(0, 8)
+        if grid[row][col] != '.':
+            grid[row][col] = '.'
+            cellsrem -= 1
+    return grid
     pass
 
 
