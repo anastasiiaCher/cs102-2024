@@ -35,12 +35,13 @@ def display(grid: tp.List[tp.List[str]]) -> None:
 
 def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     """
-    Сгруппировать значения values в список, состоящий из списков по n элементов
-    >>> group([1,2,3,4], 2)
-    [[1, 2], [3, 4]]
-    >>> group([1,2,3,4,5,6,7,8,9], 3)
-    [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-    """
+        Сгруппировать значения values в список, состоящий из списков по n элементов
+        >>> group([1,2,3,4], 2)
+        [[1, 2], [3, 4]]
+        >>> group([1,2,3,4,5,6,7,8,9], 3)
+        [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+        """
+    return [values[i:i+n] for i in range(0, len(values), n)]
     pass
 
 
@@ -53,6 +54,7 @@ def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_row([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (2, 0))
     ['.', '8', '9']
     """
+    return grid[pos[0]]
     pass
 
 
@@ -65,6 +67,7 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_col([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (0, 2))
     ['3', '6', '9']
     """
+    return [row[pos[1]] for row in grid]
     pass
 
 
@@ -78,6 +81,13 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     >>> get_block(grid, (8, 8))
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
     """
+    block_row = (pos[0] // 3) * 3
+    block_col = (pos[1] // 3) * 3
+    block = []
+    for i in range(block_row, block_row + 3):
+        for j in range(block_col, block_col + 3):
+            block.append(grid[i][j])
+    return block
     pass
 
 
@@ -118,6 +128,22 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     >>> solve(grid)
     [['5', '3', '4', '6', '7', '8', '9', '1', '2'], ['6', '7', '2', '1', '9', '5', '3', '4', '8'], ['1', '9', '8', '3', '4', '2', '5', '6', '7'], ['8', '5', '9', '7', '6', '1', '4', '2', '3'], ['4', '2', '6', '8', '5', '3', '7', '9', '1'], ['7', '1', '3', '9', '2', '4', '8', '5', '6'], ['9', '6', '1', '5', '3', '7', '2', '8', '4'], ['2', '8', '7', '4', '1', '9', '6', '3', '5'], ['3', '4', '5', '2', '8', '6', '1', '7', '9']]
     """
+    find = find_empty(grid)
+    if not find:
+        return grid
+    else:
+        row, col = find
+
+    for i in range(1, 10):
+        if is_valid(grid, i, (row, col)):
+            grid[row][col] = str(i)
+
+            if solve(grid):
+                return grid
+
+            grid[row][col] = '.'
+
+    return None
     pass
 
 
