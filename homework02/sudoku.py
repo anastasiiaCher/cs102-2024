@@ -192,9 +192,9 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     not_empty_pos = [(i, j) for j in range(9) for i in range(9)]
     for i in range(81 - N):
         pos = random.choice(not_empty_pos)
-        grid[pos[0]][pos[1]] = "."
+        grid[pos[0]][pos[1]] = "."  # type: ignore
         not_empty_pos.remove(pos)
-    return grid
+    return grid  # type: ignore
 
 
 def run_solve(filename: str) -> None:
