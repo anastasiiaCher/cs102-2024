@@ -18,21 +18,28 @@ def remove_wall(
     :param coord:
     :return:
     """
+    row, col = coord[0], coord[1]
+    directions = ["go up", "go right"]
 
-    pass
+    decision = choice(directions)
+    if decision == "go up" and (0 <= row - 2 < len(grid) - 1 and 0 <= col < len(grid[0]) - 1):
+        grid[row - 1][col] = " "
+    else:
+        decision = "go right"
+    if decision == "go right" and (0 <= row < len(grid) - 1 and 0 <= col + 2 < len(grid[0]) - 1):
+        grid[row][col + 1] = " "
+    elif 0 <= row - 2 < len(grid) - 1 and 0 <= col < len(grid[0]) - 1:
+        grid[row - 1][col] = " "
 
+    return grid
 
-def bin_tree_maze(
-    rows: int = 15, cols: int = 15, random_exit: bool = True
-) -> List[List[Union[str, int]]]:
+def bin_tree_maze(rows: int = 15, cols: int = 15, random_exit: bool = True) -> List[List[Union[str, int]]]:
     """
-
     :param rows:
     :param cols:
     :param random_exit:
     :return:
     """
-
     grid = create_grid(rows, cols)
     empty_cells = []
     for x, row in enumerate(grid):
@@ -48,6 +55,10 @@ def bin_tree_maze(
     # 3. перейти в следующую клетку, сносим между клетками стену
     # 4. повторять 2-3 до тех пор, пока не будут пройдены все клетки
 
+    while empty_cells:
+        empty_cell_row, empty_cell_col = empty_cells.pop(0)
+        grid = remove_wall(grid, (empty_cell_row, empty_cell_col))
+
     # генерация входа и выхода
     if random_exit:
         x_in, x_out = randint(0, rows - 1), randint(0, rows - 1)
@@ -62,6 +73,7 @@ def bin_tree_maze(
     return grid
 
 
+
 def get_exits(grid: List[List[Union[str, int]]]) -> List[Tuple[int, int]]:
     """
 
@@ -69,7 +81,8 @@ def get_exits(grid: List[List[Union[str, int]]]) -> List[Tuple[int, int]]:
     :return:
     """
 
-    pass
+    exits = [(i, j) for i, row in enumerate(grid) for j, element in enumerate(row) if element == "X"]
+    return exits
 
 
 def make_step(grid: List[List[Union[str, int]]], k: int) -> List[List[Union[str, int]]]:
@@ -79,9 +92,56 @@ def make_step(grid: List[List[Union[str, int]]], k: int) -> List[List[Union[str,
     :param k:
     :return:
     """
+    
+    for i, row in enumerate(grid):
+        for j, _ in enumerate(row):
+            if grid[i][j] == k:
+                
+                if i + 1 < len(grid) and grid[i + 1][j] == 0:
+                    grid[i + 1][j] = k + 1
+                if 0 <= i - 1 and grid[i - 1][j] == 0:
+                    grid[i - 1][j] = k + 1
+                if j + 1 < len(row) and grid[i][j + 1] == 0:
+                    grid[i][j + 1] = k + 1
+                if 0 <= i - 1 and grid[i][j - 1] == 0:
+                    grid[i][j - 1] = k + 1
 
-    pass
+    return grid
 
+        
+def find_closest_coordinates(grid: List[List[Union[str, int]]], current_position: Tuple[int, int]
+) -> List[Tuple[int, int]]:
+    """
+    Эта функция вычисляет ближайшие к текущей позиции доступные непустые координаты
+    >>> find_closest_coordinates(
+    ...     [["■", "■", "■", "■", "■", "■", "■", "■", "■", "■", "■"],
+    ...     ["■", 0, 0, 0, 0, 0, 0, 0, 0, 0, "■"],
+    ...     ["■", "■", "■", "■", "■", 0, "■", 0, "■", 0, "■"],
+    ...     ["■", 0, 0, 0, 0, 0, "■", 0, "■", 3, "■"],
+    ...     ["■", "■", "■", "■", "■", "■", "■", "■", "■", 2, 1],
+    ...     [0, 0, 0, 0, 0, 0, 0, 0, 0, 3, "■"],
+    ...     ["■", "■", "■", "■", "■", "■", "■", 0, "■", 0, "■"],
+    ...     ["■", 0, 0, 0, 0, 0, 0, 0, "■", 0, "■"],
+    ...     ["■", "■", "■", 0, "■", "■", "■", 0, "■", 0, "■"],
+    ...     ["■", 0, 0, 0, "■", 0, 0, 0, "■", 0, "■"],
+    ...     ["■", "■", "■", "■", "■", "■", "■", "■", "■", "■", "■"]], (3, 9))
+    [(4, 9), (2, 9)]
+    """
+        
+    i = current_position[0]
+    j = current_position[1]
+
+    closest_coordinates = list()
+    if i + 1 < len(grid) and grid[i + 1][j] != "■":
+        closest_coordinates.append((i + 1, j))
+    if j + 1 < len(grid[0]) and grid[i][j + 1] != "■":
+        closest_coordinates.append((i, j + 1))
+    if i - 1 >= 0 and grid[i - 1][j] != "■":
+        closest_coordinates.append((i - 1, j))
+    if j - 1 >= 0 and grid[i][j - 1] != "■" :
+        closest_coordinates.append((i, j - 1))
+
+    return closest_coordinates
 
 def shortest_path(
     grid: List[List[Union[str, int]]], exit_coord: Tuple[int, int]
@@ -92,8 +152,22 @@ def shortest_path(
     :param exit_coord:
     :return:
     """
-    pass
+    i = exit_coord[0]
+    j = exit_coord[1]
+    current_value = grid[i][j]
 
+    if current_value == 1:
+        return [(i, j)]
+    
+    close_coordinates = find_closest_coordinates(grid, exit_coord)
+
+    for step in close_coordinates:
+        next_value = grid[step[0]][step[1]]
+        if type(current_value) == int and type(next_value) == int and next_value == current_value - 1:
+            result = shortest_path(grid, step)
+            if result:
+                return [(i, j)] + result
+    grid[step[0]][step[1]] = " "
 
 def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> bool:
     """
@@ -102,8 +176,11 @@ def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) ->
     :param coord:
     :return:
     """
-
-    pass
+    i = coord[0]
+    j = coord[1]
+    if find_closest_coordinates(grid, coord) or (i != 0 and j != 0 and i != len(grid) - 1 and j != len(grid[0]) - 1):
+        return False
+    return True
 
 
 def solve_maze(
@@ -114,9 +191,25 @@ def solve_maze(
     :param grid:
     :return:
     """
-
-    pass
-
+    exits = get_exits(grid)
+    if len(exits) == 1:
+        return grid, exits[0]
+    start, finish = exits[0], exits[1]
+    if encircled_exit(grid, start) or encircled_exit(grid, finish):
+        return grid, None
+    for i, row in enumerate(grid):
+        for j, _ in enumerate(row):
+            if grid[i][j] != "■":
+                grid[i][j] = 0
+    grid[start[0]][start[1]] = 1   #в клетку входа ставим 1            
+    k = 0
+    while grid[finish[0]][finish[1]] == 0:
+        k += 1
+        make_step(grid, k)
+    path = shortest_path(grid, finish)
+    return grid, path
+    
+   
 
 def add_path_to_grid(
     grid: List[List[Union[str, int]]], path: Optional[Union[Tuple[int, int], List[Tuple[int, int]]]]

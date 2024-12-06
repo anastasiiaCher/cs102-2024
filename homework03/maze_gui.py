@@ -1,7 +1,7 @@
 import tkinter as tk
 from typing import List
 from tkinter import ttk, messagebox
-from maze import bin_tree_maze, solve_maze, add_path_to_grid
+from maze import bin_tree_maze, solve_maze, add_path_to_grid, get_exits, encircled_exit, shortest_path
 
 
 def draw_cell(x, y, color, size: int = 10):
@@ -20,9 +20,17 @@ def draw_maze(grid: List[List[str]], size: int = 10):
             elif cell == "■":
                 color = 'black'
             elif cell == "X":
-                color = "red"
+                color = "#96C864" #салатовый
             draw_cell(y, x, color, size)
+            
 
+def is_solvable(grid: List[List[str]]):
+    exits = get_exits(grid)
+    start = exits[0]
+    finish = exits[1]
+    if encircled_exit(grid, start) or encircled_exit(grid, finish):
+            return False
+    return True
 
 def show_solution():
     maze, path = solve_maze(GRID)
@@ -39,6 +47,8 @@ if __name__ == "__main__":
 
     CELL_SIZE = 10
     GRID = bin_tree_maze(N, M)
+    while not is_solvable(GRID):
+        GRID = bin_tree_maze(N, M)
 
     window = tk.Tk()
     window.title('Maze')

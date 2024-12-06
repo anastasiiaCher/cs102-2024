@@ -82,6 +82,7 @@ class MazeTest(unittest.TestCase):
             ["■", " ", " ", " ", "■"],
             ["■", "■", "■", "■", "■"],
         ]
+            
         self.assertEqual(expected_grid_42, maze.bin_tree_maze(5, 5))
 
         seed(222)
