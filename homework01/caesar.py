@@ -1,3 +1,9 @@
+"""Алгоритм позволяет зашифровать и расшифровать сообщение при помощи шифра Цезаря."""
+
+alpha = "abcdefghijklmnopqrstuvwxyz"
+alpha_caps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     Encrypts plaintext using a Caesar cipher.
@@ -10,8 +16,16 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     >>> encrypt_caesar("")
     ''
     """
+
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    for i in range(len(plaintext)):
+        s = plaintext[i]
+        if s in alpha:
+            ciphertext += alpha[(alpha.index(s) + shift) % len(alpha)]
+        elif s in alpha_caps:
+            ciphertext += alpha_caps[(alpha_caps.index(s) + shift) % len(alpha_caps)]
+        else:
+            ciphertext += s
     return ciphertext
 
 
@@ -28,5 +42,16 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    for i in range(len(ciphertext)):
+        s = ciphertext[i]
+        if s in alpha:
+            plaintext += alpha[(alpha.index(s) - shift) % len(alpha)]
+        elif s in alpha_caps:
+            plaintext += alpha_caps[(alpha_caps.index(s) - shift) % len(alpha_caps)]
+        else:
+            plaintext += s
     return plaintext
+
+
+# print(encrypt_caesar("Python3.6"))
+# print(decrypt_caesar("sbwkrq"))
