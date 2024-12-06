@@ -1,242 +1,138 @@
-import unittest
+import pathlib
+import random
+import typing as tp
 
-import sudoku
+T = tp.TypeVar("T")
 
 
-class SudokuTestCase(unittest.TestCase):
-    def test_group(self):
-        values = [1, 2, 3, 4]
-        expected_groups = [[1, 2], [3, 4]]
-        actual_groups = sudoku.group(values, 2)
-        self.assertEqual(expected_groups, actual_groups)
+def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
+    """Прочитать Судоку из указанного файла"""
+    path = pathlib.Path(path)
+    with path.open(encoding="utf-8") as f:
+        puzzle = f.read()
+    return create_grid(puzzle)
 
-        values = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        expected_groups = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-        actual_groups = sudoku.group(values, 3)
-        self.assertEqual(expected_groups, actual_groups)
 
-    def test_get_row(self):
-        puzzle = [["1", "2", "."], ["4", "5", "6"], ["7", "8", "9"]]
-        pos = (0, 0)
-        expected_row = ["1", "2", "."]
-        actual_row = sudoku.get_row(puzzle, pos)
-        self.assertEqual(expected_row, actual_row)
+def create_grid(puzzle: str) -> tp.List[tp.List[str]]:
+    """Создать сетку Судоку из строки"""
+    digits = [c for c in puzzle if c in "123456789."]
+    return group(digits, 9)
 
-        puzzle = [["1", "2", "3"], ["4", ".", "6"], ["7", "8", "9"]]
-        pos = (1, 0)
-        expected_row = ["4", ".", "6"]
-        actual_row = sudoku.get_row(puzzle, pos)
-        self.assertEqual(expected_row, actual_row)
 
-        puzzle = [["1", "2", "3"], ["4", "5", "6"], [".", "8", "9"]]
-        pos = (2, 0)
-        expected_row = [".", "8", "9"]
-        actual_row = sudoku.get_row(puzzle, pos)
-        self.assertEqual(expected_row, actual_row)
+def display(grid: tp.List[tp.List[str]]) -> None:
+    """Вывод Судоку"""
+    width = 2
+    line = "+".join(["-" * (width * 3)] * 3)
+    for row in range(9):
+        print(
+            "".join(
+                grid[row][col].center(width) + ("|" if col in {2, 5} else "")
+                for col in range(9)
+            )
+        )
+        if row in {2, 5}:
+            print(line)
+    print()
 
-    def test_get_col(self):
-        puzzle = [["1", "2", "."], ["4", "5", "6"], ["7", "8", "9"]]
-        pos = (0, 0)
-        expected_col = ["1", "4", "7"]
-        actual_col = sudoku.get_col(puzzle, pos)
-        self.assertEqual(expected_col, actual_col)
 
-        puzzle = [["1", "2", "3"], ["4", ".", "6"], ["7", "8", "9"]]
-        pos = (0, 1)
-        expected_col = ["2", ".", "8"]
-        actual_col = sudoku.get_col(puzzle, pos)
-        self.assertEqual(expected_col, actual_col)
+def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
+    """Сгруппировать значения values в список из списков по n элементов"""
+    return [values[i * n : (i + 1) * n] for i in range(len(values) // n)]
 
-        puzzle = [["1", "2", "3"], ["4", "5", "6"], [".", "8", "9"]]
-        pos = (0, 2)
-        expected_col = ["3", "6", "9"]
-        actual_col = sudoku.get_col(puzzle, pos)
-        self.assertEqual(expected_col, actual_col)
 
-    def test_get_block(self):
-        grid = [
-            ["5", "3", ".", ".", "7", ".", ".", ".", "."],
-            ["6", ".", ".", "1", "9", "5", ".", ".", "."],
-            [".", "9", "8", ".", ".", ".", ".", "6", "."],
-            ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
-            ["4", ".", ".", "8", ".", "3", ".", ".", "1"],
-            ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
-            [".", "6", ".", ".", ".", ".", "2", "8", "."],
-            [".", ".", ".", "4", "1", "9", ".", ".", "5"],
-            [".", ".", ".", ".", "8", ".", ".", "7", "9"],
-        ]
+def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
+    """Возвращает все значения строки для указанной позиции"""
+    return grid[pos[0]]
 
-        pos = (0, 1)
-        expected_block = ["5", "3", ".", "6", ".", ".", ".", "9", "8"]
-        actual_block = sudoku.get_block(grid, pos)
-        self.assertEqual(expected_block, actual_block)
 
-        pos = (4, 7)
-        expected_block = [".", ".", "3", ".", ".", "1", ".", ".", "6"]
-        actual_block = sudoku.get_block(grid, pos)
-        self.assertEqual(expected_block, actual_block)
+def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
+    """Возвращает все значения столбца для указанной позиции"""
+    return [row[pos[1]] for row in grid]
 
-        pos = (8, 8)
-        expected_block = ["2", "8", ".", ".", ".", "5", ".", "7", "9"]
-        actual_block = sudoku.get_block(grid, pos)
-        self.assertEqual(expected_block, actual_block)
 
-    def test_find_empty_positions(self):
-        grid = [["1", "2", "."], ["4", "5", "6"], ["7", "8", "9"]]
-        expected_pos = (0, 2)
-        actual_pos = sudoku.find_empty_positions(grid)
-        self.assertEqual(expected_pos, actual_pos)
+def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
+    """Возвращает все значения блока, в который входит указанная позиция"""
+    start_row, start_col = pos[0] // 3 * 3, pos[1] // 3 * 3
+    return [
+        grid[row][col]
+        for row in range(start_row, start_row + 3)
+        for col in range(start_col, start_col + 3)
+    ]
 
-        grid = [["1", "2", "3"], ["4", ".", "6"], ["7", "8", "9"]]
-        expected_pos = (1, 1)
-        actual_pos = sudoku.find_empty_positions(grid)
-        self.assertEqual(expected_pos, actual_pos)
 
-        grid = [["1", "2", "3"], ["4", "5", "6"], [".", "8", "9"]]
-        expected_pos = (2, 0)
-        actual_pos = sudoku.find_empty_positions(grid)
-        self.assertEqual(expected_pos, actual_pos)
+def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:
+    """Находит первую свободную позицию в сетке"""
+    for i, row in enumerate(grid):
+        for j, value in enumerate(row):
+            if value == ".":
+                return i, j
+    return None
 
-    def test_find_possible_values(self):
-        grid = [
-            ["5", "3", ".", ".", "7", ".", ".", ".", "."],
-            ["6", ".", ".", "1", "9", "5", ".", ".", "."],
-            [".", "9", "8", ".", ".", ".", ".", "6", "."],
-            ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
-            ["4", ".", ".", "8", ".", "3", ".", ".", "1"],
-            ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
-            [".", "6", ".", ".", ".", ".", "2", "8", "."],
-            [".", ".", ".", "4", "1", "9", ".", ".", "5"],
-            [".", ".", ".", ".", "8", ".", ".", "7", "9"],
-        ]
-        pos = (0, 2)
-        expected_values = {"1", "2", "4"}
-        actual_values = sudoku.find_possible_values(grid, pos)
-        self.assertEqual(expected_values, actual_values)
 
-        pos = (4, 7)
-        expected_values = {"2", "5", "9"}
-        actual_values = sudoku.find_possible_values(grid, pos)
-        self.assertEqual(expected_values, actual_values)
+def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
+    """Возвращает множество возможных значений для указанной позиции"""
+    all_values = set("123456789")
+    used_values = set(get_row(grid, pos)) | set(get_col(grid, pos)) | set(get_block(grid, pos))
+    return all_values - used_values
 
-    def test_solve(self):
-        grid = [
-            ["5", "3", ".", ".", "7", ".", ".", ".", "."],
-            ["6", ".", ".", "1", "9", "5", ".", ".", "."],
-            [".", "9", "8", ".", ".", ".", ".", "6", "."],
-            ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
-            ["4", ".", ".", "8", ".", "3", ".", ".", "1"],
-            ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
-            [".", "6", ".", ".", ".", ".", "2", "8", "."],
-            [".", ".", ".", "4", "1", "9", ".", ".", "5"],
-            [".", ".", ".", ".", "8", ".", ".", "7", "9"],
-        ]
-        expected_solution = [
-            ["5", "3", "4", "6", "7", "8", "9", "1", "2"],
-            ["6", "7", "2", "1", "9", "5", "3", "4", "8"],
-            ["1", "9", "8", "3", "4", "2", "5", "6", "7"],
-            ["8", "5", "9", "7", "6", "1", "4", "2", "3"],
-            ["4", "2", "6", "8", "5", "3", "7", "9", "1"],
-            ["7", "1", "3", "9", "2", "4", "8", "5", "6"],
-            ["9", "6", "1", "5", "3", "7", "2", "8", "4"],
-            ["2", "8", "7", "4", "1", "9", "6", "3", "5"],
-            ["3", "4", "5", "2", "8", "6", "1", "7", "9"],
-        ]
-        actual_solution = sudoku.solve(grid)
-        self.assertEqual(expected_solution, actual_solution)
 
-        grid = [
-            ["6", "6", "1", "1", "1", "5", "8", "3", "7"],
-            ["3", "5", "7", "8", "2", "6", "1", "4", "9"],
-            ["1", "4", "8", "9", "3", ".", ".", "2", "6"],
-            ["6", "3", "9", "5", "1", "2", "4", "7", "8"],
-            ["5", ".", "1", "7", "6", ".", "3", ".", "2"],
-            ["4", "7", "2", "3", ".", "8", "6", "1", "5"],
-            ["9", "6", "4", "2", "8", "3", "7", "5", "1"],
-            ["8", "1", ".", "4", "7", "9", "2", "6", "3"],
-            ["7", "2", ".", "6", "5", "1", "9", "8", "."],
-        ]
-        expected_solution = [
-            ["6", "6", "1", "1", "1", "5", "8", "3", "7"],
-            ["3", "5", "7", "8", "2", "6", "1", "4", "9"],
-            ["1", "4", "8", "9", "3", "7", "5", "2", "6"],
-            ["6", "3", "9", "5", "1", "2", "4", "7", "8"],
-            ["5", "8", "1", "7", "6", "4", "3", "9", "2"],
-            ["4", "7", "2", "3", "9", "8", "6", "1", "5"],
-            ["9", "6", "4", "2", "8", "3", "7", "5", "1"],
-            ["8", "1", "5", "4", "7", "9", "2", "6", "3"],
-            ["7", "2", "3", "6", "5", "1", "9", "8", "4"],
-        ]
-        actual_solution = sudoku.solve(grid)
-        self.assertEqual(expected_solution, actual_solution)
+def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
+    """Решает Судоку"""
+    pos = find_empty_positions(grid)
+    if not pos:
+        return grid
 
-    def test_check_solution(self):
-        good_solution = [
-            ["5", "3", "4", "6", "7", "8", "9", "1", "2"],
-            ["6", "7", "2", "1", "9", "5", "3", "4", "8"],
-            ["1", "9", "8", "3", "4", "2", "5", "6", "7"],
-            ["8", "5", "9", "7", "6", "1", "4", "2", "3"],
-            ["4", "2", "6", "8", "5", "3", "7", "9", "1"],
-            ["7", "1", "3", "9", "2", "4", "8", "5", "6"],
-            ["9", "6", "1", "5", "3", "7", "2", "8", "4"],
-            ["2", "8", "7", "4", "1", "9", "6", "3", "5"],
-            ["3", "4", "5", "2", "8", "6", "1", "7", "9"],
-        ]
-        self.assertTrue(sudoku.check_solution(good_solution))
+    for value in find_possible_values(grid, pos):
+        grid[pos[0]][pos[1]] = value
+        if solve(grid):
+            return grid
+        grid[pos[0]][pos[1]] = "."
+    return None
 
-        not_solved = [
-            ["5", "3", "4", "6", "7", "8", "9", "1", "2"],
-            ["6", "7", "2", "1", "9", "5", "3", "4", "8"],
-            ["1", "9", "8", "3", "4", "2", "5", "6", "7"],
-            ["8", "5", "9", "7", "6", "1", "4", "2", "3"],
-            ["4", "2", "6", "8", "5", "3", "7", "9", "1"],
-            ["7", "1", "3", "9", "2", "4", "8", "5", "6"],
-            ["9", "6", "1", "5", "3", "7", "2", "8", "4"],
-            ["2", "8", "7", "4", "1", "9", "6", "3", "5"],
-            ["3", "4", "5", "2", "8", "6", "1", "7", "."],
-        ]
-        self.assertFalse(sudoku.check_solution(not_solved))
 
-        bad_solution = [
-            ["6", "6", "1", "1", "1", "5", "8", "3", "7"],
-            ["3", "5", "7", "8", "2", "6", "1", "4", "9"],
-            ["1", "4", "8", "9", "3", "7", "5", "2", "6"],
-            ["6", "3", "9", "5", "1", "2", "4", "7", "8"],
-            ["5", "8", "1", "7", "6", "4", "3", "9", "2"],
-            ["4", "7", "2", "3", "9", "8", "6", "1", "5"],
-            ["9", "6", "4", "2", "8", "3", "7", "5", "1"],
-            ["8", "1", "5", "4", "7", "9", "2", "6", "3"],
-            ["7", "2", "3", "6", "5", "1", "9", "8", "4"],
-        ]
-        self.assertFalse(sudoku.check_solution(bad_solution))
+def check_solution(solution: tp.List[tp.List[str]]) -> bool:
+    """Проверяет корректность решения"""
+    standard = set("123456789")
+    for i in range(9):
+        if (
+            set(get_row(solution, (i, 0))) != standard
+            or set(get_col(solution, (0, i))) != standard
+        ):
+            return False
+    for i in range(0, 9, 3):
+        for j in range(0, 9, 3):
+            if set(get_block(solution, (i, j))) != standard:
+                return False
+    return True
 
-        bad_solution = [[str(v) for v in range(1, 10)]] * 9
-        self.assertFalse(sudoku.check_solution(bad_solution))
 
-        bad_solution = [[str(v)] * 9 for v in range(1, 10)]
-        self.assertFalse(sudoku.check_solution(bad_solution))
+def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
+    """Генерирует Судоку с N заполненными клетками"""
+    sudoku = [["."] * 9 for _ in range(9)]
+    numbers = list("123456789")
+    random.shuffle(numbers)
 
-    def test_generate_sudoku(self):
-        grid = sudoku.generate_sudoku(40)
-        expected_unknown = 41
-        actual_unknown = sum(1 for row in grid for e in row if e == ".")
-        self.assertEqual(expected_unknown, actual_unknown)
-        solution = sudoku.solve(grid)
-        solved = sudoku.check_solution(solution)
-        self.assertTrue(solved)
+    for i in range(9):
+        sudoku[i // 3 * 3 + i % 3][i] = numbers[i]
 
-        grid = sudoku.generate_sudoku(1000)
-        expected_unknown = 0
-        actual_unknown = sum(1 for row in grid for e in row if e == ".")
-        self.assertEqual(expected_unknown, actual_unknown)
-        solution = sudoku.solve(grid)
-        solved = sudoku.check_solution(solution)
-        self.assertTrue(solved)
+    if not solve(sudoku):
+        return generate_sudoku(N)
 
-        grid = sudoku.generate_sudoku(0)
-        expected_unknown = 81
-        actual_unknown = sum(1 for row in grid for e in row if e == ".")
-        self.assertEqual(expected_unknown, actual_unknown)
-        solution = sudoku.solve(grid)
-        solved = sudoku.check_solution(solution)
-        self.assertTrue(solved)
+    for _ in range(81 - N):
+        i, j = random.randint(0, 8), random.randint(0, 8)
+        while sudoku[i][j] == ".":
+            i, j = random.randint(0, 8), random.randint(0, 8)
+        sudoku[i][j] = "."
+
+    return sudoku
+
+
+if __name__ == "__main__":
+    for fname in ["puzzle1.txt", "puzzle2.txt", "puzzle3.txt"]:
+        grid = read_sudoku(fname)
+        display(grid)
+        solution = solve(grid)
+        if solution:
+            display(solution)
+        else:
+            print(f"Puzzle {fname} can't be solved")
