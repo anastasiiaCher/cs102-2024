@@ -1,4 +1,3 @@
-from copy import deepcopy
 from random import choice, randint
 from typing import List, Optional, Tuple, Union
 
@@ -9,9 +8,7 @@ def create_grid(rows: int = 15, cols: int = 15) -> List[List[Union[str, int]]]:
     return [["■"] * cols for _ in range(rows)]
 
 
-def remove_wall(
-    grid: List[List[Union[str, int]]], coord: Tuple[int, int]
-) -> List[List[Union[str, int]]]:
+def remove_wall(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> List[List[Union[str, int]]]:
     """
 
     :param grid:
@@ -32,6 +29,7 @@ def remove_wall(
         grid[row - 1][col] = " "
 
     return grid
+
 
 def bin_tree_maze(rows: int = 15, cols: int = 15, random_exit: bool = True) -> List[List[Union[str, int]]]:
     """
@@ -73,7 +71,6 @@ def bin_tree_maze(rows: int = 15, cols: int = 15, random_exit: bool = True) -> L
     return grid
 
 
-
 def get_exits(grid: List[List[Union[str, int]]]) -> List[Tuple[int, int]]:
     """
 
@@ -92,11 +89,11 @@ def make_step(grid: List[List[Union[str, int]]], k: int) -> List[List[Union[str,
     :param k:
     :return:
     """
-    
+
     for i, row in enumerate(grid):
         for j, _ in enumerate(row):
             if grid[i][j] == k:
-                
+
                 if i + 1 < len(grid) and grid[i + 1][j] == 0:
                     grid[i + 1][j] = k + 1
                 if 0 <= i - 1 and grid[i - 1][j] == 0:
@@ -108,8 +105,9 @@ def make_step(grid: List[List[Union[str, int]]], k: int) -> List[List[Union[str,
 
     return grid
 
-        
-def find_closest_coordinates(grid: List[List[Union[str, int]]], current_position: Tuple[int, int]
+
+def find_closest_coordinates(
+    grid: List[List[Union[str, int]]], current_position: Tuple[int, int]
 ) -> List[Tuple[int, int]]:
     """
     Эта функция вычисляет ближайшие к текущей позиции доступные непустые координаты
@@ -127,7 +125,7 @@ def find_closest_coordinates(grid: List[List[Union[str, int]]], current_position
     ...     ["■", "■", "■", "■", "■", "■", "■", "■", "■", "■", "■"]], (3, 9))
     [(4, 9), (2, 9)]
     """
-        
+
     i = current_position[0]
     j = current_position[1]
 
@@ -138,27 +136,27 @@ def find_closest_coordinates(grid: List[List[Union[str, int]]], current_position
         closest_coordinates.append((i, j + 1))
     if i - 1 >= 0 and grid[i - 1][j] != "■":
         closest_coordinates.append((i - 1, j))
-    if j - 1 >= 0 and grid[i][j - 1] != "■" :
+    if j - 1 >= 0 and grid[i][j - 1] != "■":
         closest_coordinates.append((i, j - 1))
-
     return closest_coordinates
 
-def shortest_path(
-    grid: List[List[Union[str, int]]], exit_coord: Tuple[int, int]
-) -> Optional[Union[Tuple[int, int], List[Tuple[int, int]]]]:
+
+def shortest_path(grid: List[List[Union[str, int]]], exit_coord: Tuple[int, int]) -> List[Tuple[int, int]]:
     """
 
     :param grid:
     :param exit_coord:
     :return:
     """
+    result: list[Tuple[int, int]]
+
     i = exit_coord[0]
     j = exit_coord[1]
     current_value = grid[i][j]
 
     if current_value == 1:
         return [(i, j)]
-    
+
     close_coordinates = find_closest_coordinates(grid, exit_coord)
 
     for step in close_coordinates:
@@ -168,6 +166,8 @@ def shortest_path(
             if result:
                 return [(i, j)] + result
     grid[step[0]][step[1]] = " "
+    return result
+
 
 def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> bool:
     """
@@ -201,15 +201,14 @@ def solve_maze(
         for j, _ in enumerate(row):
             if grid[i][j] != "■":
                 grid[i][j] = 0
-    grid[start[0]][start[1]] = 1   #в клетку входа ставим 1            
+    grid[start[0]][start[1]] = 1  # в клетку входа ставим 1
     k = 0
     while grid[finish[0]][finish[1]] == 0:
         k += 1
         make_step(grid, k)
     path = shortest_path(grid, finish)
     return grid, path
-    
-   
+
 
 def add_path_to_grid(
     grid: List[List[Union[str, int]]], path: Optional[Union[Tuple[int, int], List[Tuple[int, int]]]]
