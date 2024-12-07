@@ -10,8 +10,7 @@ def create_grid(rows: int = 15, cols: int = 15) -> List[List[Union[str, int]]]:
 
 
 def remove_wall(
-    grid: List[List[Union[str, int]]],
-    coord: Tuple[int, int]
+    grid: List[List[Union[str, int]]], coord: Tuple[int, int]
 ) -> List[List[Union[str, int]]]:
     """
 
@@ -41,8 +40,7 @@ def remove_wall(
 
 
 def bin_tree_maze(
-    rows: int = 15, cols: int = 15,
-    random_exit: bool = True
+    rows: int = 15, cols: int = 15, random_exit: bool = True
 ) -> List[List[Union[str, int]]]:
     """
 
@@ -165,9 +163,8 @@ def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) ->
     :return:
     """
     return not (
-            any(str(grid[x][y]) in " X"
-            for x, y in get_neighbors(grid, coord))
-            or grid[coord[0]][coord[1]] == " "
+        any(str(grid[x][y]) in " X" for x, y in get_neighbors(grid, coord))
+        or grid[coord[0]][coord[1]] == " "
     )
 
 
