@@ -16,19 +16,19 @@ def remove_wall(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> Li
     :param coord:
     :return:
     """
-    x, y = coord
-    max_row, max_col = len(grid) - 1, len(grid[0]) - 1
+    x, y, rows, cols = coord[0], coord[1], len(grid) - 1, len(grid[0]) - 1
+    directions = ["up", "right"]
 
-    if choice([True, False]):
-        if 0 <= x - 2 <= max_row and 0 <= y <= max_col:
-            grid[x - 1][y] = " "
-        elif 0 <= x <= max_row and 0 <= y + 2 <= max_col:
-            grid[x][y + 1] = " "
+    pass
+    direction = choice(directions)
+    if direction == "up" and (0 <= x - 2 < rows and 0 <= y < cols):
+        grid[x - 1][y] = " "
     else:
-        if 0 <= x <= max_row and 0 <= y + 2 <= max_col:
-            grid[x][y + 1] = " "
-        elif 0 <= x - 2 <= max_row and 0 <= y <= max_col:
-            grid[x - 1][y] = " "
+        direction = "right"
+    if direction == "right" and (0 <= x < rows and 0 <= y + 2 < cols):
+        grid[x][y + 1] = " "
+    elif 0 <= x - 2 < rows and 0 <= y < cols:
+        grid[x - 1][y] = " "
 
     return grid
 
