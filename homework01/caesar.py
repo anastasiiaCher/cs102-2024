@@ -1,3 +1,6 @@
+"""модуль кодирования и декодирования по шифру цезаря"""
+
+
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     Encrypts plaintext using a Caesar cipher.
@@ -11,8 +14,18 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ''
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    for char in plaintext:
+        if ord(char) in range(65, 91):
+            ciphertext += chr((ord(char) - 65 + shift) % (26) + 65)
+        elif ord(char) in range(97, 123):
+            ciphertext += chr((ord(char) - 97 + shift) % (26) + 97)
+        else:
+            ciphertext += char
     return ciphertext
+
+
+# print("введите что-то")
+# print(encrypt_caesar(input()))
 
 
 def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
@@ -28,5 +41,16 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    i = 0
+    for char in ciphertext:
+        i += 1
+        if ord(char) in range(65, 91):
+            plaintext += chr((ord(char) - 65 - shift) % 26 + 65)
+        elif ord(char) in range(97, 123):
+            plaintext += chr((ord(char) - 97 - shift) % 26 + 97)
+        else:
+            plaintext += char
     return plaintext
+
+
+# print(decrypt_caesar(input()))
