@@ -252,13 +252,13 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-   
+
     empty = [["." for num in range(9)] for num in range(9)]
     solve(empty)
 
     solution = [row[:] for row in empty]
 
-    cells_to_remove = 81- N
+    cells_to_remove = 81 - N
 
     positions = [(i, j) for i in range(9) for j in range(9)]
     random.shuffle(positions)
@@ -268,8 +268,6 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
         solution[x][y] = "."
 
     return solution
-
-
 
 
 if __name__ == "__main__":
