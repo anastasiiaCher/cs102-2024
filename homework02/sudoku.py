@@ -154,13 +154,11 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     for i in range(len(solution_copy)):
         for j in range(len(solution_copy[0])):
             cell = solution_copy[i][j]
-            solution_copy[i][j] = "."
+            row_cell = get_row(solution_copy, (i, j))
+            col_cell = get_col(solution_copy, (i, j))
+            block_cell = get_block(solution_copy, (i, j))
 
-            if (
-                cell in get_row(solution_copy, (i, j))
-                or cell in get_col(solution_copy, (i, j))
-                or cell in get_block(solution_copy, (i, j))
-            ):
+            if row_cell.count(cell) > 1 or col_cell.count(cell) > 1 or block_cell.count(cell) > 1:
                 return False
 
             solution_copy[i][j] = cell
@@ -212,7 +210,10 @@ def run_solve(filename: str) -> None:
     print(f"{filename}: {end-start}")
 
 
-if __name__ == "__main__":
-    for filename in ("puzzle1.txt", "puzzle2.txt", "puzzle3.txt"):
-        p = multiprocessing.Process(target=run_solve, args=(filename,))
-        p.start()
+# if __name__ == "__main__":
+#     for filename in ("puzzle1.txt", "puzzle2.txt", "puzzle3.txt"):
+#         p = multiprocessing.Process(target=run_solve, args=(filename,))
+#         p.start()
+
+bad_solution = [[str(v) for v in range(1, 10)]] * 9
+print(check_solution(bad_solution))
