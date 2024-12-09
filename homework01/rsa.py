@@ -1,3 +1,6 @@
+"""Алгоритм позволяет зашифровать и расшифровать сообщение при помощи шифра RSA."""
+
+import math
 import random
 import typing as tp
 
@@ -12,8 +15,17 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
-    # PUT YOUR CODE HERE
-    pass
+    flag = True
+
+    if n < 2:
+        flag = False
+    else:
+        for num in range(2, math.floor(math.sqrt(n)) + 1):
+            if n % num == 0:
+                flag = False
+                break
+
+    return flag
 
 
 def gcd(a: int, b: int) -> int:
@@ -24,8 +36,7 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    # PUT YOUR CODE HERE
-    pass
+    return math.gcd(a, b)
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
@@ -36,7 +47,7 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     23
     """
     # PUT YOUR CODE HERE
-    pass
+    return pow(e, -1, phi)
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
@@ -45,12 +56,8 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
     elif p == q:
         raise ValueError("p and q cannot be equal")
 
-    # n = pq
-    # PUT YOUR CODE HERE
-
-    # phi = (p-1)(q-1)
-    # PUT YOUR CODE HERE
-
+    n = p * q
+    phi = (p - 1) * (q - 1)
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
 
@@ -82,7 +89,7 @@ def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 
