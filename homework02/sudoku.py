@@ -128,23 +128,19 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     return True
 
 
-def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
+def generate_sudoku(n: int) -> tp.List[tp.List[str]]:
     """Генерация судоку заполненного на N элементов"""
-    base = [["." for i in range(9)] for x in range(9)]
-    sudoku = solve(base)
-    if N > 81:
-        return sudoku
-    uniquepairs: set[tuple[int, int]] = set()
-    while len(uniquepairs) < 81 - N:
-        a = random.randint(0, 8)
-        b = random.randint(0, 8)
-        pair = (a, b)
-        uniquepairs.add(pair)
-    if sudoku is not None:
-        for i in uniquepairs:
-            sudoku[i[0]][i[1]] = "."
-        return sudoku
+    n = max(0, min(81, n))
+    grid = [["." for _ in range(9)] for _ in range(9)]
 
+    solve(grid)
+
+    pos = [(i, j) for i in range(9) for j in range(9)]
+    random.shuffle(pos)
+    for i in range(81 - n):
+        x, y = pos[i]
+        grid[x][y] = "."
+    return grid
 
 if __name__ == "__main__":
     for fname in ["puzzle1.txt", "puzzle2.txt", "puzzle3.txt"]:
