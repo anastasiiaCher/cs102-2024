@@ -1,2 +1,5 @@
 def text():
-    return message
+    return "message"
+
+
+print(text)
