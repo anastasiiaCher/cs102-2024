@@ -1,55 +1,65 @@
+"""RSA"""
+
 import random
 import typing as tp
 
 
 def is_prime(n: int) -> bool:
-    """
-    Tests to see if a number is prime.
-    >>> is_prime(2)
-    True
-    >>> is_prime(11)
-    True
-    >>> is_prime(8)
-    False
-    """
-    # PUT YOUR CODE HERE
-    pass
+    """Checking if the number is prime"""
+    if n > 1:
+        for i in range(2, (n // 2) + 1):
+            if (n % i) == 0:
+                return False
+        else:
+            return True
+    else:
+        return False
 
 
 def gcd(a: int, b: int) -> int:
-    """
-    Euclid's algorithm for determining the greatest common divisor.
-    >>> gcd(12, 15)
-    3
-    >>> gcd(3, 7)
-    1
-    """
-    # PUT YOUR CODE HERE
-    pass
+    """Euclid's algorithm for determining the greatest common divisor."""
+    if a != 0 and b != 0:
+        while a != b:
+            if a > b:
+                a -= b
+            else:
+                b -= a
+        return a
+    return max(a, b)
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
-    """
-    Euclid's extended algorithm for finding the multiplicative
-    inverse of two numbers.
-    >>> multiplicative_inverse(7, 40)
-    23
-    """
-    # PUT YOUR CODE HERE
-    pass
+    """Euclid's extended algorithm for finding the multiplicative inverse of two numbers."""
+    a = e
+    b = phi
+    if phi > e:
+        a, b = phi, e
+    l_a = [a]
+    l_b = [b]
+    while a % b > 0:
+        a, b = b, a % b
+        l_b.append(b)
+        l_a.append(a)
+    l_x = [0]
+    l_y = [1]
+    for i in range(len(l_a) - 1):
+        l_x.append(l_y[i])
+        l_y.append(l_x[i] - (l_y[i] * (l_a[-i - 2] // l_b[-i - 2])))
+    return l_y[-1] % phi
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+    """Generating keypairs"""
     if not (is_prime(p) and is_prime(q)):
         raise ValueError("Both numbers must be prime.")
     elif p == q:
         raise ValueError("p and q cannot be equal")
 
     # n = pq
-    # PUT YOUR CODE HERE
+    n = p * q
 
     # phi = (p-1)(q-1)
-    # PUT YOUR CODE HERE
+    phi = (p - 1) * (q - 1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
@@ -82,7 +92,7 @@ def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 
