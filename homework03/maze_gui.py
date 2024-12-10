@@ -1,11 +1,14 @@
 import tkinter as tk
 from tkinter import messagebox, ttk
-from typing import List
+from typing import List, Union
 
-from maze import add_path_to_grid, bin_tree_maze, solve_maze
+from maze import (add_path_to_grid, bin_tree_maze, encircled_exit, get_exits,
+                  solve_maze)
 
 
+# pylint: disable=possibly-used-before-assignment
 def draw_cell(x, y, color, size: int = 10):
+    """Draws a single cell"""
     x *= size
     y *= size
     x1 = x + size
@@ -13,25 +16,28 @@ def draw_cell(x, y, color, size: int = 10):
     canvas.create_rectangle(x, y, x1, y1, fill=color)
 
 
-def draw_maze(grid: List[List[str]], size: int = 10):
+# pylint: disable=possibly-used-before-assignment
+def draw_maze(grid: List[List[Union[str, int]]], size: int = 10):
+    """Draws a cell field based on grid"""
     for x, row in enumerate(grid):
         for y, cell in enumerate(row):
-            if cell == " ":
-                color = 'White'
+            if cell in (" ", 0):
+                color = "White"
             elif cell == "■":
-                color = 'black'
+                color = "black"
             elif cell == "X":
-                color = "red"
+                color = "teal"
             draw_cell(y, x, color, size)
 
 
 def show_solution():
+    """Display the found solution on the canvas"""
     maze, path = solve_maze(GRID)
     maze = add_path_to_grid(GRID, path)
     if path:
         draw_maze(maze, CELL_SIZE)
     else:
-        tk.messagebox.showinfo("Message", "No solutions")
+        messagebox.showinfo("Message", "No solutions")
 
 
 if __name__ == "__main__":
@@ -41,8 +47,11 @@ if __name__ == "__main__":
     CELL_SIZE = 10
     GRID = bin_tree_maze(N, M)
 
+    while any(encircled_exit(GRID, e) for e in get_exits(GRID)):
+        GRID = bin_tree_maze(N, M)
+
     window = tk.Tk()
-    window.title('Maze')
+    window.title("Maze")
     window.geometry("%dx%d" % (M * CELL_SIZE + 100, N * CELL_SIZE + 100))
 
     canvas = tk.Canvas(window, width=M * CELL_SIZE, height=N * CELL_SIZE)
@@ -52,4 +61,3 @@ if __name__ == "__main__":
     ttk.Button(window, text="Solve", command=show_solution).pack(pady=20)
 
     window.mainloop()
-
