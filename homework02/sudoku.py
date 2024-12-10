@@ -210,10 +210,7 @@ def run_solve(filename: str) -> None:
     print(f"{filename}: {end-start}")
 
 
-# if __name__ == "__main__":
-#     for filename in ("puzzle1.txt", "puzzle2.txt", "puzzle3.txt"):
-#         p = multiprocessing.Process(target=run_solve, args=(filename,))
-#         p.start()
-
-bad_solution = [[str(v) for v in range(1, 10)]] * 9
-print(check_solution(bad_solution))
+if __name__ == "__main__":
+    for filename in ("puzzle1.txt", "puzzle2.txt", "puzzle3.txt"):
+        p = multiprocessing.Process(target=run_solve, args=(filename,))
+        p.start()
