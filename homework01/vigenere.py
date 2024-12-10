@@ -1,8 +1,5 @@
 """Алгоритм позволяет зашифровать и расшифровать сообщение при помощи шифра Виженера."""
 
-ALPHA = "abcdefghijklmnopqrstuvwxyz"
-ALPHA_CAPS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
 
 ALPHA = "abcdefghijklmnopqrstuvwxyz"
 ALPHA_CAPS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -22,14 +19,13 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     keyword_new = keyword * (len(plaintext) // len(keyword))
     keyword_new += keyword[: (len(plaintext) % len(keyword))]
 
-    for i in range(len(plaintext)):
-        s = plaintext[i]
-        if s in ALPHA:
-            ciphertext += ALPHA[(ALPHA.find(s) + ALPHA.find(keyword_new[i])) % len(ALPHA)]
-        elif s in ALPHA_CAPS:
-            ciphertext += ALPHA_CAPS[(ALPHA_CAPS.find(s) + ALPHA_CAPS.find(keyword_new[i])) % len(ALPHA_CAPS)]
+    for pos, symbol in enumerate(plaintext):
+        if symbol in ALPHA:
+            ciphertext += ALPHA[(ALPHA.find(symbol) + ALPHA.find(keyword_new[pos])) % len(ALPHA)]
+        elif symbol in ALPHA_CAPS:
+            ciphertext += ALPHA_CAPS[(ALPHA_CAPS.find(symbol) + ALPHA_CAPS.find(keyword_new[pos])) % len(ALPHA_CAPS)]
         else:
-            ciphertext += s
+            ciphertext += symbol
     return ciphertext
 
 
@@ -47,16 +43,11 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     keyword_new = keyword * (len(ciphertext) // len(keyword))
     keyword_new += keyword[: (len(ciphertext) % len(keyword))]
 
-    for i in range(len(ciphertext)):
-        s = ciphertext[i]
-        if s in ALPHA:
-            plaintext += ALPHA[(ALPHA.find(s) - ALPHA.find(keyword_new[i])) % len(ALPHA)]
-        elif s in ALPHA_CAPS:
-            plaintext += ALPHA_CAPS[(ALPHA_CAPS.find(s) - ALPHA_CAPS.find(keyword_new[i])) % len(ALPHA_CAPS)]
+    for pos, symbol in enumerate(ciphertext):
+        if symbol in ALPHA:
+            plaintext += ALPHA[(ALPHA.find(symbol) - ALPHA.find(keyword_new[pos])) % len(ALPHA)]
+        elif symbol in ALPHA_CAPS:
+            plaintext += ALPHA_CAPS[(ALPHA_CAPS.find(symbol) - ALPHA_CAPS.find(keyword_new[pos])) % len(ALPHA_CAPS)]
         else:
-            plaintext += s
+            plaintext += symbol
     return plaintext
-
-
-# print(encrypt_vigenere("ATTACKATDAWN", "LEMON"))
-# print(decrypt_vigenere("LXFOPVEFRNHR", "LEMON"))

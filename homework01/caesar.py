@@ -18,14 +18,13 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
 
     ciphertext = ""
-    for i in range(len(plaintext)):
-        s = plaintext[i]
-        if s in alpha:
-            ciphertext += alpha[(alpha.index(s) + shift) % len(alpha)]
-        elif s in alpha_caps:
-            ciphertext += alpha_caps[(alpha_caps.index(s) + shift) % len(alpha_caps)]
+    for pos, symbol in enumerate(plaintext):
+        if symbol in alpha:
+            ciphertext += alpha[(alpha.index(symbol) + shift) % len(alpha)]
+        elif symbol in alpha_caps:
+            ciphertext += alpha_caps[(alpha_caps.index(symbol) + shift) % len(alpha_caps)]
         else:
-            ciphertext += s
+            ciphertext += symbol
     return ciphertext
 
 
@@ -42,16 +41,11 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    for i in range(len(ciphertext)):
-        s = ciphertext[i]
-        if s in alpha:
-            plaintext += alpha[(alpha.index(s) - shift) % len(alpha)]
-        elif s in alpha_caps:
-            plaintext += alpha_caps[(alpha_caps.index(s) - shift) % len(alpha_caps)]
+    for pos, symbol in enumerate(ciphertext):
+        if symbol in alpha:
+            plaintext += alpha[(alpha.index(symbol) - shift) % len(alpha)]
+        elif symbol in alpha_caps:
+            plaintext += alpha_caps[(alpha_caps.index(symbol) - shift) % len(alpha_caps)]
         else:
-            plaintext += s
+            plaintext += symbol
     return plaintext
-
-
-# print(encrypt_caesar("Python3.6"))
-# print(decrypt_caesar("sbwkrq"))

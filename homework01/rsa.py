@@ -36,7 +36,13 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    return math.gcd(a, b)
+    if a == 0 or b == 0:
+        return max(a, b)
+    else:
+        if a > b:
+            return gcd(a % b, b)
+        else:
+            return gcd(a, b % a)
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
@@ -47,7 +53,10 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     23
     """
     # PUT YOUR CODE HERE
-    return pow(e, -1, phi)
+    for i in range(10 ** 7):
+        if e * i % phi == 1:
+            return i
+    return 0
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
