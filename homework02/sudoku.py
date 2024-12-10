@@ -52,8 +52,7 @@ def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_row([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (2, 0))
     ['.', '8', '9']
     """
-    row, _ = pos
-    return grid[row]
+    return grid[pos[0]]
 
 
 def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -66,7 +65,7 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     ['3', '6', '9']
     """
     _, col = pos
-    return [grid[row][col] for row in range(len(grid))]
+    return [row[pos[1]] for row in grid]
 
 
 def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -102,10 +101,10 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    for row in range(len(grid)):
-        for col in range(len(grid[row])):
-            if grid[row][col] == ".":
-                return (row, col)
+    for row_index, row in enumerate(grid):
+        for col_index, cell in enumerate(row):
+            if cell == ".":
+                return (row_index, col_index)
     return None
 
 
@@ -119,13 +118,13 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
-    row_values = set(get_row(grid, pos))
-    col_values = set(get_col(grid, pos))
-    block_values = set(get_block(grid, pos))
+    row_values = {value for value in get_row(grid, pos)}
+    col_values = {value for value in get_col(grid, pos)}
+    block_values = {value for value in get_block(grid, pos)}
     used_values = row_values | col_values | block_values
-    all_values = set(map(str, range(1, 10)))
-    result = list(all_values - used_values)
-    return set(result)
+    permissible_set = {str(num) for num in range(1, 10)}
+    possible_values = permissible_set - used_values
+    return possible_values
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
