@@ -83,24 +83,17 @@ def make_step(grid: List[List[Union[str, int]]], k: int) -> List[List[Union[str,
     :param k:
     :return:
     """
-    rows, cols = len(grid), len(grid[0])
-    while grid[rows - 1][cols - 1] == 0:
-        k += 1
-        found = False
-        for i in range(rows):
-            for j in range(cols):
-                if grid[i][j] == k:
-                    found = True
-                    current_x, current_y = i, j
-                    break
-            if found:
-                break
-
-        if found:
-            for x in range(max(0, current_x - 1), min(rows, current_x + 2)):
-                for y in range(max(0, current_y - 1), min(cols, current_y + 2)):
-                    if grid[x][y] == 0:
-                        grid[x][y] = k
+    for pos1, row in enumerate(grid):
+        for pos2, _ in enumerate(row):
+            if grid[pos1][pos2] == k:
+                if pos1 + 1 < len(grid) and grid[pos1 + 1][pos2] == 0:
+                    grid[pos1 + 1][pos2] = k + 1
+                if pos1 - 1 >= 0 and grid[pos1 - 1][pos2] == 0:
+                    grid[pos1 - 1][pos2] = k + 1
+                if pos2 + 1 < len(grid[0]) and grid[pos1][pos2 + 1] == 0:
+                    grid[pos1][pos2 + 1] = k + 1
+                if pos2 - 1 >= 0 and grid[pos1][pos2 - 1] == 0:
+                    grid[pos1][pos2 - 1] = k + 1
     return grid
 
 
