@@ -25,17 +25,16 @@ def draw_maze(grid: List[List[str | int]], size: int = 10):
             elif cell == "■":
                 color = 'black'
             elif cell == "X":
-                color = "red"
+                color = "#c71585"  # MediumVioletRed
             draw_cell(y, x, color, size)
 
 
 def show_solution():
-    maze, path = solve_maze(GRID)
-    maze = add_path_to_grid(GRID, path)
-    if path:
-        draw_maze(maze, CELL_SIZE)
-    else:
-        tk.messagebox.showinfo("Message", "No solutions")
+    new_grid = deepcopy(GRID)
+    new_grid, path = solve_maze(new_grid)
+    maze = add_path_to_grid(new_grid, path)
+    draw_maze(maze, CELL_SIZE)
+
 
 def can_solve_maze(grid: List[List[str | int]]) -> bool:
     """Checking if the maze is solvable"""
@@ -66,4 +65,3 @@ if __name__ == "__main__":
     ttk.Button(window, text="Solve", command=show_solution).pack(pady=20)
 
     window.mainloop()
-

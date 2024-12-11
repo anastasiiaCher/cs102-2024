@@ -202,6 +202,10 @@ def add_path_to_grid(
             for j, _ in enumerate(row):
                 if (i, j) in path:
                     grid[i][j] = "X"
+        for i, row in enumerate(grid):
+            for j, _ in enumerate(row):
+                if isinstance(grid[i][j], int):
+                    grid[i][j] = " "
     return grid
 
 
@@ -209,6 +213,6 @@ if __name__ == "__main__":
     print(pd.DataFrame(bin_tree_maze(15, 15)))
     GRID = bin_tree_maze(15, 15)
     print(pd.DataFrame(GRID))
-    NEW_GRID, PATH = solve_maze(GRID)
-    MAZE = add_path_to_grid(NEW_GRID, PATH)
+    _, PATH = solve_maze(GRID)
+    MAZE = add_path_to_grid(GRID, PATH)
     print(pd.DataFrame(MAZE))
