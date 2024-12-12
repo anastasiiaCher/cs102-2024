@@ -9,9 +9,7 @@ def create_grid(rows: int = 15, cols: int = 15) -> List[List[Union[str, int]]]:
     return [["■"] * cols for _ in range(rows)]
 
 
-def remove_wall(
-    grid: List[List[Union[str, int]]], coord: Tuple[int, int]
-) -> List[List[Union[str, int]]]:
+def remove_wall(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> List[List[Union[str, int]]]:
     """
 
     :param grid:
@@ -39,9 +37,7 @@ def remove_wall(
     return grid
 
 
-def bin_tree_maze(
-    rows: int = 15, cols: int = 15, random_exit: bool = True
-) -> List[List[Union[str, int]]]:
+def bin_tree_maze(rows: int = 15, cols: int = 15, random_exit: bool = True) -> List[List[Union[str, int]]]:
     """
 
     :param rows:
@@ -141,8 +137,7 @@ def shortest_path(
         cells = [
             c
             for c in get_neighbors(grid, cursor)
-            if isinstance(grid[c[0]][c[1]], int)
-            and grid[c[0]][c[1]] == int(grid[cursor[0]][cursor[1]]) - 1
+            if isinstance(grid[c[0]][c[1]], int) and grid[c[0]][c[1]] == int(grid[cursor[0]][cursor[1]]) - 1
         ]
         if not cells:
             break
@@ -162,10 +157,7 @@ def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) ->
     :param coord:
     :return:
     """
-    return not (
-        any(str(grid[x][y]) in " X" for x, y in get_neighbors(grid, coord))
-        or grid[coord[0]][coord[1]] == " "
-    )
+    return not (any(str(grid[x][y]) in " X" for x, y in get_neighbors(grid, coord)) or grid[coord[0]][coord[1]] == " ")
 
 
 def solve_maze(
