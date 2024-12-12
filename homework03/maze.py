@@ -16,8 +16,7 @@ def remove_wall(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> Li
     :return:
     """
 
-    position1, position2, row, col = coord[0], coord[1], len(
-        grid) - 1, len(grid[0]) - 1
+    position1, position2, row, col = coord[0], coord[1], len(grid) - 1, len(grid[0]) - 1
     paths = ["go_up", "go_right"]
     path = choice(paths)
     if path == "go_up" and (0 <= position1 - 2 < row) and (0 <= position2 - 2 < col):
@@ -53,10 +52,8 @@ def bin_tree_maze(rows: int = 15, cols: int = 15, random_exit: bool = True) -> L
 
     if random_exit:
         x_in, x_out = randint(0, rows - 1), randint(0, rows - 1)
-        y_in = randint(0, cols - 1) if x_in in (0, rows -
-                                                1) else choice((0, cols - 1))
-        y_out = randint(0, cols - 1) if x_out in (0,
-                                                  rows - 1) else choice((0, cols - 1))
+        y_in = randint(0, cols - 1) if x_in in (0, rows - 1) else choice((0, cols - 1))
+        y_out = randint(0, cols - 1) if x_out in (0, rows - 1) else choice((0, cols - 1))
     else:
         x_in, y_in = 0, cols - 2
         x_out, y_out = rows - 1, 1
@@ -71,8 +68,7 @@ def get_exits(grid: List[List[Union[str, int]]]) -> List[Tuple[int, int]]:
     :param grid:
     :return:
     """
-    exits = [(i, j) for i, row in enumerate(grid)
-             for j, cell in enumerate(row) if cell == "X"]
+    exits = [(i, j) for i, row in enumerate(grid) for j, cell in enumerate(row) if cell == "X"]
     return exits
 
 
