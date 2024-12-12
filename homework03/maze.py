@@ -118,7 +118,17 @@ def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) ->
     :return:
     """
 
-    pass
+    x, y = coord[0], coord[1]
+    angles = [(x, y) for x in range(0, len(grid), len(grid) - 1) for y in range(0, len(grid[0]), len(grid[0]) - 1)]
+    if (x, y) in angles:
+        return True
+    if y in [0, len(grid) - 1]:
+        if grid[x][abs(y - 1)] != ' ':
+            return True
+    if x in [0, len(grid) - 1]:
+        if grid[abs(x - 1)][y] != ' ':
+            return True
+    return False
 
 
 def solve_maze(
