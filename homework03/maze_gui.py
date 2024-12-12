@@ -2,8 +2,7 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 from typing import List, Union
 
-from maze import (add_path_to_grid, bin_tree_maze, encircled_exit, get_exits,
-                  solve_maze)
+from maze import add_path_to_grid, bin_tree_maze, encircled_exit, get_exits, solve_maze
 
 
 # pylint: disable=possibly-used-before-assignment
@@ -26,7 +25,7 @@ def draw_maze(grid: List[List[Union[str, int]]], size: int = 10):
             elif cell == "■":
                 color = "black"
             elif cell == "X":
-                color = "teal"
+                color = "tealи"
             draw_cell(y, x, color, size)
 
 
