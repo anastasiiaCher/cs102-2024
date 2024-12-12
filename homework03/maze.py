@@ -117,7 +117,7 @@ def shortest_path(
     :return:
     """
     currplace, k = exit_coord, grid[exit_coord[0]][exit_coord[1]]
-    pathlen = grid[exit_coord[0]][exit_coord[1]]
+    pathlen = k
     path = [currplace]
     while k != 1:
         coord_near = [(x, y) for x, row in enumerate(grid) for y, _ in enumerate(row)
@@ -127,7 +127,7 @@ def shortest_path(
             if grid[x][y] == k - 1:
                 path.append((x, y))
                 currplace = (x, y)
-                k = k - 1
+                k -= 1
                 break
     if len(path) != pathlen:
         grid[currplace[0]][currplace[1]] = " "
