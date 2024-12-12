@@ -95,7 +95,16 @@ def make_step(grid: List[List[Union[str, int]]], k: int) -> List[List[Union[str,
     :return:
     """
 
-    pass
+    coord = [(x, y) for x, row in enumerate(grid) for y, _ in enumerate(row) if grid[x][y] == k]
+    k += 1
+    for i in coord:
+        coordx, coordy = i[0], i[1]
+        coord_near = [(x, y) for x, row in enumerate(grid) for y, _ in enumerate(row)
+                      if ((abs(x - coordx) == 1) and coordy == y) ^ ((abs(y - coordy) == 1) and coordx == x)]
+        for cor in coord_near:
+            if grid[cor[0]][cor[1]] == 0:
+                grid[cor[0]][cor[1]] = k
+    return grid
 
 
 def shortest_path(
