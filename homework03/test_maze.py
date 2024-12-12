@@ -1,5 +1,6 @@
 import unittest
 from random import seed
+
 import maze
 
 
@@ -326,5 +327,3 @@ class MazeTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
-
