@@ -9,8 +9,7 @@ def create_grid(rows: int = 15, cols: int = 15) -> List[List[Union[str, int]]]:
     return [["■"] * cols for _ in range(rows)]
 
 
-def remove_wall(grid: List[List[Union[str, int]]],
-    coord: Tuple[int, int]) -> List[List[Union[str, int]]]:
+def remove_wall(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> List[List[Union[str, int]]]:
     """
 
     :param grid:
@@ -34,8 +33,7 @@ def remove_wall(grid: List[List[Union[str, int]]],
     return grid
 
 
-def bin_tree_maze(rows: int = 15, cols: int = 15, 
-random_exit: bool = True) -> List[List[Union[str, int]]]:
+def bin_tree_maze(rows: int = 15, cols: int = 15, random_exit: bool = True) -> List[List[Union[str, int]]]:
     """
 
     :param rows:
@@ -167,11 +165,9 @@ def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) ->
     if x == 0 or x == len(grid) - 1 or y == 0 or y == len(grid[0]) - 1:
         if (
             (x == 0 and grid[x][y - 1] == "■" and grid[x][y - 1] and grid[x + 1][y] == "■")
-            or (x == len(grid) - 1 and grid[x][y - 1] == "■"
-                 and grid[x][y - 1] and grid[x - 1][y] == "■")
+            or (x == len(grid) - 1 and grid[x][y - 1] == "■" and grid[x][y - 1] and grid[x - 1][y] == "■")
             or (y == 0 and grid[x - 1][y] == "■" and grid[x + 1][y] and grid[x][y + 1] == "■")
-            or (y == len(grid[0]) - 1 and grid[x - 1][y] == "■" 
-                and grid[x + 1][y] and grid[x][y - 1] == "■")
+            or (y == len(grid[0]) - 1 and grid[x - 1][y] == "■" and grid[x + 1][y] and grid[x][y - 1] == "■")
         ):
             return True
     if (x == 0 or x == len(grid) - 1) or (y == 0 or y == len(grid[0]) - 1):
