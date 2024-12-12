@@ -128,6 +128,7 @@ def shortest_path(
                 path.append((x, y))
                 currplace = (x, y)
                 k = k - 1
+                break
     if len(path) != pathlen:
         grid[currplace[0]][currplace[1]] = " "
         shortest_path(grid, exit_coord)
@@ -164,7 +165,23 @@ def solve_maze(
     :return:
     """
 
-    pass
+    exits = get_exits(grid)
+    if len(exits) == 1:
+        return grid, exits
+    if encircled_exit(grid, exits[0]) or encircled_exit(grid, exits[1]):
+        return grid, None
+    ent, ex = exits[0], exits[1]
+    grid[ent[0]][ent[1]] = 1
+    k = 0
+    for x, row in enumerate(grid):
+        for y, _ in enumerate(row):
+            if grid[x][y] == " " or grid[x][y] == "X":
+                grid[x][y] = 0
+    while grid[ex[0]][ex[1]] == 0:
+        k += 1
+        make_step(grid, k)
+    path = shortest_path(grid, ex)
+    return grid, path
 
 
 def add_path_to_grid(
