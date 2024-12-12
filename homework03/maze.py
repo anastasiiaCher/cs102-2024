@@ -109,26 +109,21 @@ def shortest_path(
         grid = make_step(grid, k)
     path = [exit_coord]
     k = int(grid[exit_x][exit_y])
-    exit1, exit2 = exit_coord
-    while grid[exit1][exit2] != 1 and k > 1:
-        if grid[exit1 + 1][exit2] == k - 1 and exit1 + 1 < len(grid):
-            path.append((exit1 + 1, exit2))
-            exit1 = exit1 + 1
-        elif grid[exit1 - 1][exit2] == k - 1 and exit1 - 1 >= 0:
-            path.append((exit1 - 1, exit2))
-            exit1 = exit1 - 1
-        elif grid[exit1][exit2 - 1] == k - 1 and exit2 - 1 >= 0:
-            path.append((exit1, exit2 - 1))
-            exit2 = exit2 - 1
-        elif grid[exit1][exit2 + 1] == k - 1 and exit2 + 1 < len(grid):
-            path.append((exit1, exit2 + 1))
-            exit2 = exit2 + 1
-        k = k - 1
-    if len(path) != grid[exit_coord[0]][exit_coord[1]]:
-        grid[path[-1][0]][path[-1][1]] = " "
-        path.pop(-1)
-        exit1, exit2 = path[-1]
-        shortest_path(grid, (exit1, exit2))
+    x, y = exit_coord
+    while grid[x][y] != 1 and k > 0:
+        if x + 1 < len(grid) and grid[x + 1][y] == k - 1:
+            path.append((x + 1, y))
+            x += 1
+        elif x - 1 >= 0 and grid[x - 1][y] == k - 1:
+            path.append((x - 1, y))
+            x -= 1
+        elif y + 1 < len(grid[0]) and grid[x][y + 1] == k - 1:
+            path.append((x, y + 1))
+            y += 1
+        elif y - 1 >= 0 and grid[x][y - 1] == k - 1:
+            path.append((x, y - 1))
+            y -= 1
+        k -= 1
     return path
 
 
