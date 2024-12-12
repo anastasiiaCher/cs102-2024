@@ -27,11 +27,7 @@ def display(grid: tp.List[tp.List[str]]) -> None:
     width = 2
     line = "+".join(["-" * (width * 3)] * 3)
     for row in range(9):
-        print(
-            "".join(
-                grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)
-            )
-        )
+        print("".join(grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)))
         if str(row) in "25":
             print(line)
     print()
@@ -88,11 +84,7 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
     """
     y, x = pos[0] // 3, pos[1] // 3
-    return [
-        *grid[y * 3][x * 3 : x * 3 + 3],
-        *grid[y * 3 + 1][x * 3 : x * 3 + 3],
-        *grid[y * 3 + 2][x * 3 : x * 3 + 3]
-    ]
+    return [*grid[y * 3][x * 3 : x * 3 + 3], *grid[y * 3 + 1][x * 3 : x * 3 + 3], *grid[y * 3 + 2][x * 3 : x * 3 + 3]]
 
 
 def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:
@@ -169,7 +161,7 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     >>> check_solution(puzzle)
     False
     """
-    
+
     if find_empty_positions(solution):
         return False
 
@@ -180,9 +172,7 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
             symbol = copy[i][j]
             copy[i][j] = "."
 
-            if symbol in get_row(copy, (i, j)) \
-                or symbol in get_col(copy, (i, j)) \
-                    or symbol in get_block(copy, (i, j)):
+            if symbol in get_row(copy, (i, j)) or symbol in get_col(copy, (i, j)) or symbol in get_block(copy, (i, j)):
                 return False
 
             copy[i][j] = symbol
