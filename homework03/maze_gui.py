@@ -4,6 +4,7 @@ import tkinter as tk
 from copy import deepcopy
 from tkinter import ttk
 from typing import List
+
 from maze import add_path_to_grid, bin_tree_maze, solve_maze
 
 
@@ -21,9 +22,9 @@ def draw_maze(grid: List[List[str | int]], size: int = 10):
     for x, row in enumerate(grid):
         for y, cell in enumerate(row):
             if cell == " ":
-                color = 'White'
+                color = "White"
             elif cell == "■":
-                color = 'black'
+                color = "black"
             elif cell == "X":
                 color = "#c71585"  # MediumVioletRed
             draw_cell(y, x, color, size)
