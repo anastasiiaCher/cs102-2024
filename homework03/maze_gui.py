@@ -1,4 +1,5 @@
 import tkinter as tk
+from copy import deepcopy
 from tkinter import messagebox, ttk
 from typing import List
 
@@ -26,12 +27,18 @@ def draw_maze(grid: list[list[str | int]], size: int = 10):
 
 
 def show_solution():
-    maze, path = solve_maze(GRID)
-    maze = add_path_to_grid(GRID, path)
-    if path:
-        draw_maze(maze, CELL_SIZE)
-    else:
-        tk.messagebox.showinfo("Message", "No solutions")
+    """Showing the solution"""
+    new_grid = deepcopy(GRID)
+    new_grid, path = solve_maze(new_grid)
+    maze = add_path_to_grid(new_grid, path)
+    draw_maze(maze, CELL_SIZE)
+
+
+def solvable_maze(grid: List[List[str | int]]) -> bool:
+    """Checking if the maze is solvable"""
+    new_grid = deepcopy(grid)
+    _, path = solve_maze(new_grid)
+    return bool(path)
 
 
 if __name__ == "__main__":
@@ -40,6 +47,11 @@ if __name__ == "__main__":
 
     CELL_SIZE = 10
     GRID = bin_tree_maze(N, M)
+    if not solvable_maze(GRID):
+        print("Maze is not solvable, so let's regenerate it")
+        GRID = bin_tree_maze(N, M)
+
+    print("Maze is solvable")
 
     window = tk.Tk()
     window.title("Maze")
