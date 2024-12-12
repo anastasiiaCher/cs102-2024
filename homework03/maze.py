@@ -1,4 +1,5 @@
-'''MAZE'''
+"""MAZE"""
+
 from copy import deepcopy
 from random import choice, randint
 from typing import List, Optional, Tuple, Union
@@ -28,11 +29,10 @@ def bin_tree_maze(rows: int = 15, cols: int = 15, random_exit: bool = True) -> L
                 empty_cells.append((x, y))
                 if x + 1 < rows:
                     if choice([True, False]):
-                        remove_wall(grid, (x + 1, y))  # Down
+                        remove_wall(grid, (x + 1, y))
                 if y + 1 < cols:
                     if choice([True, False]):
-                        remove_wall(grid, (x, y + 1))  # Right
-    # Entry and exit
+                        remove_wall(grid, (x, y + 1))
     if random_exit:
         x_in, y_in = 0, randint(1, cols - 2)
         x_out, y_out = rows - 1, randint(1, cols - 2)
