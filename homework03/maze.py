@@ -116,7 +116,22 @@ def shortest_path(
     :param exit_coord:
     :return:
     """
-    pass
+    currplace, k = exit_coord, grid[exit_coord[0]][exit_coord[1]]
+    pathlen = grid[exit_coord[0]][exit_coord[1]]
+    path = [currplace]
+    while k != 1:
+        coord_near = [(x, y) for x, row in enumerate(grid) for y, _ in enumerate(row)
+                      if ((abs(x - currplace[0]) == 1) and currplace[1] == y) ^
+                      ((abs(y - currplace[1]) == 1) and currplace[0] == x)]
+        for x, y in coord_near:
+            if grid[x][y] == k - 1:
+                path.append((x, y))
+                currplace = (x, y)
+                k = k - 1
+    if len(path) != pathlen:
+        grid[currplace[0]][currplace[1]] = " "
+        shortest_path(grid, exit_coord)
+    return path
 
 
 def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> bool:
