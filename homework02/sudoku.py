@@ -128,19 +128,26 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     return True
 
 
-def generate_sudoku(n: int) -> tp.List[tp.List[str]]:
+def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     """Генерация судоку заполненного на N элементов"""
-    n = max(0, min(81, n))
-    grid = [["." for _ in range(9)] for _ in range(9)]
+    sudoku = [["."] * 9 for _ in range(9)]
+    numbers = list("123456789")
+    random.shuffle(numbers)
 
-    solve(grid)
+    for i in range(9):
+        sudoku[i // 3 * 3 + i % 3][i] = numbers[i]
 
-    pos = [(i, j) for i in range(9) for j in range(9)]
-    random.shuffle(pos)
-    for i in range(81 - n):
-        x, y = pos[i]
-        grid[x][y] = "."
-    return grid
+    if not solve(sudoku):
+        return generate_sudoku(N)
+
+    for _ in range(81 - N):
+        i, j = random.randint(0, 8), random.randint(0, 8)
+        while sudoku[i][j] == ".":
+            i, j = random.randint(0, 8), random.randint(0, 8)
+        sudoku[i][j] = "."
+
+    return sudoku
+
 
 if __name__ == "__main__":
     for fname in ["puzzle1.txt", "puzzle2.txt", "puzzle3.txt"]:
