@@ -11,7 +11,16 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ''
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    for char in plaintext:
+        if char.isalpha():  # Проверяем, является ли символ буквой
+            # Определяем базу для сдвига (для заглавных или строчных букв)
+            base = ord("A") if char.isupper() else ord("a")
+            # Сдвигаем символ
+            new_char = chr((ord(char) - base + shift) % 26 + base)
+            ciphertext += new_char
+        else:
+            # Не изменяем символ, если это не буква
+            ciphertext += char
     return ciphertext
 
 
@@ -28,5 +37,14 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    for char in ciphertext:
+        if char.isalpha():  # Проверяем, является ли символ буквой
+            # Определяем базу для сдвига (для заглавных или строчных букв)
+            base = ord("A") if char.isupper() else ord("a")
+            # Обратный сдвиг
+            new_char = chr((ord(char) - base - shift) % 26 + base)
+            plaintext += new_char
+        else:
+            # Не изменяем символ, если это не буква
+            plaintext += char
     return plaintext
