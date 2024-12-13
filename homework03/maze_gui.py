@@ -1,11 +1,9 @@
 import tkinter as tk
 from copy import deepcopy
-from typing import List, Union
-from tkinter import ttk, messagebox
+from tkinter import ttk
+from typing import List
 
-from tomlkit.items import BoolType
-
-from maze import bin_tree_maze, solve_maze, add_path_to_grid
+from maze import add_path_to_grid, bin_tree_maze, solve_maze
 
 
 def draw_cell(x, y, color, size: int = 10):
@@ -16,13 +14,13 @@ def draw_cell(x, y, color, size: int = 10):
     canvas.create_rectangle(x, y, x1, y1, fill=color)
 
 
-def draw_maze(grid: List[List[str]], size: int = 10):
+def draw_maze(grid: List[List[str | int]], size: int = 10):
     for x, row in enumerate(grid):
         for y, cell in enumerate(row):
             if cell == " ":
-                color = 'White'
+                color = "White"
             elif cell == "■":
-                color = 'black'
+                color = "black"
             elif cell == "X":
                 color = "blue"
             draw_cell(y, x, color, size)
@@ -33,10 +31,12 @@ def show_solution():
     maze = add_path_to_grid(GRID, path)
     draw_maze(maze, CELL_SIZE)
 
+
 def check_solution(grid: List[List[str | int]]) -> bool:
     grid = deepcopy(grid)
     _, path = solve_maze(grid)
     return bool(path)
+
 
 if __name__ == "__main__":
     global GRID, CELL_SIZE
@@ -48,7 +48,7 @@ if __name__ == "__main__":
         GRID = bin_tree_maze(N, M)
 
     window = tk.Tk()
-    window.title('Maze')
+    window.title("Maze")
     window.geometry("%dx%d" % (M * CELL_SIZE + 100, N * CELL_SIZE + 100))
 
     canvas = tk.Canvas(window, width=M * CELL_SIZE, height=N * CELL_SIZE)
@@ -58,6 +58,5 @@ if __name__ == "__main__":
     ttk.Button(window, text="Solve", command=show_solution).pack(pady=20)
 
     window.mainloop()
-
 
     window.mainloop()
