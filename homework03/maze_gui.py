@@ -1,6 +1,10 @@
 import tkinter as tk
-from typing import List
+from copy import deepcopy
+from typing import List, Union
 from tkinter import ttk, messagebox
+
+from tomlkit.items import BoolType
+
 from maze import bin_tree_maze, solve_maze, add_path_to_grid
 
 
@@ -20,18 +24,19 @@ def draw_maze(grid: List[List[str]], size: int = 10):
             elif cell == "■":
                 color = 'black'
             elif cell == "X":
-                color = "red"
+                color = "blue"
             draw_cell(y, x, color, size)
 
 
 def show_solution():
     maze, path = solve_maze(GRID)
     maze = add_path_to_grid(GRID, path)
-    if path:
-        draw_maze(maze, CELL_SIZE)
-    else:
-        tk.messagebox.showinfo("Message", "No solutions")
+    draw_maze(maze, CELL_SIZE)
 
+def check_solution(grid: List[List[str | int]]) -> bool:
+    grid = deepcopy(grid)
+    _, path = solve_maze(grid)
+    return bool(path)
 
 if __name__ == "__main__":
     global GRID, CELL_SIZE
@@ -39,6 +44,8 @@ if __name__ == "__main__":
 
     CELL_SIZE = 10
     GRID = bin_tree_maze(N, M)
+    while not check_solution(GRID):
+        GRID = bin_tree_maze(N, M)
 
     window = tk.Tk()
     window.title('Maze')
@@ -52,3 +59,5 @@ if __name__ == "__main__":
 
     window.mainloop()
 
+
+    window.mainloop()
