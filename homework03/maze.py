@@ -9,9 +9,7 @@ def create_grid(rows: int = 15, cols: int = 15) -> List[List[Union[str, int]]]:
     return [["■"] * cols for _ in range(rows)]
 
 
-def remove_wall(
-    grid: List[List[Union[str, int]]], coord: Tuple[int, int]
-) -> List[List[Union[str, int]]]:
+def remove_wall(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> List[List[Union[str, int]]]:
     """
 
     :param grid:
@@ -32,9 +30,7 @@ def remove_wall(
     return grid
 
 
-def bin_tree_maze(
-    rows: int = 15, cols: int = 15, random_exit: bool = True
-) -> List[List[Union[str, int]]]:
+def bin_tree_maze(rows: int = 15, cols: int = 15, random_exit: bool = True) -> List[List[Union[str, int]]]:
     """
 
     :param rows:
@@ -83,7 +79,7 @@ def get_exits(grid: List[List[Union[str, int]]]) -> List[Tuple[int, int]]:
     :return:
     """
 
-    exits = [(x, y) for x, row in enumerate(grid) for y, _ in enumerate(row) if grid[x][y] == 'X']
+    exits = [(x, y) for x, row in enumerate(grid) for y, _ in enumerate(row) if grid[x][y] == "X"]
     return exits
 
 
@@ -99,8 +95,12 @@ def make_step(grid: List[List[Union[str, int]]], k: int) -> List[List[Union[str,
     k += 1
     for i in coord:
         coordx, coordy = i[0], i[1]
-        coord_near = [(x, y) for x, row in enumerate(grid) for y, _ in enumerate(row)
-                      if ((abs(x - coordx) == 1) and coordy == y) ^ ((abs(y - coordy) == 1) and coordx == x)]
+        coord_near = [
+            (x, y)
+            for x, row in enumerate(grid)
+            for y, _ in enumerate(row)
+            if ((abs(x - coordx) == 1) and coordy == y) ^ ((abs(y - coordy) == 1) and coordx == x)
+        ]
         for cor in coord_near:
             if grid[cor[0]][cor[1]] == 0:
                 grid[cor[0]][cor[1]] = k
@@ -116,15 +116,20 @@ def shortest_path(
     :param exit_coord:
     :return:
     """
-    currplace, k = exit_coord, grid[exit_coord[0]][exit_coord[1]]
+    k: int
+    currplace, k = exit_coord, int(grid[exit_coord[0]][exit_coord[1]])
     pathlen = k
     path = [currplace]
     while k != 1:
-        coord_near = [(x, y) for x, row in enumerate(grid) for y, _ in enumerate(row)
-                      if ((abs(x - currplace[0]) == 1) and currplace[1] == y) ^
-                      ((abs(y - currplace[1]) == 1) and currplace[0] == x)]
+        coord_near = [
+            (x, y)
+            for x, row in enumerate(grid)
+            for y, _ in enumerate(row)
+            if ((abs(x - currplace[0]) == 1) and currplace[1] == y)
+            ^ ((abs(y - currplace[1]) == 1) and currplace[0] == x)
+        ]
         for x, y in coord_near:
-            if grid[x][y] == k - 1:
+            if grid[x][y] == int(k) - 1:
                 path.append((x, y))
                 currplace = (x, y)
                 k -= 1
@@ -148,10 +153,10 @@ def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) ->
     if (x, y) in angles:
         return True
     if y in [0, len(grid) - 1]:
-        if grid[x][abs(y - 1)] != ' ':
+        if grid[x][abs(y - 1)] != " ":
             return True
     if x in [0, len(grid) - 1]:
-        if grid[abs(x - 1)][y] != ' ':
+        if grid[abs(x - 1)][y] != " ":
             return True
     return False
 
