@@ -41,7 +41,7 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    # Повторяем ключ, если его длина меньше длины текст
+    # Повторяем ключ, если его длина меньше длины текста
     keyword_repeated = (keyword * (len(ciphertext) // len(keyword) + 1))[: len(ciphertext)]
     for c_char, k_char in zip(ciphertext, keyword_repeated):
         if c_char.isalpha():  # Расшифровываем только алфавитные символы
