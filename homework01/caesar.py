@@ -1,3 +1,10 @@
+"""
+Модуль для реализации шифра Цезаря.
+
+Содержит функции для шифрования и расшифровки текста путем сдвига букв в алфавите на заданное количество позиций.
+"""
+
+
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     Encrypts plaintext using a Caesar cipher.
