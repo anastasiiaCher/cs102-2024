@@ -26,15 +26,17 @@ def draw_maze(grid: List[List[str | int]], size: int = 10):
             elif cell == "■":
                 color = "black"
             elif cell == "X":
-                color = "#c71585"  # MediumVioletRed
+                color = "green"
             draw_cell(y, x, color, size)
 
 
 def show_solution():
-    new_grid = deepcopy(GRID)
-    new_grid, path = solve_maze(new_grid)
-    maze = add_path_to_grid(new_grid, path)
-    draw_maze(maze, CELL_SIZE)
+    maze, path = solve_maze(GRID)
+    maze = add_path_to_grid(GRID, path)
+    if path:
+        draw_maze(maze, CELL_SIZE)
+    else:
+        tk.messagebox.showinfo("Message", "No solutions")
 
 
 def can_solve_maze(grid: List[List[str | int]]) -> bool:
@@ -50,10 +52,6 @@ if __name__ == "__main__":
 
     CELL_SIZE = 10
     GRID = bin_tree_maze(N, M)
-    if not can_solve_maze(GRID):
-        print("We can't solve this maze, let's regenerate it")
-        GRID = bin_tree_maze(N, M)
-    print("Maze can be solve")
 
     window = tk.Tk()
     window.title("Maze")
