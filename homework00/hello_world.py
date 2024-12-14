@@ -1,7 +1,6 @@
-"""This module contains function that prints 'Hello, World!'."""
-def text(message):
-    """Prints 'Hello, World!' to the console."""
+"""This module provides a function that returns a greeting message."""
+
+
+def text(message="Hello, World!"):
+    """Returns the provided message or 'Hello, World!' by default."""
     return message
-
-
-print(text("Hello, World!"))
