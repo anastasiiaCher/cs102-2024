@@ -18,10 +18,12 @@ class Console(UI):
 
     def draw_grid(self, screen) -> None:
         """Show the state of cells"""
+        max_y, max_x = screen.getmaxyx()
         for i, row in enumerate(self.life.curr_generation):
             for j, cell in enumerate(row):
-                char = "O" if cell else " "
-                screen.addch(i, j, char)
+                if i < max_y and j < max_x:
+                    char = "O" if cell else " "
+                    screen.addch(i, j, char)
 
     def run(self) -> None:
         """Run the game"""
