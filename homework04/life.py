@@ -96,8 +96,10 @@ class GameOfLife:
         Прочитать состояние клеток из указанного файла.
         """
         with open(filename, encoding='utf-8') as f:
-            grid = [[int(cell) for cell in line] for line in f]
-        return GameOfLife((len(grid), len(grid[0])))
+            grid = [[int(cell) for cell in line.strip()] for line in f if line.strip()]
+        game = GameOfLife((len(grid), len(grid[0])), randomize=False)
+        game.curr_generation = grid
+        return game
 
     def save(self, filename: pathlib.Path) -> None:
         """
@@ -105,4 +107,4 @@ class GameOfLife:
         """
         with open(filename, "w", encoding='utf-8') as f:
             for line in self.curr_generation:
-                f.write("".join(str(cell) for cell in line))
+                f.write("".join(str(cell) for cell in line) + "\n")
