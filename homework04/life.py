@@ -34,11 +34,7 @@ class GameOfLife:
 
     def create_grid(self, randomize: bool = False) -> Grid:
         """Creating a grid"""
-        if not randomize:
-            grid = [[0] * self.cols for _ in range(self.rows)]
-        else:
-            grid = [[random.randint(0, 1) for _ in range(self.cols)] for _ in range(self.rows)]
-        return grid
+        return [[random.randint(0, 1) if randomize else 0 for _ in range(self.cols)] for _ in range(self.rows)]
 
     def get_neighbours(self, cell: Cell) -> Cells:
         """Getting the condition of neighbours"""
@@ -108,4 +104,4 @@ class GameOfLife:
         """
         with open(filename, "w", encoding="utf-8") as f:
             for line in self.curr_generation:
-                f.write("".join(str(cell) for cell in line) + "\n")
+                f.write("".join(map(str, line)) + "\n")

@@ -3,7 +3,7 @@
 import sys
 
 import pygame
-from pygame.locals import K_SPACE, KEYDOWN, MOUSEBUTTONDOWN, QUIT
+from pygame.locals import K_SPACE, KEYDOWN, MOUSEBUTTONDOWN, QUIT, K_q
 
 from life import GameOfLife
 from ui import UI
@@ -45,28 +45,27 @@ class GUI(UI):
         self.screen.fill(pygame.Color("white"))
 
         running = True
-        try:
-            while running:
-                for event in pygame.event.get():
-                    if event.type == QUIT:  # pylint: disable=no-name-in-module
-                        running = False
-                    elif event.type == KEYDOWN and event.key == K_SPACE:  # pylint: disable=no-name-in-module
-                        self.paused = not self.paused
-                    elif event.type == MOUSEBUTTONDOWN:  # pylint: disable=no-name-in-module
-                        x, y = event.pos
-                        j = x // self.cell_size
-                        i = y // self.cell_size
-                        self.life.curr_generation[i][j] = 1 if self.life.curr_generation[i][j] == 0 else 0
+        while running:
+            for event in pygame.event.get():
+                if event.type == QUIT or (event.type == KEYDOWN and event.key == K_q):
+                    running = False
+                elif event.type == KEYDOWN and event.key == K_SPACE:
+                    self.paused = not self.paused
+                elif event.type == MOUSEBUTTONDOWN:
+                    x, y = event.pos
+                    j = x // self.cell_size
+                    i = y // self.cell_size
+                    self.life.curr_generation[i][j] = 1 if self.life.curr_generation[i][j] == 0 else 0
 
-                self.screen.fill(pygame.Color("white"))
-                self.draw_grid()
-                self.draw_lines()
-                pygame.display.flip()
+            self.screen.fill(pygame.Color("white"))
+            self.draw_grid()
+            self.draw_lines()
+            pygame.display.flip()
 
-                if not self.paused:
-                    self.life.step()
+            if not self.paused:
+                self.life.step()
 
-                clock.tick(self.speed)
-        finally:
-            pygame.quit()  # pylint: disable=no-member
-            sys.exit()
+            clock.tick(self.speed)
+
+        pygame.quit()  # pylint: disable=no-member
+        sys.exit()

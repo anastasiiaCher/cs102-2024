@@ -18,10 +18,10 @@ class Console(UI):
 
     def draw_grid(self, screen) -> None:
         """Show the state of cells"""
-        max_y, max_x = screen.getmaxyx()
+        height, width = screen.getmaxyx()
         for i, row in enumerate(self.life.curr_generation):
             for j, cell in enumerate(row):
-                if i < max_y and j < max_x:
+                if i < height and j < width:
                     char = "O" if cell else " "
                     screen.addch(i, j, char)
 
@@ -32,17 +32,16 @@ class Console(UI):
         screen.nodelay(True)
         screen.timeout(100)
 
-        try:
-            while True:
-                screen.clear()
-                self.draw_borders(screen)
-                self.draw_grid(screen)
-                screen.refresh()
+        while True:
+            screen.clear()
+            self.draw_borders(screen)
+            self.draw_grid(screen)
+            screen.refresh()
 
-                self.life.step()
+            self.life.step()
 
-                key = screen.getch()
-                if key == ord("q"):  # Press 'q' to exit
-                    break
-        finally:
-            curses.endwin()
+            key = screen.getch()
+            if key == ord("q"):  # Press 'q' to exit
+                break
+
+        curses.endwin()
