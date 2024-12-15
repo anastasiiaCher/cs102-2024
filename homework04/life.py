@@ -13,6 +13,7 @@ Grid = tp.List[Cells]
 
 class GameOfLife:
     """Creating Game of Life class"""
+
     def __init__(
         self,
         size: tp.Tuple[int, int],
@@ -74,7 +75,7 @@ class GameOfLife:
             if self.is_changing:
                 self.generations += 1
         else:
-            pygame.quit() # pylint: disable=no-member
+            pygame.quit()  # pylint: disable=no-member
 
     @property
     def is_max_generations_exceeded(self) -> bool:
@@ -95,7 +96,7 @@ class GameOfLife:
         """
         Прочитать состояние клеток из указанного файла.
         """
-        with open(filename, encoding='utf-8') as f:
+        with open(filename, encoding="utf-8") as f:
             grid = [[int(cell) for cell in line.strip()] for line in f if line.strip()]
         game = GameOfLife((len(grid), len(grid[0])), randomize=False)
         game.curr_generation = grid
@@ -105,6 +106,6 @@ class GameOfLife:
         """
         Сохранить текущее состояние клеток в указанный файл.
         """
-        with open(filename, "w", encoding='utf-8') as f:
+        with open(filename, "w", encoding="utf-8") as f:
             for line in self.curr_generation:
                 f.write("".join(str(cell) for cell in line) + "\n")
