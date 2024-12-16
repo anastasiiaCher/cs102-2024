@@ -19,8 +19,21 @@ def remove_wall(
     :return:
     """
 
-    pass
+    direction = randint(0,1)
 
+    if(coord[0] == 1 and coord[1] == len(grid[0]) - 2):
+        return grid
+    
+    if(coord[0] == 1):
+        direction = 1
+    if(coord[1] == len(grid[0]) - 2):
+        direction = 0
+    
+    if(direction == 0):
+        grid[coord[0] - 1][coord[1]] = " "
+    else: grid[coord[0]][coord[1] + 1] = " "
+    
+    return grid
 
 def bin_tree_maze(
     rows: int = 15, cols: int = 15, random_exit: bool = True
@@ -47,6 +60,10 @@ def bin_tree_maze(
     # выбрать второе возможное направление
     # 3. перейти в следующую клетку, сносим между клетками стену
     # 4. повторять 2-3 до тех пор, пока не будут пройдены все клетки
+
+    for x in range (1, len(grid), 2):
+        for y in range(1, len(grid[0]),2):
+            grid = remove_wall(grid, [x,y])
 
     # генерация входа и выхода
     if random_exit:
