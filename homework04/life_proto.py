@@ -83,9 +83,9 @@ class GameOfLife:
         grid = [[0 for _ in range(self.cell_width)] for _ in range (self.cell_height)]
 
         if randomize:
-            for x, row in grid:
-                for y, _ in row:        
-                    if (random.choice(True,False)):
+            for x, row in enumerate(grid):
+                for y, _ in enumerate(row):        
+                    if not (random.choice((True,False))):
                         grid[x][y] = 1
 
         return grid
