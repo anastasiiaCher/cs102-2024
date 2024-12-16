@@ -20,7 +20,7 @@ def draw_maze(grid: List[List[str]], size: int = 10):
             elif cell == "■":
                 color = 'black'
             elif cell == "X":
-                color = "red"
+                color = "blue"
             draw_cell(y, x, color, size)
 
 
@@ -38,7 +38,11 @@ if __name__ == "__main__":
     N, M = 51, 77
 
     CELL_SIZE = 10
-    GRID = bin_tree_maze(N, M)
+
+    path = False
+    while not path:
+        GRID = bin_tree_maze(N, M)
+        maze, path = solve_maze(GRID)
 
     window = tk.Tk()
     window.title('Maze')
