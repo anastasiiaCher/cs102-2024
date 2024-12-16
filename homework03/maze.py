@@ -216,8 +216,37 @@ def solve_maze(
     :return:
     """
 
-    pass
+    exits = get_exits(grid)
 
+    if (len(exits) == 1):
+        return grid, exits[0]
+    
+    for exit in exits:
+        if encircled_exit(grid, exit):
+            return grid, None
+        
+    
+    new_grid = deepcopy(grid)
+
+    for x, row in enumerate(grid):
+        for y, val in enumerate(row):
+            if (val == ' '):
+                new_grid[x][y] = 0
+
+    in_x, in_y = exits[0]
+    out_x, out_y = exits[1]
+
+    new_grid[in_x][in_y] = 1
+    new_grid[out_x][out_y] = 0
+    k = 1
+
+    while (new_grid[out_x][out_y] == 0):
+        new_grid = make_step(new_grid, k)
+        k += 1
+
+    exit_path = shortest_path(new_grid, exits[1])
+
+    return grid, exit_path
 
 def add_path_to_grid(
     grid: List[List[Union[str, int]]], path: Optional[Union[Tuple[int, int], List[Tuple[int, int]]]]
