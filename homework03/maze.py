@@ -138,8 +138,43 @@ def shortest_path(
     :param exit_coord:
     :return:
     """
-    pass
 
+    x, y = exit_coord
+    k = grid[x][y]
+    exit_path = []
+    exit_path.append(exit_coord)
+
+    while(k > 1):
+        try:
+            if (grid[x + 1][y] == k - 1):
+                x = x + 1
+                k = k - 1
+                exit_path.append((x,y))
+                continue
+        except Exception: pass
+        try:
+            if (grid[x - 1][y] == k - 1):
+                x = x - 1
+                k = k - 1
+                exit_path.append((x,y))
+                continue
+        except Exception: pass
+        try:
+            if (grid[x][y + 1] == k - 1):
+                y = y + 1
+                k = k - 1
+                exit_path.append((x,y))
+                continue
+        except Exception: pass
+        try:
+            if (grid[x][y - 1] == k - 1):
+                y = y - 1
+                k = k - 1
+                exit_path.append((x,y))
+                continue
+        except Exception: pass
+
+    return exit_path
 
 def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> bool:
     """
