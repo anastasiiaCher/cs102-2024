@@ -89,8 +89,8 @@ def get_exits(grid: List[List[Union[str, int]]]) -> List[Tuple[int, int]]:
     exits = []
 
     for x, row in enumerate(grid):
-        for y, _ in enumerate(row):
-            if _ == 'X':
+        for y, val in enumerate(row):
+            if val == 'X':
                 exits.append((x,y))
     
     return exits
@@ -105,8 +105,29 @@ def make_step(grid: List[List[Union[str, int]]], k: int) -> List[List[Union[str,
     :return:
     """
 
-    pass
+    
+    for x, row in enumerate(grid):
+        for y, val in enumerate(row):
+            if (val == k):
+                try:
+                    if (grid[x][y + 1] == 0):
+                        grid[x][y + 1] = k + 1
+                except Exception: pass
+                try:
+                    if (grid[x][y - 1] == 0):
+                        grid[x][y - 1] = k + 1
+                except Exception: pass
+                try:
+                    if (grid[x + 1][y] == 0):
+                        grid[x + 1][y] = k + 1
+                except Exception: pass
+                try:
+                    if (grid[x - 1][y] == 0):
+                        grid[x - 1][y] = k + 1
+                except Exception: pass
+                
 
+    return grid
 
 def shortest_path(
     grid: List[List[Union[str, int]]], exit_coord: Tuple[int, int]
@@ -178,7 +199,7 @@ def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) ->
         adj_right_y = 0
         adj_forw_x = 0
         adj_forw_y = 1
-        
+
     elif(coord_y == len(grid[0])):
         adj_left_x = 1
         adj_left_y = 0
