@@ -88,22 +88,15 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     """Поиск решения для указанного пазла."""
     pos = find_empty_positions(grid)
-    new_grid = copy.deepcopy(grid)
-    pos2 = pos
-
     if not pos:
         return grid
-    else:
-        possible_values = find_possible_values(grid, pos)
-        for value in possible_values:
-            new_grid[pos[0]][pos[1]] = value
-            solved_grid = solve(new_grid)
-            if not solved_grid:
-                return None
-            pos2 = find_empty_positions(solved_grid)
-            if not pos2:
-                return solved_grid
-        return grid
+
+    for value in find_possible_values(grid, pos):
+        grid[pos[0]][pos[1]] = value
+        if solve(grid):
+            return grid
+        grid[pos[0]][pos[1]] = "."
+    return None
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
