@@ -87,7 +87,7 @@ def get_exits(grid: List[List[Union[str, int]]]) -> List[Tuple[int, int]]:
     """
 
     exits = []
-    
+
     for x, row in enumerate(grid):
         for y, _ in enumerate(row):
             if _ == 'X':
@@ -128,8 +128,68 @@ def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) ->
     :return:
     """
 
-    pass
+    adj_left_x = 0
+    adj_left_y = 0
 
+    adj_right_x = 0
+    adj_right_y = 0
+
+    adj_forw_x = 0
+    adj_forw_y = 0
+
+    coord_x, coord_y = coord
+
+    if(coord_x == 0):
+        adj_left_x = 0
+        adj_left_y = 1
+        adj_right_x = 0
+        adj_right_y = -1
+        adj_forw_x = 1
+        adj_forw_y = 0
+
+        if(coord_y == 0):
+            adj_right_x = 1
+            adj_right_y = 0
+        
+        if(coord_y == len(grid[0]) - 1):
+            adj_left_x = 1
+            adj_left_y = 0
+
+    elif(coord_x == len(grid) - 1):
+        adj_left_x = 0
+        adj_left_y = -1
+        adj_right_x = 0
+        adj_right_y = 1
+        adj_forw_x = -1
+        adj_forw_y = 0
+
+        if(coord_y == 0):
+            adj_left_x = -1
+            adj_left_y = 0
+        
+        if(coord_y == len(grid[0]) - 1):
+            adj_right_x = -1
+            adj_right_y = 0
+
+    elif(coord_y == 0):
+        adj_left_x = -1
+        adj_left_y = 0
+        adj_right_x = 1
+        adj_right_y = 0
+        adj_forw_x = 0
+        adj_forw_y = 1
+        
+    elif(coord_y == len(grid[0])):
+        adj_left_x = 1
+        adj_left_y = 0
+        adj_right_x = -1
+        adj_right_y = 0
+        adj_forw_x = 0
+        adj_forw_y = -1
+
+    if (grid[coord_x + adj_left_x][coord_y + adj_left_y] == '■' and grid[coord_x + adj_right_x][coord_y + adj_right_y] == '■' and grid[coord_x + adj_forw_x][coord_y + adj_forw_y] == '■'):
+        return True
+    else: return False
 
 def solve_maze(
     grid: List[List[Union[str, int]]],
