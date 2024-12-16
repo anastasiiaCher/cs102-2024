@@ -149,68 +149,28 @@ def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) ->
     :return:
     """
 
-    adj_left_x = 0
-    adj_left_y = 0
-
-    adj_right_x = 0
-    adj_right_y = 0
-
-    adj_forw_x = 0
-    adj_forw_y = 0
-
-    coord_x, coord_y = coord
-
-    if(coord_x == 0):
-        adj_left_x = 0
-        adj_left_y = 1
-        adj_right_x = 0
-        adj_right_y = -1
-        adj_forw_x = 1
-        adj_forw_y = 0
-
-        if(coord_y == 0):
-            adj_right_x = 1
-            adj_right_y = 0
-        
-        if(coord_y == len(grid[0]) - 1):
-            adj_left_x = 1
-            adj_left_y = 0
-
-    elif(coord_x == len(grid) - 1):
-        adj_left_x = 0
-        adj_left_y = -1
-        adj_right_x = 0
-        adj_right_y = 1
-        adj_forw_x = -1
-        adj_forw_y = 0
-
-        if(coord_y == 0):
-            adj_left_x = -1
-            adj_left_y = 0
-        
-        if(coord_y == len(grid[0]) - 1):
-            adj_right_x = -1
-            adj_right_y = 0
-
-    elif(coord_y == 0):
-        adj_left_x = -1
-        adj_left_y = 0
-        adj_right_x = 1
-        adj_right_y = 0
-        adj_forw_x = 0
-        adj_forw_y = 1
-
-    elif(coord_y == len(grid[0])):
-        adj_left_x = 1
-        adj_left_y = 0
-        adj_right_x = -1
-        adj_right_y = 0
-        adj_forw_x = 0
-        adj_forw_y = -1
-
-    if (grid[coord_x + adj_left_x][coord_y + adj_left_y] == '■' and grid[coord_x + adj_right_x][coord_y + adj_right_y] == '■' and grid[coord_x + adj_forw_x][coord_y + adj_forw_y] == '■'):
+    x, y = coord
+    try:
+        if ( grid[x][y + 1] != '■'):
+            return False
+    except Exception: pass
+    try:
+        if ( grid[x][y - 1] != '■'):
+            return False
+    except Exception: pass
+    try:
+        if ( grid[x + 1][y] != '■'):
+            return False
+    except Exception: pass
+    try:
+        if ( grid[x - 1][y] != '■'):
+            return False
+    except Exception: pass
+    
+    if (x != 0 and x != len(grid) - 1 and y != 0 and y != len(grid[0]) - 1):
+        return False
+    else:
         return True
-    else: return False
 
 def solve_maze(
     grid: List[List[Union[str, int]]],
