@@ -3,9 +3,8 @@
 import sys
 
 import pygame
-from pygame.locals import K_SPACE, KEYDOWN, MOUSEBUTTONDOWN, QUIT, K_q
-
 from life import GameOfLife
+from pygame.locals import K_SPACE, KEYDOWN, MOUSEBUTTONDOWN, QUIT, K_q
 from ui import UI
 
 
