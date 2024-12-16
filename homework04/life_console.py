@@ -21,7 +21,7 @@ class Console(UI):
         height, width = screen.getmaxyx()
         for i, row in enumerate(self.life.curr_generation):
             for j, cell in enumerate(row):
-                if i < height and j < width:
+                if 0 < i < height - 1 and 0 < j < width - 1:
                     char = "O" if cell else " "
                     screen.addch(i, j, char)
 
@@ -32,16 +32,30 @@ class Console(UI):
         screen.nodelay(True)
         screen.timeout(100)
 
-        while True:
-            screen.clear()
-            self.draw_borders(screen)
-            self.draw_grid(screen)
-            screen.refresh()
+        curses.start_color()
+        curses.init_pair(1, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
 
-            self.life.step()
+        running = True
+        try:
+            while running:
+                screen.clear()
+                self.draw_borders(screen)
+                self.draw_grid(screen)
+                height, _ = screen.getmaxyx()
+                screen.addstr(
+                    height - 1,
+                    0,
+                    f"Press [q] to quit | Generation: {self.life.generations}",
+                    curses.color_pair(1) | curses.A_BOLD,
+                )
+                screen.refresh()
 
-            key = screen.getch()
-            if key == ord("q"):  # Press 'q' to exit
-                break
+                self.life.step()
 
-        curses.endwin()
+                key = screen.getch()
+                if key == ord("q"):  # Press 'q' to exit
+                    running = False
+                    break
+        finally:
+            curses.endwin()
+            running = False
