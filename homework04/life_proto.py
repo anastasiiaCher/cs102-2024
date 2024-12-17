@@ -157,8 +157,20 @@ class GameOfLife:
         out : Grid
             Новое поколение клеток.
         """
-        pass
+        next_grid = [[0 for _ in range(self.cell_width)] for _ in range (self.cell_height)]
 
+        for x, row in enumerate(self.grid):
+            for y, val in enumerate(row):
+                neighbours = self.get_neighbours((x,y))
+                if (val == 1):
+                    if (1 < sum(neighbours) < 4):
+                        next_grid[x][y] = 1
+                else:
+                    if (sum(neighbours) == 3):
+                        next_grid[x][y] = 1
+
+        self.grid = next_grid
+        return self.grid
 
 if __name__ == '__main__':
     game = GameOfLife(320, 240, 20)
