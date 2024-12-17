@@ -29,7 +29,7 @@ class GameOfLife:
         # Скорость протекания игры
         self.speed = speed
 
-        self.grid : Grid
+        self.grid: Grid
 
     def draw_lines(self) -> None:
         """ Отрисовать сетку """
@@ -46,7 +46,7 @@ class GameOfLife:
         self.screen.fill(pygame.Color("white"))
 
         # Создание списка клеток
-        #self.create_grid(randomize=True)
+        self.create_grid(randomize=True)
 
         running = True
         while running:
@@ -63,6 +63,7 @@ class GameOfLife:
 
             pygame.display.flip()
             clock.tick(self.speed)
+            self.get_next_generation()
         pygame.quit()
 
     def create_grid(self, randomize: bool = False) -> Grid:
@@ -105,7 +106,8 @@ class GameOfLife:
             for y, val in enumerate(row):
                 if val == 1:
                     pygame.draw.rect(self.screen, pygame.Color("green"),(y * self.cell_size + 1, x * self.cell_size + 1, self.cell_size - 1,  self.cell_size - 1))
-
+                else: 
+                    pygame.draw.rect(self.screen, pygame.Color("white"),(y * self.cell_size + 1, x * self.cell_size + 1, self.cell_size - 1,  self.cell_size - 1))
     def get_neighbours(self, cell: Cell) -> Cells:
         """
         Вернуть список соседних клеток для клетки `cell`.
@@ -132,17 +134,17 @@ class GameOfLife:
             neighbours.append(self.grid[x - 1][y - 1])
         if (x > 0): 
             neighbours.append(self.grid[x - 1][y])
-        if (x > 0 and y < self.width - 1 ): 
+        if (x > 0 and y < self.cell_width - 1): 
             neighbours.append(self.grid[x - 1][y + 1])
         if (y > 0): 
             neighbours.append(self.grid[x][y - 1])
-        if (y < self.width - 1): 
+        if (y < self.cell_width - 1): 
             neighbours.append(self.grid[x][y + 1])
-        if (x < self.height - 1 and y > 0): 
+        if (x < self.cell_height - 1 and y > 0): 
             neighbours.append(self.grid[x + 1][y - 1])
-        if(x < self.height - 1):
+        if(x < self.cell_height - 1):
             neighbours.append(self.grid[x + 1][y])
-        if (x < self.height - 1 and y < self.width - 1):
+        if (x < self.cell_height - 1 and y < self.cell_width - 1):
             neighbours.append(self.grid[x + 1][y + 1])
 
         return neighbours
