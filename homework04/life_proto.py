@@ -55,8 +55,8 @@ class GameOfLife:
                     running = False
 
             # Отрисовка списка клеток
-            self.draw_lines()
             self.draw_grid()
+            self.draw_lines()
             # Выполнение одного шага игры (обновление состояния ячеек)
             self.grid = self.get_next_generation()
             pygame.display.flip()
@@ -144,3 +144,8 @@ class GameOfLife:
                     if 2 <= alive_neibs <= 3:
                         new_grid[i][j] = 1
         return new_grid
+
+
+if __name__ == "__main__":
+     game = GameOfLife(480, 640, 20)
+     game.run()
