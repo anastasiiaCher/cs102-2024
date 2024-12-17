@@ -41,7 +41,6 @@ def show_solution():
 
 
 def solvable_maze(grid: List[List[str | int]]) -> bool:
-    """Checking if the maze is solvable"""
     new_grid = deepcopy(grid)
     _, path = solve_maze(new_grid)
     return bool(path)

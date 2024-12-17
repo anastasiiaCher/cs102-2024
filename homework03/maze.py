@@ -82,6 +82,7 @@ def get_exits(grid: List[List[Union[str, int]]]) -> List[Tuple[int, int]]:
     """
 
     exits = []
+
     for x in range(len(grid)):
         for y in range(len(grid[0])):
             if grid[x][y] == "X":
@@ -193,21 +194,28 @@ def solve_maze(
     """
 
     exits = get_exits(grid)
+
     if len(exits) == 1:
         return grid, exits
+
     if len(exits) > 1:
         if encircled_exit(grid, exits[0]) or encircled_exit(grid, exits[1]):
             return grid, None
+
         new_grid = deepcopy(grid)
         x_in, y_in = exits[0]
         grid[x_in][y_in] = 1
+
         for x, row in enumerate(grid):
             for y, _ in enumerate(row):
                 if grid[x][y] == " " or grid[x][y] == "X":
                     grid[x][y] = 0
         path = shortest_path(grid, exits[1])
+
         return new_grid, path
+
     path = exits
+
     return grid, path
 
 
