@@ -153,21 +153,30 @@ class GameOfLife:
         """
         Прочитать состояние клеток из указанного файла.
         """
-        if filename.is_file():
-            with filename.open('r'):
-                game = GameOfLife(size = (len(filename), len(filename[0])), randomize=False)
-                for x, line in enumerate(filename):
-                    for y, val in enumerate(line):
-                        game.curr_generation[x][y] = val
 
+        file = pathlib.Path(filename)
+        num = []
 
+        if file.is_file():
+            with file.open('r') as contents:
+                for line in contents:
+                    num.append(line)
+                game = GameOfLife(size = (len(num), len(num[0]) - 1), randomize=False)
+                for x, row in enumerate(num):
+                    for y, val in enumerate(row):
+                        if y == len(row) - 1: continue 
+                        game.curr_generation[x][y] = int(val)
+
+        return game
 
 
     def save(self, filename: pathlib.Path) -> None:
         """
         Сохранить текущее состояние клеток в указанный файл.
         """
-        for x, row in enumerate(self.curr_generation):
-            for y, val in enumerate(row):
-                filename.write_text(val)
-            filename.write_text('\n')
+        file = pathlib.Path(filename)
+        with file.open('w') as f:
+            for x, row in enumerate(self.curr_generation):
+                for y, val in enumerate(row):
+                    f.write(str(val))
+                f.write('\n')
