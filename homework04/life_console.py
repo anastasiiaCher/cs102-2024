@@ -31,16 +31,28 @@ class Console(UI):
         running = True
         while running == True:
             screen.clear()
+
             self.draw_borders(screen)
             self.draw_grid(screen)
             screen.refresh()
 
             self.life.step()
+
+            if self.life.is_max_generations_exceeded:
+                screen.addstr(0, 0, "Max generations exceeded")
+                screen.refresh()
+            if not self.life.is_changing:
+                screen.addstr(0, 0, "Nothing changing")
+                screen.refresh()
+
             key = screen.getch()
+
             if key == ord("q"):
                 running = False
                 break
-            if self.life.generations == self.life.max_generations:
-                running = False
-                break
         curses.endwin()
+
+
+life = GameOfLife((24, 80), max_generations=50)
+ui = Console(life)
+ui.run()

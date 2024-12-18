@@ -1,4 +1,5 @@
 """Business logic of the game LIFE"""
+
 import pathlib
 import random
 import typing as tp
@@ -77,12 +78,10 @@ class GameOfLife:
         """
         Выполнить один шаг игры.
         """
-        if not (self.is_max_generations_exceeded) and self.is_changing:
+        if not self.is_max_generations_exceeded and self.is_changing:
             self.prev_generation = self.curr_generation
             self.curr_generation = self.get_next_generation()
             self.generations += 1
-        else:
-            pygame.quit()
 
     @property
     def is_max_generations_exceeded(self) -> bool:

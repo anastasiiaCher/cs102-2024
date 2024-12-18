@@ -1,3 +1,5 @@
+"""Life GUI"""
+
 import pygame
 from pygame.locals import *
 
@@ -56,13 +58,22 @@ class GUI(UI):
             for event in pygame.event.get():
                 if event.type == QUIT:
                     running = False
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = event.pos
+                if self.button.collidepoint(mouse_pos) and self.status is False:
+                    self.status = True
+                elif self.button.collidepoint(mouse_pos) and self.status is True:
+                    self.status = False
+
             self.draw_lines()
             if self.status is False:
                 # Отрисовка списка клеток
                 # Выполнение одного шага игры (обновление состояния ячеек)
                 self.draw_grid()
-                self.life.curr_generation = self.life.get_next_generation()
+                self.life.step()
 
+                # Отрисовка кнопки pause
                 pygame.draw.rect(self.screen, pygame.Color("light gray"), self.button, border_radius=10)
                 pause_text = self.font.render("pause", True, pygame.Color("black"))
                 self.screen.blit(pause_text, (38, 13))
@@ -71,23 +82,32 @@ class GUI(UI):
                     mouse_pos = event.pos
                     pos_y = mouse_pos[0] // self.cell_size
                     pos_x = mouse_pos[1] // self.cell_size
+
                     if self.life.curr_generation[pos_x][pos_y] == 1:
                         self.life.curr_generation[pos_x][pos_y] = 0
                     else:
                         self.life.curr_generation[pos_x][pos_y] = 1
+
                     self.draw_grid()
                     self.draw_lines()
 
+                # Отрисовка кнопки resume
                 pygame.draw.rect(self.screen, pygame.Color("dark gray"), self.button, border_radius=10)
                 resume_text = self.font.render("resume", True, pygame.Color("black"))
                 self.screen.blit(resume_text, (35, 13))
 
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_pos = event.pos
-                if self.button.collidepoint(mouse_pos) and self.status is False:
-                    self.status = True
-                elif self.button.collidepoint(mouse_pos) and self.status is True:
-                    self.status = False
+            if self.life.is_max_generations_exceeded:
+                error_max_generation = self.font.render("Max generations exceeded", True, pygame.Color("red"))
+                self.screen.blit(error_max_generation, (self.width // 4, self.height // 2))
+            if not self.life.is_changing:
+                error_changing = self.font.render("Nothing changing", True, pygame.Color("red"))
+                self.screen.blit(error_changing, (self.width // 4, self.height // 2))
+
             pygame.display.flip()
             clock.tick(self.speed)
         pygame.quit()
+
+
+life = GameOfLife((24, 80), max_generations=50)
+ui = GUI(life)
+ui.run()
