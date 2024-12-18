@@ -1,7 +1,7 @@
-from copy import deepcopy
 import pathlib
 import random
 import typing as tp
+from copy import deepcopy
 
 import pygame
 from pygame.locals import *
@@ -47,14 +47,13 @@ class GameOfLife:
         out : Grid
             Матрица клеток размером `cell_height` х `cell_width`.
         """
-        
-        
-        grid = [[0 for _ in range(self.cols)] for _ in range (self.rows)]
+
+        grid = [[0 for _ in range(self.cols)] for _ in range(self.rows)]
 
         if randomize:
             for x, row in enumerate(grid):
-                for y, _ in enumerate(row):        
-                    if (random.choice((False, True))):
+                for y, _ in enumerate(row):
+                    if random.choice((False, True)):
                         grid[x][y] = 1
 
         return grid
@@ -80,26 +79,26 @@ class GameOfLife:
 
         x, y = cell
         neighbours = []
-        
-        if (x > 0 and y > 0): 
+
+        if x > 0 and y > 0:
             neighbours.append(self.curr_generation[x - 1][y - 1])
-        if (x > 0): 
+        if x > 0:
             neighbours.append(self.curr_generation[x - 1][y])
-        if (x > 0 and y < self.cols - 1): 
+        if x > 0 and y < self.cols - 1:
             neighbours.append(self.curr_generation[x - 1][y + 1])
-        if (y > 0): 
+        if y > 0:
             neighbours.append(self.curr_generation[x][y - 1])
-        if (y < self.cols - 1): 
+        if y < self.cols - 1:
             neighbours.append(self.curr_generation[x][y + 1])
-        if (x < self.rows - 1 and y > 0): 
+        if x < self.rows - 1 and y > 0:
             neighbours.append(self.curr_generation[x + 1][y - 1])
-        if(x < self.rows - 1):
+        if x < self.rows - 1:
             neighbours.append(self.curr_generation[x + 1][y])
-        if (x < self.rows - 1 and y < self.cols - 1):
+        if x < self.rows - 1 and y < self.cols - 1:
             neighbours.append(self.curr_generation[x + 1][y + 1])
 
         return neighbours
-     
+
     def get_next_generation(self) -> Grid:
         """
         Получить следующее поколение клеток.
@@ -109,16 +108,16 @@ class GameOfLife:
         out : Grid
             Новое поколение клеток.
         """
-        next_grid = [[0 for _ in range(self.cols)] for _ in range (self.rows)]
+        next_grid = [[0 for _ in range(self.cols)] for _ in range(self.rows)]
 
         for x, row in enumerate(self.curr_generation):
             for y, val in enumerate(row):
-                neighbours = self.get_neighbours((x,y))
-                if (val == 1):
-                    if (1 < sum(neighbours) < 4):
+                neighbours = self.get_neighbours((x, y))
+                if val == 1:
+                    if 1 < sum(neighbours) < 4:
                         next_grid[x][y] = 1
                 else:
-                    if (sum(neighbours) == 3):
+                    if sum(neighbours) == 3:
                         next_grid[x][y] = 1
 
         return next_grid
@@ -138,8 +137,10 @@ class GameOfLife:
         """
         Не превысило ли текущее число поколений максимально допустимое.
         """
-        return self.generations >= self.max_generations
-
+        gen = int(self.max_generations or -1)
+        if gen == -1:
+            return False
+        return self.generations >= gen
 
     @property
     def is_changing(self) -> bool:
@@ -158,25 +159,25 @@ class GameOfLife:
         num = []
 
         if file.is_file():
-            with file.open('r') as contents:
+            with file.open("r") as contents:
                 for line in contents:
                     num.append(line)
-                game = GameOfLife(size = (len(num), len(num[0]) - 1), randomize=False)
+                game = GameOfLife(size=(len(num), len(num[0]) - 1), randomize=False)
                 for x, row in enumerate(num):
                     for y, val in enumerate(row):
-                        if y == len(row) - 1: continue 
+                        if y == len(row) - 1:
+                            continue
                         game.curr_generation[x][y] = int(val)
 
         return game
-
 
     def save(self, filename: pathlib.Path) -> None:
         """
         Сохранить текущее состояние клеток в указанный файл.
         """
         file = pathlib.Path(filename)
-        with file.open('w') as f:
+        with file.open("w") as f:
             for x, row in enumerate(self.curr_generation):
                 for y, val in enumerate(row):
                     f.write(str(val))
-                f.write('\n')
+                f.write("\n")
