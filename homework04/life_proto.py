@@ -57,12 +57,12 @@ class GameOfLife:
 
             # Отрисовка списка клеток
             # Выполнение одного шага игры (обновление состояния ячеек)
-            # PUT YOUR CODE HERE
 
             self.draw_grid()
 
             pygame.display.flip()
             clock.tick(self.speed)
+
             self.get_next_generation()
         pygame.quit()
 
