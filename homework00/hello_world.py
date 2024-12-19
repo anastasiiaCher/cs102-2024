@@ -1,8 +1,9 @@
-"""Функция"""
+def text():
+"""Fixed mistakes"""
 
 
 def text(message):
-    """returns"""
+    """Returns variable"""
     return message
 
 
