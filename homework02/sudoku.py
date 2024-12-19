@@ -70,16 +70,9 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_col([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (0, 2))
     ['3', '6', '9']
     """
-    e = pos[1]
-    n = len(grid)
-    grid_b = []
-    k = 0
-    for k in range(0, n):
-        grid_t = [grid[i][k] for i in range(0, n)]
-        grid_b.append(grid_t)
-    element = grid_b[e]
 
-    return element
+    col_index = pos[1]
+    return [row[col_index] for row in grid]
 
 
 def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -109,7 +102,7 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-
+    # position_2 = (0, 0)
     position = []
     n = len(grid)
     for i in range(0, n):
@@ -119,14 +112,14 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
                 position.append(i)
                 position.append(k)
                 break
-            if position:
-                break
-        if position:
-            break
 
-    position = tuple(position)
+    if not position:
 
-    return position
+        return None
+
+    position_1 = (position[0], position[1])
+
+    return position_1
 
 
 def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
@@ -176,11 +169,13 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
         for value in possible_values:
             grid[pos[0]][pos[1]] = value
             if solve(grid):
+
                 return grid
             else:
                 grid[pos[0]][pos[1]] = "."
     else:
         return grid
+
     return None
 
 
@@ -210,11 +205,18 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
                 return False
             else:
                 continue
-    for i in solution:
-        i = set(i)
-        if "." in i:
-            i.remove(".")
-        if len(i) < len(solution):
+
+    for i in range(0, len(solution)):
+        set_i = {i}
+        if "." in set_i:
+            list_set = list(set_i)
+            for s in range(0, len(list_set)):
+                if list_set[s] == ".":
+                    s_res = s
+                    break
+            list_set.pop(s_res)
+            set_i = set(list_set)
+        if len(set_i) < len(solution):
             return False
         else:
             continue
