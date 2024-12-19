@@ -206,20 +206,16 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
             else:
                 continue
 
-    for i in range(0, len(solution)):
-        set_i = {i}
-        if "." in set_i:
-            list_set = list(set_i)
-            for s in range(0, len(list_set)):
-                if list_set[s] == ".":
-                    s_res = s
-                    break
-            list_set.pop(s_res)
-            set_i = set(list_set)
-        if len(set_i) < len(solution):
-            return False
-        else:
-            continue
+    for i in range(0, len(solution), int(len(solution) ** 0.5)):
+        for i_2 in range(0, len(solution), int(len(solution) ** 0.5)):
+            temp = set(get_row(solution, (i, i_2)))
+            # print(temp)
+            if "." in temp:
+                temp.remove(".")
+            if len(temp) < len(solution):
+                return False
+            else:
+                continue
 
     for i in range(0, len(solution)):
         temp = set(get_col(solution, (0, i)))
