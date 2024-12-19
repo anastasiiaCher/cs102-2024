@@ -1,4 +1,5 @@
 """Prototype"""
+
 import random
 import typing as tp
 from pprint import pprint as pp
@@ -51,15 +52,16 @@ class GameOfLife:
             for event in pygame.event.get():
                 if event.type == QUIT:
                     running = False
-            self.draw_lines()
 
             # Отрисовка списка клеток
             # Выполнение одного шага игры (обновление состояния ячеек)
             self.draw_grid()
+            self.draw_lines()
             self.grid = self.get_next_generation()
 
             pygame.display.flip()
             clock.tick(self.speed)
+
             # pp(self.grid)
         pygame.quit()
 
