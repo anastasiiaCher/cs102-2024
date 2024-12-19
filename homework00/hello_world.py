@@ -1,2 +1,4 @@
+"""asd"""
 def text():
-    return message
+    """asd"""
+    return "message"
