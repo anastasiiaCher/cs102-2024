@@ -98,19 +98,26 @@ def make_step(grid: List[List[Union[str, int]]], k: int) -> List[List[Union[str,
     :return:
     """
 
-    rows, cols = len(grid), len(grid[0])
-    updated_grid = [row[:] for row in grid]
+    num_rows = len(grid)
+    num_cols = len(grid[0]) if num_rows > 0 else 0
+    new_grid = [row[:] for row in grid]
 
-    for x in range(rows):
-        for y in range(cols):
+    for x in range(num_rows):
+        for y in range(num_cols):
             if grid[x][y] == k:
-                for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
-                    nx, ny = x + dx, y + dy
-                    if 0 <= nx < rows and 0 <= ny < cols:
-                        if grid[nx][ny] == 0:
-                            updated_grid[nx][ny] = k + 1
+                if x + 1 < num_rows and grid[x + 1][y] == 0:
+                    new_grid[x + 1][y] = k + 1
 
-    return updated_grid
+                if x - 1 >= 0 and grid[x - 1][y] == 0:
+                    new_grid[x - 1][y] = k + 1
+
+                if y + 1 < num_cols and grid[x][y + 1] == 0:
+                    new_grid[x][y + 1] = k + 1
+
+                if y - 1 >= 0 and grid[x][y - 1] == 0:
+                    new_grid[x][y - 1] = k + 1
+
+    return new_grid
 
 
 def shortest_path(
@@ -123,30 +130,38 @@ def shortest_path(
     :return:
     """
 
-    current_place = exit_coord
-    k = int(grid[exit_coord[0]][exit_coord[1]])
-    path_length = k
-    path = [current_place]
+    k = 0
+    x_out, y_out = exit_coord
 
-    while k != 1:
-        found = False
-        for x in range(len(grid)):
-            for y in range(len(grid[0])):
-                if (abs(x - current_place[0]) == 1 and current_place[1] == y) or (
-                    abs(y - current_place[1]) == 1 and current_place[0] == x
-                ):
-                    if grid[x][y] == k - 1:
-                        path.append((x, y))
-                        current_place = (x, y)
-                        k -= 1
-                        found = True
-                        break
-            if found:
+    while grid[x_out][y_out] == 0:
+        k += 1
+        grid = make_step(grid, k)
+
+    path = [exit_coord]
+    x, y = exit_coord
+    k = int(grid[x][y])
+
+    directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+
+    while grid[x][y] != 1 and k > 0:
+        moved = False
+        for dx, dy in directions:
+            nx, ny = x + dx, y + dy
+            if 0 <= nx < len(grid) and 0 <= ny < len(grid[0]) and grid[nx][ny] == k - 1:
+                path.append((nx, ny))
+                x, y = nx, ny
+                moved = True
                 break
+        if not moved:
+            break
 
-    if len(path) != path_length:
-        grid[current_place[0]][current_place[1]] = " "
-        return shortest_path(grid, exit_coord)
+        k -= 1
+
+    if len(path) != grid[exit_coord[0]][exit_coord[1]]:
+        while len(path) != grid[x][y]:
+            grid[path[-1][0]][path[-1][1]] = " "
+            path.pop(-1)
+            x, y = path[-1]
 
     return path
 
