@@ -9,7 +9,31 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    while len(keyword) < len(plaintext):
+        keyword += keyword
+    if len(keyword) > len(plaintext):
+        delta = len(keyword) - len(plaintext)
+        keyword = keyword[:-delta]
+    for i in range(len(plaintext)):
+        if not plaintext[i].isalpha():
+            ciphertext += plaintext[i]
+            continue
+        if plaintext[i].isspace():
+            ciphertext += " "
+            continue
+        if plaintext[i] == plaintext[i].upper():
+            strt = ord("A")
+            ceil = ord("Z")
+        else:
+            strt = ord("a")
+            ceil = ord("z")
+        shift = (ord(keyword[i]) % strt) % 26
+        ascii_index = ord(plaintext[i]) + shift
+        if ascii_index > strt + 26:
+            ascii_index = strt + (ascii_index - strt) % 26
+        if ascii_index > ceil:
+            ascii_index = strt - 1 + ascii_index - ceil
+        ciphertext += chr(ascii_index)
     return ciphertext
 
 
@@ -24,5 +48,29 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    while len(keyword) < len(ciphertext):
+        keyword += keyword
+    if len(keyword) > len(ciphertext):
+        delta = len(keyword) - len(ciphertext)
+        keyword = keyword[:-delta]
+    for i in range(len(ciphertext)):
+        if not ciphertext[i].isalpha():
+            plaintext += ciphertext[i]
+            continue
+        if ciphertext[i].isspace():
+            plaintext += " "
+            continue
+        if ciphertext[i] == ciphertext[i].upper():
+            strt = ord("A")
+            ceil = ord("Z")
+        else:
+            strt = ord("a")
+            ceil = ord("z")
+        shift = (ord(keyword[i]) % strt) % 26
+        ascii_index = ord(ciphertext[i]) - shift
+        if ascii_index < strt:
+            ascii_index = ceil + 1 - (strt - ascii_index)
+        if ascii_index > ceil:
+            ascii_index = strt - 1 + ascii_index - ceil
+        plaintext += chr(ascii_index)
     return plaintext
