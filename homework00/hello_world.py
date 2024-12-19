@@ -1,2 +1,3 @@
 def text():
-    return message
+    """Возвращает сообщение"""
+    return "message"
