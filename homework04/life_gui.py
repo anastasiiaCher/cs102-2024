@@ -1,9 +1,8 @@
 """GameOfLife GUI version"""
 
 import pygame
-from pygame import QUIT
-
 from life import GameOfLife
+from pygame import QUIT
 from ui import UI
 
 
@@ -37,9 +36,9 @@ class GUI(UI):
                 x, y = j * self.cell_size + 1, i * self.cell_size + 1
                 rect_cor = (x, y, self.cell_size - 1, self.cell_size - 1)
                 if self.life.curr_generation[i][j] == 1:
-                    pygame.draw.rect(self.screen, (0, 255, 0), rect_cor)
+                    pygame.draw.rect(self.screen, (0, 255, 0), rect_cor)    #Green
                 if self.life.curr_generation[i][j] == 0:
-                    pygame.draw.rect(self.screen, (255, 255, 255), rect_cor)
+                    pygame.draw.rect(self.screen, (255, 255, 255), rect_cor)    #White
 
     def run(self) -> None:
         """The running game"""
@@ -59,9 +58,10 @@ class GUI(UI):
                         paused = True
                     if event.key == pygame.K_u:  # Unpausing    # pylint: disable=no-member
                         paused = False
-                mouse_pos = pygame.mouse.get_pos()
+
                 click = pygame.mouse.get_pressed()
                 if click != (0, 0, 0) and paused:
+                    mouse_pos = pygame.mouse.get_pos()
                     x, y = mouse_pos[0] // self.cell_size, mouse_pos[1] // self.cell_size
                     if self.life.curr_generation[y][x] == 1:
                         self.life.curr_generation[y][x] = 0
