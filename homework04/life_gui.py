@@ -71,6 +71,7 @@ class GUI(UI):
                 # Отрисовка списка клеток
                 # Выполнение одного шага игры (обновление состояния ячеек)
                 self.draw_grid()
+                self.draw_lines()
                 self.life.step()
 
                 # Отрисовка кнопки pause
@@ -106,3 +107,8 @@ class GUI(UI):
             pygame.display.flip()
             clock.tick(self.speed)
         pygame.quit()
+
+
+life = GameOfLife((24, 80), max_generations=500)
+ui = GUI(life)
+ui.run()
