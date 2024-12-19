@@ -36,9 +36,9 @@ class GUI(UI):
                 x, y = j * self.cell_size + 1, i * self.cell_size + 1
                 rect_cor = (x, y, self.cell_size - 1, self.cell_size - 1)
                 if self.life.curr_generation[i][j] == 1:
-                    pygame.draw.rect(self.screen, (0, 255, 0), rect_cor)    #Green
+                    pygame.draw.rect(self.screen, (0, 255, 0), rect_cor)  # Green
                 if self.life.curr_generation[i][j] == 0:
-                    pygame.draw.rect(self.screen, (255, 255, 255), rect_cor)    #White
+                    pygame.draw.rect(self.screen, (255, 255, 255), rect_cor)  # White
 
     def run(self) -> None:
         """The running game"""
@@ -68,6 +68,9 @@ class GUI(UI):
                     else:
                         self.life.curr_generation[y][x] = 1
 
+            if self.life.is_max_generations_exceeded or not self.life.is_changing:
+                running = False
+
             self.draw_grid()
             self.draw_lines()
             if not paused:
@@ -79,6 +82,6 @@ class GUI(UI):
 
 
 if __name__ == "__main__":
-    game_of_life = GameOfLife(size=(50, 90), randomize=True)
+    game_of_life = GameOfLife(size=(50, 90), randomize=True, max_generations=10)
     ui = GUI(game_of_life, cell_size=15, speed=10)
     ui.run()

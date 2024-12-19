@@ -58,12 +58,12 @@ class Console(UI):
                 screen.addstr(3, self.life.cols + 4, f"Current generation: {self.life.generations}")
                 screen.addstr(4, self.life.cols + 4, f"Max generations: {self.life.max_generations}")
 
-                if not self.life.is_max_generations_exceeded and not self.life.is_changing:
+                if self.life.is_max_generations_exceeded and not self.life.is_changing:
                     self.wait_for_key(
                         screen, "The Life came to its logical end. Max generations is reached and nothing is changing."
                     )
                     running = False
-                elif not self.life.is_max_generations_exceeded:
+                elif self.life.is_max_generations_exceeded:
                     self.wait_for_key(screen, "This Life could last much longer... Max generations is reached.")
                     running = False
                 elif not self.life.is_changing:
@@ -88,6 +88,6 @@ class Console(UI):
 
 
 if __name__ == "__main__":
-    life = GameOfLife((40, 70), max_generations=120)
-    ui = Console(life)
+    life_game = GameOfLife((20, 20), max_generations=50)
+    ui = Console(life_game)
     ui.run()
