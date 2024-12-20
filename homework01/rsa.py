@@ -4,7 +4,6 @@ import typing as tp
 
 def is_prime(n: int) -> bool:
     """
-    Tests to see if a number is prime.
     >>> is_prime(2)
     True
     >>> is_prime(11)
@@ -12,60 +11,78 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
-    # PUT YOUR CODE HERE
-    pass
+    if n <= 1:
+        return False
+    if n <= 3:
+        return True  # 2 и 3 - простые
+    if n % 2 == 0 or n % 3 == 0:
+        return False
+
+    # Проверяем делители вида 6k ± 1
+    i = 5
+    while i * i <= n:
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+        i += 6
+
+    return True
 
 
 def gcd(a: int, b: int) -> int:
     """
-    Euclid's algorithm for determining the greatest common divisor.
     >>> gcd(12, 15)
     3
     >>> gcd(3, 7)
     1
     """
-    # PUT YOUR CODE HERE
-    pass
-
+    while b != 0:
+        a, b = b, a % b
+    return a
 
 def multiplicative_inverse(e: int, phi: int) -> int:
     """
-    Euclid's extended algorithm for finding the multiplicative
-    inverse of two numbers.
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
-    pass
+    def egcd(a, b):
+        if a == 0:
+            return (b, 0, 1)
+        g, y, x = egcd(b % a, a)
+        return (g, x - (b // a) * y, y)
+
+    g, x, y = egcd(e, phi)
+    if g != 1:
+        # Обратный элемент не существует, e и phi не взаимно просты
+        return None
+    else:
+        return x % phi
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
     if not (is_prime(p) and is_prime(q)):
-        raise ValueError("Both numbers must be prime.")
+        raise ValueError('Both numbers must be prime.')
     elif p == q:
-        raise ValueError("p and q cannot be equal")
+        raise ValueError('p and q cannot be equal')
 
-    # n = pq
-    # PUT YOUR CODE HERE
+    # n = p * q
+    n = p * q
 
-    # phi = (p-1)(q-1)
-    # PUT YOUR CODE HERE
+    # phi = (p-1)*(q-1)
+    phi = (p - 1) * (q - 1)
 
-    # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
-
-    # Use Euclid's Algorithm to verify that e and phi(n) are coprime
     g = gcd(e, phi)
     while g != 1:
         e = random.randrange(1, phi)
         g = gcd(e, phi)
 
-    # Use Extended Euclid's Algorithm to generate the private key
     d = multiplicative_inverse(e, phi)
 
-    # Return public and private keypair
-    # Public key is (e, n) and private key is (d, n)
+    # Публичный ключ: (e, n)
+    # Приватный ключ: (d, n)
     return ((e, n), (d, n))
+
+
 
 
 def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
