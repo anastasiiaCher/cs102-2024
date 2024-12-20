@@ -9,7 +9,26 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    key_length = len(keyword)
+    key_index = 0
+
+    for char in plaintext:
+        key_char = keyword[key_index % key_length].lower()
+        shift = ord(key_char) - ord('a')
+
+        if char.isalpha():
+            if char.isupper():
+                new_char = chr((ord(char) - ord('A') + shift) % 26 + ord('A'))
+            else:
+                new_char = chr((ord(char) - ord('a') + shift) % 26 + ord('a'))
+            ciphertext += new_char
+        else:
+            # Неалфавитный символ - копируем без изменения
+            ciphertext += char
+
+        # Внимание: независимо от того, буква или нет, двигаем индекс ключа
+        key_index += 1
+
     return ciphertext
 
 
@@ -24,5 +43,24 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    key_length = len(keyword)
+    key_index = 0
+
+    for char in ciphertext:
+        key_char = keyword[key_index % key_length].lower()
+        shift = ord(key_char) - ord('a')
+
+        if char.isalpha():
+            if char.isupper():
+                new_char = chr((ord(char) - ord('A') - shift) % 26 + ord('A'))
+            else:
+                new_char = chr((ord(char) - ord('a') - shift) % 26 + ord('a'))
+            plaintext += new_char
+        else:
+            # Неалфавитный символ - копируем без изменения
+            plaintext += char
+
+        # Двигаем индекс ключа всегда
+        key_index += 1
+
     return plaintext
