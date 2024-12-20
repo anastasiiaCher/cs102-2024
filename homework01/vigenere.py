@@ -1,7 +1,6 @@
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
     Encrypts plaintext using a Vigenere cipher.
-
     >>> encrypt_vigenere("PYTHON", "A")
     'PYTHON'
     >>> encrypt_vigenere("python", "a")
@@ -11,27 +10,24 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
     ciphertext = ""
     key_length = len(keyword)
-    key_index = 0  # Индекс для перебора символов ключа
+    key_index = 0
 
     for char in plaintext:
-        if char.isalpha():
-            # Определяем сдвиг
-            # Приводим символ ключа к верхнему регистру для удобства вычислений
-            key_char = keyword[key_index % key_length].upper()
-            shift = ord(key_char) - ord('A')
+        key_char = keyword[key_index % key_length].lower()
+        shift = ord(key_char) - ord('a')
 
+        if char.isalpha():
             if char.isupper():
-                # Шифруем заглавную букву
                 new_char = chr((ord(char) - ord('A') + shift) % 26 + ord('A'))
             else:
-                # Шифруем строчную букву
                 new_char = chr((ord(char) - ord('a') + shift) % 26 + ord('a'))
-
             ciphertext += new_char
-            key_index += 1
         else:
-            # Не меняем неалфавитные символы
+            # Неалфавитный символ - копируем без изменения
             ciphertext += char
+
+        # Внимание: независимо от того, буква или нет, двигаем индекс ключа
+        key_index += 1
 
     return ciphertext
 
@@ -39,7 +35,6 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
 def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     """
     Decrypts a ciphertext using a Vigenere cipher.
-
     >>> decrypt_vigenere("PYTHON", "A")
     'PYTHON'
     >>> decrypt_vigenere("python", "a")
@@ -49,25 +44,23 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     """
     plaintext = ""
     key_length = len(keyword)
-    key_index = 0  # Индекс для перебора символов ключа
+    key_index = 0
 
     for char in ciphertext:
-        if char.isalpha():
-            # Определяем сдвиг
-            key_char = keyword[key_index % key_length].upper()
-            shift = ord(key_char) - ord('A')
+        key_char = keyword[key_index % key_length].lower()
+        shift = ord(key_char) - ord('a')
 
+        if char.isalpha():
             if char.isupper():
-                # Дешифруем заглавную букву
                 new_char = chr((ord(char) - ord('A') - shift) % 26 + ord('A'))
             else:
-                # Дешифруем строчную букву
                 new_char = chr((ord(char) - ord('a') - shift) % 26 + ord('a'))
-
             plaintext += new_char
-            key_index += 1
         else:
-            # Не меняем неалфавитные символы
+            # Неалфавитный символ - копируем без изменения
             plaintext += char
+
+        # Двигаем индекс ключа всегда
+        key_index += 1
 
     return plaintext
