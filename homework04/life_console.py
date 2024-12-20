@@ -1,4 +1,5 @@
 import curses
+from time import sleep
 
 from life import GameOfLife
 from ui import UI
@@ -36,5 +37,7 @@ class Console(UI):
             key = screen.getch()
             if key == ord("q"):
                 break
+
+            sleep(1)
 
         curses.endwin()

@@ -1,3 +1,5 @@
+"""Module with Game Of Life logic"""
+
 import pathlib
 import random
 import typing as tp
@@ -11,6 +13,8 @@ Grid = tp.List[Cells]
 
 
 class GameOfLife:
+    """Class handling general Game Of Life logic"""
+
     def __init__(
         self,
         size: tp.Tuple[int, int],
@@ -122,7 +126,7 @@ class GameOfLife:
         Прочитать состояние клеток из указанного файла.
         """
 
-        with open(filename, "r") as save_file:
+        with open(filename, "r", encoding="utf-8") as save_file:
             lines = save_file.readlines()
             pattern = [[int(cell) for cell in line.strip()] for line in lines if line.strip()]
 
@@ -136,5 +140,5 @@ class GameOfLife:
         """
         Сохранить текущее состояние клеток в указанный файл.
         """
-        with open(filename, "w+") as save_file:
+        with open(filename, "w+", encoding="utf-8") as save_file:
             save_file.writelines("".join(map(lambda e: str(int(e)), line)) + "\n" for line in self.curr_generation)
