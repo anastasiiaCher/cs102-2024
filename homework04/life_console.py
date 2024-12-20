@@ -9,11 +9,11 @@ class Console(UI):
         super().__init__(life)
 
     def draw_borders(self, screen) -> None:
-        """ Отобразить рамку. """
+        """Отобразить рамку."""
         screen.border(0)
 
     def draw_grid(self, screen) -> None:
-        """ Отобразить состояние клеток. """
+        """Отобразить состояние клеток."""
         max_y, max_x = screen.getmaxyx()
         for y, row in enumerate(self.life.curr_generation):
             for x, cell in enumerate(row):
@@ -32,9 +32,9 @@ class Console(UI):
             screen.refresh()
 
             self.life.step()
-            
+
             key = screen.getch()
             if key == ord("q"):
                 break
-            
+
         curses.endwin()

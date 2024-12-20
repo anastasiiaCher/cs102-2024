@@ -1,10 +1,13 @@
 import pygame
-from life import GameOfLife
 from pygame.locals import *
+
+from life import GameOfLife
 from ui import UI
 
 
 class GUI(UI):
+    """GUI using pygame lib"""
+
     def __init__(self, life: GameOfLife, cell_size: int = 10, speed: int = 10) -> None:
         super().__init__(life)
         self.width = self.life.cols * cell_size
@@ -15,7 +18,6 @@ class GUI(UI):
         self.screen = pygame.display.set_mode(self.screen_size)
 
         self.speed = speed
-
 
     def draw_lines(self) -> None:
         """Отрисовать сетку"""
@@ -56,12 +58,16 @@ class GUI(UI):
         running = True
         while running:
             for event in pygame.event.get():
+                # pylint: disable=undefined-variable
                 if event.type == QUIT:
                     running = False
+                # pylint: disable=undefined-variable
                 if event.type == KEYDOWN:
+                    # pylint: disable=undefined-variable
                     if event.key == K_SPACE:
                         paused ^= True
                         print("Pause toggled")
+                # pylint: disable=undefined-variable
                 if event.type == MOUSEBUTTONDOWN:
                     if event.button == 1 and paused:
                         x, y = event.pos
@@ -71,7 +77,7 @@ class GUI(UI):
                         self.draw_grid()
                         self.draw_lines()
                         pygame.display.flip()
-            if paused: 
+            if paused:
                 continue
             self.life.step()
             # Отрисовка списка клеток
