@@ -22,8 +22,10 @@ class Console(UI):
 
     def run(self) -> None:
         screen = curses.initscr()
+        screen.nodelay(True)
 
         while self.life.is_changing and not self.life.is_max_generations_exceeded:
+
             screen.clear()
             self.draw_borders(screen)
             self.draw_grid(screen)
@@ -31,5 +33,8 @@ class Console(UI):
 
             self.life.step()
             
+            key = screen.getch()
+            if key == ord("q"):
+                break
             
         curses.endwin()
